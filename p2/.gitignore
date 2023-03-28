@@ -1,0 +1,6 @@
+backupDB.txt
+venv
+myenv
+uploads
+*/__pycache__/
+*/migrations/__pycache__/

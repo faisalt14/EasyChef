@@ -1,0 +1,136 @@
+html, .form-layout {
+  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
+  background-color: #EFEEEE;
+
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+
+}
+
+.header-1.container {
+  background-color: #e47e20;
+  height: 63px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  font-weight: semi-bold;
+  color: #ffffff;
+  width: 100%;
+  min-width: 100%;
+  margin: 0 auto;
+}
+
+
+.col-form-label {
+  width: 20%;
+  text-align: left;
+  padding-right: 10px;
+  margin-right: 10px;
+
+  }
+
+#recipe-name-input {
+  width: 78%;
+  margin-left: 10px;
+  
+  }
+
+/* reference: #1: https://getcssscan.com/css-box-shadow-examples */
+.form-control:focus {
+    border-color: rgba(100, 100, 111, 0.2);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+.select1.form-select, .select2.form-select, .select3.form-select, .select4.form-select{
+  background-color: #04B4B4;
+  color: white;
+}
+
+/* code reference for putting file upload behind icon:
+https://stackoverflow.com/questions/2855589/replace-input-type-file-by-an-image  */
+
+.image {
+  display: flex;
+  justify-content: center;
+  
+  font-size: 60px;
+}
+
+#upload-photo {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.image-upload {
+  display: flex;
+  justify-content: center;
+  font-size: 60px;
+  align-items: center;
+  /* reference: #19 https://getcssscan.com/css-box-shadow-examples */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+.image-upload2 {
+  display: flex;
+  justify-content: center;
+  font-size: 40px;
+  align-items: center;
+  /* reference: #19 https://getcssscan.com/css-box-shadow-examples */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.image-upload > input, .image-upload2 > input {
+  visibility:hidden;
+  width:0;
+  height:0
+}
+
+.image-icon-click {
+  cursor: pointer;
+}
+
+.bi.bi-images {
+  color: #04B4B4;
+}
+
+.columns1.col {
+  cursor: pointer;
+  margin-right: 10px;
+  background-color: #D9D9D9;
+  padding-bottom: 60px;
+  margin-bottom: 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+}
+
+.button-contain.container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+}
+
+.center-btn {
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+
+}
+
+select option {
+  background: white;
+  color: black;
+}
+
+[class*="col-"] {
+  padding: 1rem;;
+}

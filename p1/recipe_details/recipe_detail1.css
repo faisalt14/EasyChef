@@ -1,0 +1,19 @@
+
+/* code reference: Drew Ryan (youtube) - https://youtu.be/9cKsq14Kfsw */
+/*---Firefox Bug Fix --*/
+/* .carousel-item {
+  transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, -webkit-transform 0.5s ease;
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+} */
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+/*--- Bootstrap Padding Fix --*/
+[class*="col-"] {
+  padding: 1rem;
+}
