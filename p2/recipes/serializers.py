@@ -133,15 +133,15 @@ class RecipeSerializer(serializers.ModelSerializer):
     calculated_prep_time = DurationField(read_only=True)
     calculated_cook_time = DurationField(read_only=True)
 
-    media = RecipeMediaSerializer(many=True, required=True)
+    media = RecipeMediaSerializer(many=True)
     steps = StepSerializer(many=True, required=True)
     ingredients = IngredientSerializer(many=True, required=True)
     interactions = InteractionSerializer(many=True, required=False)
 
     name = serializers.CharField(required=True)
-    difficulty = serializers.IntegerField(required=True, allow_null=False)
-    meal = serializers.IntegerField(required=True, allow_null=False)
-    diet = serializers.IntegerField(required=True, allow_null=False)
+    difficulty = serializers.IntegerField(allow_null=False)
+    meal = serializers.IntegerField(allow_null=False)
+    diet = serializers.CharField(required=True, allow_null=False)
     cuisine = serializers.IntegerField(required=True, allow_null=False)
     servings_num = serializers.IntegerField(required=True, allow_null=False)
 
