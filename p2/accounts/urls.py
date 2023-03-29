@@ -17,19 +17,21 @@ from django.contrib import admin
 from django.urls import path
 
 from accounts.views import SignUpView, LoginView, LogoutView, EditProfileView, CombinedListView, IndividualListView, \
-    UpdateServingSize, RemoveFromCart, EmptyShoppingCart, PublishedRecipesView, RecentRecipesView, FavouriteRecipesView, CombinedListView
+    UpdateServingSize, RemoveFromCart, EmptyShoppingCart, PublishedRecipesView, RecentRecipesView, FavouriteRecipesView,\
+    CombinedListView, ProfileDetailsView
 
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 urlpatterns = [
     path('signup/', SignUpView.as_view()),
-    path('login/', LoginView.as_view()),
+    # path('login/', LoginView.as_view()),
     path('logout/', LogoutView.as_view()),
+    path('profile/', ProfileDetailsView.as_view()),
     path('profile/edit/', EditProfileView.as_view()),
     path('myrecipes/published-recipes/', PublishedRecipesView.as_view()),
     path('myrecipes/recent-recipes/', RecentRecipesView.as_view()),
     path('myrecipes/favourite-recipes/', FavouriteRecipesView.as_view()), 
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('combined-list/', CombinedListView.as_view()),
     path('shopping-list/', IndividualListView.as_view()),
     # path('shopping-list/recipes/', ShoppingRecipeModelView.as_view()),
