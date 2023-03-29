@@ -279,7 +279,6 @@ class RecipeUpdateView(UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         recipe = get_object_or_404(RecipeModel, id=kwargs['recipe_id'])
-        print(request.data)
 
         # Check if the authenticated user is the owner of the recipe
         if request.user != recipe.user_id:
@@ -351,11 +350,6 @@ class RecipeUpdateView(UpdateAPIView):
             recipe.calculated_prep_time = total_prep
             recipe.calculated_cook_time = total_cook
             recipe.calculated_total_time = total_cook + total_prep
-            print("total cook", total_cook)
-            print("total prep", total_prep)
-            print("calculated cook", recipe.calculated_cook_time)
-            print("calculated prep", recipe.calculated_prep_time)
-            print("calculated time", recipe.calculated_total_time)
             recipe.steps.set(step_ids)
 
             
@@ -383,7 +377,6 @@ class RecipeUpdateView(UpdateAPIView):
             # Get existing child ingredients and create a mapping of their names
             existing_child_ingredients = recipe.ingredients.all()
             name_to_child_map = {ing.name: ing for ing in existing_child_ingredients}
-
             # Update child Ingredient instances or create new ones
             for ingredient_id, ingredient_data in ingredients_list.items():
                 ingredient_base = get_object_or_404(IngredientModel, id=int(ingredient_id))
@@ -405,12 +398,12 @@ class RecipeUpdateView(UpdateAPIView):
                     copied_ingredient.save()
                     ingredient_ids.append(copied_ingredient)
 
-                # Remove old child ingredients that are not in the new ingredients list
-                removed_child_ingredients = [ing for ing in existing_child_ingredients if ing.name not in name_to_child_map]
-                for ing in removed_child_ingredients:
-                    ing.delete()
 
-                recipe.ingredients.set(ingredient_ids)
+            # Remove old child ingredients that are not in the new ingredients list
+            removed_child_ingredients = [ing for ing in existing_child_ingredients if ing not in ingredient_ids]
+            for ing in removed_child_ingredients:
+                ing.delete()
+            recipe.ingredients.set(ingredient_ids)
 
 
         # Save the recipe instance
@@ -513,7 +506,6 @@ class InteractionView(RetrieveUpdateAPIView):
                 return Response({'message': 'ratings and comments must be paired.'}, status=400)
             serializer.create(request.data, request.user, get_object_or_404(RecipeModel, id=self.kwargs['recipe_id']))
             return Response({'message': 'Created a new interaction'}, status=200)
-        print(InteractionModel.objects.get(user_id=request.user, recipe_id=self.kwargs['recipe_id']))
         return Response({'message': 'There already exists an interaction between this user and the recipe. Use a PATCH request instead.'}, status=400)
 
     def patch(self, request, *args, **kwargs):
