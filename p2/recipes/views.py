@@ -203,7 +203,7 @@ class CreateRecipeView(RetrieveUpdateAPIView, CreateAPIView):
         recipe_data['published_time'] = timezone.now()
 
         # Set default values for the fields 
-        required_fields = ['cooking_time', 'prep_time', 'name', 'difficulty', 'meal', 'diet', 'cuisine', 'servings_num', 'steps', 'media', 'ingredients']
+        required_fields = ['cooking_time', 'prep_time', 'name', 'diet', 'cuisine', 'servings_num', 'steps', 'ingredients']
         errors = []
         for field in required_fields:
             if request.data.get(field, '') == '':
@@ -279,11 +279,143 @@ class RecipeUpdateView(UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         recipe = get_object_or_404(RecipeModel, id=kwargs['recipe_id'])
+        print(request.data)
 
         # Check if the authenticated user is the owner of the recipe
         if request.user != recipe.user_id:
             return Response({'message': 'You do not have permission to edit this recipe.'}, status=403)
 
+        # Set default values for the fields 
+        required_fields = ['cooking_time', 'prep_time', 'name', 'diet', 'cuisine', 'servings_num', 'steps', 'ingredients']
+        errors = []
+        for field in required_fields:
+            if field in request.data and request.data.get(field, '') == '':
+                errors.append(f"{field} is required.")
+
+        # Return errors if any required fields are empty
+        if errors:
+            error_message = " ".join(errors)
+            return Response({"error": error_message}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        step_ids = []
+        ingredient_ids = []
+        media_ids = []
+
+        steps_list = request.data.get('steps', '')
+        ingredients_list = request.data.get('ingredients', '')
+        media_list = request.data.get('media', '')
+
+        if steps_list:
+            steps_list = [int(x.strip()) for x in steps_list.split(",")]
+        if ingredients_list:
+            ingredients_list = json.loads(ingredients_list)
+        if media_list:
+            media_list = [int(x.strip()) for x in media_list.split(",")]
+
+        if steps_list:
+            existing_step_ids = list(recipe.steps.values_list('id', flat=True))
+            new_step_ids = [step_id for step_id in steps_list if step_id not in existing_step_ids]
+            removed_step_ids = [step_id for step_id in existing_step_ids if step_id not in steps_list]
+
+            total_cook = timedelta(hours=0, minutes=0)
+            total_prep = timedelta(hours=0, minutes=0)
+
+            existing_steps = StepModel.objects.filter(id__in=existing_step_ids)
+            existing_step_nums = [step.step_num for step in existing_steps]
+
+            for step_id in existing_step_ids:
+                step = get_object_or_404(StepModel, id=step_id)
+                step.step_num = existing_step_nums.pop(0)
+                step.recipe_id = recipe
+                total_cook += step.cooking_time
+                total_prep += step.prep_time
+                step.save()
+                step_ids.append(step)
+
+
+            for step_id in removed_step_ids:
+                step = get_object_or_404(StepModel, id=step_id)
+                step.delete()
+
+            new_steps = []
+            for index, step_id in enumerate(new_step_ids):
+                step = get_object_or_404(StepModel, id=step_id)
+                step.step_num = len(existing_step_ids) + index + 1
+                total_cook += step.cooking_time
+                total_prep += step.prep_time
+                step.recipe_id = recipe
+                step.save()
+                step_ids.append(step)
+
+            recipe.calculated_prep_time = total_prep
+            recipe.calculated_cook_time = total_cook
+            recipe.calculated_total_time = total_cook + total_prep
+            print("total cook", total_cook)
+            print("total prep", total_prep)
+            print("calculated cook", recipe.calculated_cook_time)
+            print("calculated prep", recipe.calculated_prep_time)
+            print("calculated time", recipe.calculated_total_time)
+            recipe.steps.set(step_ids)
+
+            
+        # Update Media instances
+        if media_list:
+            existing_media_ids = list(recipe.media.values_list('id', flat=True))
+            new_media_ids = [media_id for media_id in media_list if media_id not in existing_media_ids]
+            removed_media_ids = [media_id for media_id in existing_media_ids if media_id not in media_list]
+
+            for items in media_list:
+                media = get_object_or_404(RecipeMediaModel, id=items)
+                media.recipe_id = recipe
+                media.save()
+                media_ids.append(media)
+
+            # Remove old media that are not in the new media list
+            for media_id in removed_media_ids:
+                media = get_object_or_404(RecipeMediaModel, id=media_id)
+                media.delete()
+
+            recipe.media.set(media_ids)
+
+        # Update Ingredient instances
+        if ingredients_list:
+            # Get existing child ingredients and create a mapping of their names
+            existing_child_ingredients = recipe.ingredients.all()
+            name_to_child_map = {ing.name: ing for ing in existing_child_ingredients}
+
+            # Update child Ingredient instances or create new ones
+            for ingredient_id, ingredient_data in ingredients_list.items():
+                ingredient_base = get_object_or_404(IngredientModel, id=int(ingredient_id))
+
+                # If there is an existing child ingredient with the same name, update it
+                if ingredient_base.name in name_to_child_map:
+                    child_ingredient = name_to_child_map[ingredient_base.name]
+                    child_ingredient.quantity = ingredient_data[0]
+                    child_ingredient.unit = ingredient_data[1]
+                    child_ingredient.save()
+                    ingredient_ids.append(child_ingredient)
+                else:
+                    # Make a copy of the base ingredient
+                    copied_ingredient = IngredientModel()
+                    copied_ingredient.name = ingredient_base.name
+                    copied_ingredient.recipe_id = recipe
+                    copied_ingredient.quantity = ingredient_data[0]
+                    copied_ingredient.unit = ingredient_data[1]
+                    copied_ingredient.save()
+                    ingredient_ids.append(copied_ingredient)
+
+                # Remove old child ingredients that are not in the new ingredients list
+                removed_child_ingredients = [ing for ing in existing_child_ingredients if ing.name not in name_to_child_map]
+                for ing in removed_child_ingredients:
+                    ing.delete()
+
+                recipe.ingredients.set(ingredient_ids)
+
+
+        # Save the recipe instance
+        recipe.published_time = timezone.now()
+        recipe.save()
         serializer = self.get_serializer(recipe, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()

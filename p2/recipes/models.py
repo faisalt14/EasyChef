@@ -3,6 +3,12 @@ import datetime
 from django.utils import timezone
 from django.db import models
 from accounts.models import User
+from django.core.validators import RegexValidator
+
+comma_separated_numbers_validator = RegexValidator(
+    r'^\d+(?:,\d+)*$',
+    "Enter comma-separated numbers only."
+)
 
 def get_default_user_id():
     user = User.objects.first()
@@ -51,9 +57,9 @@ class RecipeModel(models.Model):
     diet_choices = [(0, "Vegan"), (1, "Vegetarian"), (2, "Gluten-Free"), (3, "Halal"), (4, "Kosher"), (5, "None") ]
     cuisine_choices = [(0, "African"), (1, "Caribbean"), (2, "East Asian"), (3, "European"), (4, "French"), (5, "Italian"), (6, "Middle-Eastern"), (7, "North American"),
     (8, "Oceanic"), (9, "Russian"), (10, "Spanish"), (11, "South American"),  (12, "South Asian"), (13, "Other")]
-    difficulty = models.IntegerField(choices=difficulty_choices)
-    meal = models.IntegerField(choices=meal_choices)
-    diet = models.IntegerField(choices=diet_choices)
+    difficulty = models.IntegerField(choices=difficulty_choices, null=True)
+    meal = models.IntegerField(choices=meal_choices, null=True)
+    diet = models.CharField(max_length=50, validators=[comma_separated_numbers_validator])
     cuisine = models.IntegerField(choices=cuisine_choices)
     cooking_time = models.DurationField()
     prep_time = models.DurationField()
@@ -65,6 +71,9 @@ class RecipeModel(models.Model):
 
     def __str__(self):
         return self.name + ' [' + str(self.id) + ']'
+
+    def get_diet_list(self):
+        return [int(d) for d in self.diet.split(',')]
 
     def save(self, *args, **kwargs):
         if self.cooking_time != None and self.prep_time != None:
