@@ -1,3 +1,4 @@
+from django.db import models
 from rest_framework import serializers
 from accounts.models import User, ShoppingRecipeModel
 from rest_framework.response import Response
@@ -6,9 +7,13 @@ from recipes.models import RecipeModel
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
-        fields = ['username', 'password', 'email', 'first_name', 'last_name', 'phone_num']
+        fields = ['username', 'password', 'email', 'first_name', 'last_name', 'phone_num', 'avatar']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
     def create(self, validated_data):
         user = User.objects.create_user(username=validated_data.get('username'),
