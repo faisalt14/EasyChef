@@ -84,6 +84,11 @@ class ReviewMediaSerializer(serializers.ModelSerializer):
 
 class InteractionSerializer(serializers.ModelSerializer):
     media = ReviewMediaSerializer(many=True, read_only=False, required=False)
+    like = serializers.BooleanField(required=False)
+    favourite = serializers.BooleanField(required=False)
+    rating = serializers.IntegerField(required=False)
+    comment = serializers.CharField(required=False, allow_null=True)
+
     
     class Meta:
         model = InteractionModel

@@ -34,7 +34,7 @@ class SignUpView(CreateAPIView):
             if request.data.get('password') != request.data.get('password2'):
                 return Response({'message': 'passwords do not match'}, status=400)
             serializer.create(request.data)
-            return Response({'message': 'signup success'}, status=200)
+            return Response(UserDetailSerializer(request.user).data, status=200)
 
         if User.objects.filter(username=request.data.get('username')).exists():
             return Response({'message': 'username is already taken'}, status=400)
@@ -56,7 +56,7 @@ class LoginView(APIView):
                 return Response({'message': 'Username or password is invalid'}, status=400)
             auth_logout(request)
             auth_login(request, user)
-            return Response({'message': 'logged in as ' + user.username}, status=200)
+            return Response(UserDetailSerializer(request.user).data, status=200)
         print(serializer.errors)
         return Response({'message': 'serializer is invalid!'}, status=400)
 
@@ -68,6 +68,7 @@ class LogoutView(APIView):
 
 
 class EditProfileView(APIView):
+    serializer_class = UserDetailSerializer
     permission_classes = [IsAuthenticated]
 
     def patch(self, request):
@@ -101,8 +102,7 @@ class EditProfileView(APIView):
 
             request.user.save()
             update_session_auth_hash(request, request.user)
-            return Response({'message': 'edited user ' + request.user.username + "'s information"}, status=200)
-        print(serializer.errors)
+            return Response(UserDetailSerializer(request.user).data, status=200)
         Email_Error = ''
         try:
             if serializer.errors['email']:
@@ -110,6 +110,13 @@ class EditProfileView(APIView):
         except:
             pass
         return Response({'message': 'serializer is invalid!' + Email_Error}, status=400)
+
+class ProfileDetailsView(RetrieveAPIView):
+    serializer_class = UserDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
 
 
 def ingredientExists(name: str, ingredients: list):
