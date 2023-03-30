@@ -8,13 +8,17 @@
 	<body>
 		
 		<div class="card" onclick="window.location.href = '~/recipe_details/recipe_detail2.html'" style="width: 15rem; height: 15rem; cursor:pointer; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
-      <img class="card-img-top img-fluid" src="https://images.pexels.com/photos/2067396/pexels-photo-2067396.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="..." style="max-height: 10rem; object-fit: cover; position: relative;">
-      <div style="position:absolute;top:60%;display:flex; width:100%">
-        <h5 title="Easy" style="width:100%; border:1px solid Black; border-radius:10px; background-color:#0DE7E7; text-align:center; flex:0.25; font-size:0.8em"> Easy </h5>
-        <h5 title="American" style="width:100%; border:1px solid Black; border-radius:10px; background-color:#E47E20; text-align:center; flex:0.25;color:white;text-overflow:ellipsis;white-space:nowrap;overflow:hidden; font-size:0.8em">American</h5>
-        <h5 title="Snack" style="width:100%; border:1px solid Black; border-radius:10px; background-color:#E47E20; text-align:center; flex:0.25;color:white;text-overflow:ellipsis;white-space:nowrap;overflow:hidden; font-size:0.8em">Snack</h5>
-        <h5 title="Gluten-Free" style="width:100%; border:1px solid Black; border-radius:10px; background-color:#E47E20; text-align:center; flex:0.25;color:white;text-overflow:ellipsis;white-space:nowrap;overflow:hidden; font-size:0.8em">Gluten-Free</h5>
+      <div class="d-flex" style="position: relative;">
+        <img class="card-img-top img-fluid" src="https://images.pexels.com/photos/2067396/pexels-photo-2067396.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="..." style="max-height: 10rem; object-fit: cover; position: relative;">
+        <div style="position: absolute; bottom: 0; display: flex; width: 100%; align-items: flex-end;">
+          <h5><span class="badge d-flex" style="background-color: #0DE7E7; color: black; display: flex; font-weight: 650; font-size: 0.70rem; margin-right: 2px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;">Easy</span></h5>
+          <h5><span class="badge d-flex" style="background-color: #E47E20; color: white; display: flex; font-weight: 650; font-size: 0.70rem; margin-right: 2px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;">American</span></h5>
+          <h5><span class="badge d-flex" style="background-color: #E47E20; color: white; display: flex; font-weight: 650; font-size: 0.70rem; margin-right: 2px; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;">Snack</span></h5>
+          <h5><span class="badge d-flex" style="background-color: #E47E20; color: white; display: flex; font-weight: 650; font-size: 0.70rem; box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;;">Gluten-Free</span></h5>        
+        </div>
       </div>
+      
+
       <div class="card-body">
         <div style="display:flex; font-size:small; line-height:0px">
           <div style="flex:0.5;">
