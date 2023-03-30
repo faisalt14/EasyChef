@@ -535,11 +535,14 @@ class SearchView(ListAPIView):
         # Create the base search results based on simple dropdown filters
         search_results = RecipeModel.objects.filter(cuisine=int(self.request.query_params.get('cuisine', 13))).distinct() if (int(self.request.query_params.get('cuisine', 14)) < 14) else RecipeModel.objects.all()
         search_results = search_results.filter(meal=int(self.request.query_params.get('meal', 5))).distinct() if (int(self.request.query_params.get('meal', 6)) < 6) else search_results
-        diet_filter = int(self.request.query_params.get('diet', 5))
-        if (diet_filter < 14):
+        diet_filter = [int(d) for d in self.request.query_params.get('diet', '6').split(',')]
+        if (len(diet_filter) > 0 and 6 not in diet_filter):
             for recipe in search_results:
-                if (diet_filter not in recipe.get_diet_list()):
+                recipe_diets = recipe.get_diet_list()
+                check = [n for n in diet_filter if n in recipe_diets]
+                if (check != diet_filter):
                     search_results = search_results.exclude(id=recipe.id)
+                        
         
         # Check for the search query based on the search category
         category = self.request.query_params.get('category', '')
@@ -576,10 +579,10 @@ class HomeView(APIView):
     serializer_class = RecipesSerializer
 
     def get(self, request):
-        PopularSet = RecipeModel.objects.all().order_by('-total_reviews')[:4]
-        BreakfastSet = RecipeModel.objects.filter(meal=0).order_by('total_favs')[:4]
-        LunchSet = RecipeModel.objects.filter(meal=1).order_by('total_favs')[:4]
-        DinnerSet = RecipeModel.objects.filter(meal=2).order_by('total_favs')[:4]
+        PopularSet = RecipeModel.objects.all().order_by('-total_reviews')[:6]
+        BreakfastSet = RecipeModel.objects.filter(meal=0).order_by('total_favs')[:3]
+        LunchSet = RecipeModel.objects.filter(meal=1).order_by('total_favs')[:3]
+        DinnerSet = RecipeModel.objects.filter(meal=2).order_by('total_favs')[:3]
         return Response({'Popular' : RecipesSerializer(PopularSet, many=True).data,
                          'Breakfasts' : RecipesSerializer(BreakfastSet, many=True).data,
                          'Lunches': RecipesSerializer(LunchSet, many=True).data,
