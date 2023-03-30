@@ -576,10 +576,10 @@ class HomeView(APIView):
     serializer_class = RecipesSerializer
 
     def get(self, request):
-        PopularSet = RecipeModel.objects.all().order_by('-total_reviews')[:6]
-        BreakfastSet = RecipeModel.objects.filter(meal=0).order_by('total_favs')[:6]
-        LunchSet = RecipeModel.objects.filter(meal=1).order_by('total_favs')[:6]
-        DinnerSet = RecipeModel.objects.filter(meal=2).order_by('total_favs')[:6]
+        PopularSet = RecipeModel.objects.all().order_by('-total_reviews')[:4]
+        BreakfastSet = RecipeModel.objects.filter(meal=0).order_by('total_favs')[:4]
+        LunchSet = RecipeModel.objects.filter(meal=1).order_by('total_favs')[:4]
+        DinnerSet = RecipeModel.objects.filter(meal=2).order_by('total_favs')[:4]
         return Response({'Popular' : RecipesSerializer(PopularSet, many=True).data,
                          'Breakfasts' : RecipesSerializer(BreakfastSet, many=True).data,
                          'Lunches': RecipesSerializer(LunchSet, many=True).data,
