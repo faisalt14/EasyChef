@@ -533,11 +533,14 @@ class SearchView(ListAPIView):
     def get_queryset(self):
 
         # Create the base search results based on simple dropdown filters
-        search_results = RecipeModel.objects.filter(cuisine=int(self.request.query_params.get('cuisine'))).distinct() if (int(self.request.query_params.get('cuisine', 14)) < 14) else RecipeModel.objects.all()
-        search_results = search_results.filter(diet=int(self.request.query_params.get('diet', 5))).distinct() if (int(self.request.query_params.get('diet', 6)) < 6) else search_results
+        search_results = RecipeModel.objects.filter(cuisine=int(self.request.query_params.get('cuisine', 13))).distinct() if (int(self.request.query_params.get('cuisine', 14)) < 14) else RecipeModel.objects.all()
         search_results = search_results.filter(meal=int(self.request.query_params.get('meal', 5))).distinct() if (int(self.request.query_params.get('meal', 6)) < 6) else search_results
+        diet_filter = int(self.request.query_params.get('diet', 5))
+        if (diet_filter < 14):
+            for recipe in search_results:
+                if (diet_filter not in recipe.get_diet_list()):
+                    search_results = search_results.exclude(id=recipe.id)
         
-
         # Check for the search query based on the search category
         category = self.request.query_params.get('category', '')
         query = self.request.query_params.get('query', '')
