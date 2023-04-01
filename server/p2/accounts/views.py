@@ -302,6 +302,21 @@ class UpdateServingSize(RetrieveAPIView, UpdateAPIView):
         return get_object_or_404(ShoppingRecipeModel, recipe_id=self.kwargs['recipe_id'])
 
 
+class AddToCart(CreateAPIView):
+    serializer_class = ShoppingRecipeModelSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, *args, **kwargs):
+        if request.user.shoppingCartItems.filter(recipe_id=kwargs['recipe_id']):
+            return Response({'message': 'User already has this item in their shopping cart'}, status=400)
+        data = {'user_id': request.user.id, 'servings_num': request.data['servings_num'], \
+                'recipe_id': kwargs['recipe_id']}
+        serializer = ShoppingRecipeModelSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.create()
+        return Response(serializer.data, status=200)
+
+
 class RemoveFromCart(DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
