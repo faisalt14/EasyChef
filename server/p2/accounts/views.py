@@ -127,7 +127,7 @@ def ingredientExists(name: str, unit: str, ingredients: list):
     return False
 
 
-def updateQuantity(name: str, ingredients: list, quantity: int):
+def updateQuantity(name: str, unit: str, ingredients: list, quantity: int):
     for each_dict in ingredients:
         if each_dict['name'] == name and each_dict['unit'] == unit:
             each_dict['quantity'] += quantity
