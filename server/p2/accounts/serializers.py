@@ -2,6 +2,7 @@ from django.db import models
 from rest_framework import serializers
 from accounts.models import User, ShoppingRecipeModel
 from rest_framework.response import Response
+from rest_framework.generics import get_object_or_404
 
 from recipes.models import RecipeModel
 
@@ -48,4 +49,10 @@ class UserEditSerializer(serializers.ModelSerializer):
 class ShoppingRecipeModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShoppingRecipeModel
-        fields = ['recipe_id', 'servings_num']
+        fields = ['user_id', 'recipe_id', 'servings_num']
+    def create(self):
+        recipe = ShoppingRecipeModel.objects.create(user_id=get_object_or_404(User, id=self.data.get('user_id')),
+                                                    recipe_id=get_object_or_404(RecipeModel, id=self.data.get('recipe_id')),
+                                                    servings_num=self.data.get('servings_num'))
+        recipe.save()
+        return Response({'message': 'success'}, status=200)

@@ -119,17 +119,17 @@ class ProfileDetailsView(RetrieveAPIView):
         return self.request.user
 
 
-def ingredientExists(name: str, ingredients: list):
+def ingredientExists(name: str, unit: str, ingredients: list):
     for each_dict in ingredients:
-        if each_dict['name'] == name:
+        if each_dict['name'] == name and each_dict['unit'] == unit:
             return True
 
     return False
 
 
-def updateQuantity(name: str, ingredients: list, quantity: int):
+def updateQuantity(name: str, unit: str, ingredients: list, quantity: int):
     for each_dict in ingredients:
-        if each_dict['name'] == name:
+        if each_dict['name'] == name and each_dict['unit'] == unit:
             each_dict['quantity'] += quantity
     return ingredients
 
@@ -152,15 +152,16 @@ class CombinedListView(APIView):
             shoppingListServing = recipies_in_cart[i]['servings_num']
             original_recipe = RecipeModel.objects.get(id=recipeID)
 
-            ingredients_data = IngredientModel.objects.filter(recipe_id=recipeID).values()
+            ingredients_data = original_recipe.ingredients.values()
 
             for j in range(0, len(ingredients_data)):
                 ingredient_name = ingredients_data[j]['name']
                 ingredient_quantity = ingredients_data[j]['quantity']
+                ingredient_unit = ingredients_data[j]['unit']
 
-                if ingredientExists(ingredient_name, ingredients):
+                if ingredientExists(ingredient_name, ingredient_unit, ingredients):
                     if shoppingListServing == original_recipe.servings_num:
-                        ingredients = updateQuantity(ingredient_name, ingredients, ingredient_quantity)
+                        ingredients = updateQuantity(ingredient_name, ingredient_unit, ingredients, ingredient_quantity)
 
                     else:
 
@@ -176,7 +177,7 @@ class CombinedListView(APIView):
                         original_quantity = IngredientModel.objects.get(recipe_id=original_recipe.id,
                                                                         name=ingredient_name).quantity / original_recipe.servings_num
                         updated_quantity = original_quantity * shoppingListServing
-                        ingredients = updateQuantity(ingredient_name, ingredients, int(math.ceil(updated_quantity)))
+                        ingredients = updateQuantity(ingredient_name, ingredient_unit, ingredients, int(math.ceil(updated_quantity)))
 
 
 
@@ -186,7 +187,8 @@ class CombinedListView(APIView):
                     if shoppingListServing == original_recipe.servings_num:
                         ingredients.append({
                             'name': ingredient_name,
-                            'quantity': ingredient_quantity
+                            'quantity': ingredient_quantity,
+                            'unit': ingredient_unit
                         })
 
                     else:
@@ -205,9 +207,11 @@ class CombinedListView(APIView):
 
                         ingredients.append({
                             'name': ingredient_name,
-                            'quantity': int(math.ceil(updated_quantity))
+                            'quantity': int(math.ceil(updated_quantity)),
+                            'unit': ingredient_unit
                         })
 
+        ingredients = sorted(ingredients, key=lambda x: x['name'])
         return Response(ingredients)
 
 
@@ -242,7 +246,7 @@ class IndividualListView(APIView):
             ingredients = []
 
             # All ingredients for this specific recipe
-            ingredients_data = IngredientModel.objects.filter(recipe_id=recipeID).values()
+            ingredients_data = original_recipe.ingredients.values()
 
             """
             Loop over all ingredients, if serving number for recipe in shopping cart is same as the recipe,
@@ -252,13 +256,15 @@ class IndividualListView(APIView):
             for j in range(0, len(ingredients_data)):
                 ingredient_name = ingredients_data[j]['name']
                 ingredient_quantity = ingredients_data[j]['quantity']
+                ingredient_unit = ingredients_data[j]['unit']
 
                 if shoppingListServing == original_recipe.servings_num:
 
                     ingredients.append(
                         {
                             'name': ingredient_name,
-                            'quantity': ingredient_quantity
+                            'quantity': ingredient_quantity,
+                            'unit': ingredient_unit
                         }
                     )
                 else:
@@ -278,7 +284,8 @@ class IndividualListView(APIView):
                     ingredients.append(
                         {
                             'name': ingredient_name,
-                            'quantity': int(math.ceil(updated_quantity))
+                            'quantity': int(math.ceil(updated_quantity)),
+                            'unit': ingredient_unit
                         }
                     )
 
@@ -300,6 +307,24 @@ class UpdateServingSize(RetrieveAPIView, UpdateAPIView):
 
     def get_object(self):
         return get_object_or_404(ShoppingRecipeModel, recipe_id=self.kwargs['recipe_id'])
+
+
+class AddToCart(CreateAPIView):
+    serializer_class = ShoppingRecipeModelSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request, *args, **kwargs):
+        if request.user.shoppingCartItems.filter(recipe_id=kwargs['recipe_id']):
+            return Response({'message': 'User already has this item in their shopping cart'}, status=400)
+        
+        servings_num = get_object_or_404(RecipeModel, id=kwargs['recipe_id']).servings_num if 'servings_num' not in request.data else request.data['servings_num']
+
+        data = {'user_id': request.user.id, 'servings_num': servings_num, \
+                'recipe_id': kwargs['recipe_id']}
+        serializer = ShoppingRecipeModelSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.create()
+        return Response(serializer.data, status=200)
 
 
 class RemoveFromCart(DestroyAPIView):
