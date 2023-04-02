@@ -211,6 +211,7 @@ class CombinedListView(APIView):
                             'unit': ingredient_unit
                         })
 
+        ingredients = sorted(ingredients, key=lambda x: x['name'])
         return Response(ingredients)
 
 
