@@ -309,7 +309,10 @@ class AddToCart(CreateAPIView):
     def post(self, request, *args, **kwargs):
         if request.user.shoppingCartItems.filter(recipe_id=kwargs['recipe_id']):
             return Response({'message': 'User already has this item in their shopping cart'}, status=400)
-        data = {'user_id': request.user.id, 'servings_num': request.data['servings_num'], \
+        
+        servings_num = get_object_or_404(RecipeModel, id=kwargs['recipe_id']).servings_num if 'servings_num' not in request.data else request.data['servings_num']
+
+        data = {'user_id': request.user.id, 'servings_num': servings_num, \
                 'recipe_id': kwargs['recipe_id']}
         serializer = ShoppingRecipeModelSerializer(data=data)
         serializer.is_valid(raise_exception=True)
