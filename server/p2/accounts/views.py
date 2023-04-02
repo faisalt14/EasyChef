@@ -119,9 +119,9 @@ class ProfileDetailsView(RetrieveAPIView):
         return self.request.user
 
 
-def ingredientExists(name: str, ingredients: list):
+def ingredientExists(name: str, unit: str, ingredients: list):
     for each_dict in ingredients:
-        if each_dict['name'] == name:
+        if each_dict['name'] == name and each_dict['unit'] == unit:
             return True
 
     return False
@@ -129,7 +129,7 @@ def ingredientExists(name: str, ingredients: list):
 
 def updateQuantity(name: str, ingredients: list, quantity: int):
     for each_dict in ingredients:
-        if each_dict['name'] == name:
+        if each_dict['name'] == name and each_dict['unit'] == unit:
             each_dict['quantity'] += quantity
     return ingredients
 
@@ -152,15 +152,16 @@ class CombinedListView(APIView):
             shoppingListServing = recipies_in_cart[i]['servings_num']
             original_recipe = RecipeModel.objects.get(id=recipeID)
 
-            ingredients_data = IngredientModel.objects.filter(recipe_id=recipeID).values()
+            ingredients_data = original_recipe.ingredients.values()
 
             for j in range(0, len(ingredients_data)):
                 ingredient_name = ingredients_data[j]['name']
                 ingredient_quantity = ingredients_data[j]['quantity']
+                ingredient_unit = ingredients_data[j]['unit']
 
-                if ingredientExists(ingredient_name, ingredients):
+                if ingredientExists(ingredient_name, ingredient_unit, ingredients):
                     if shoppingListServing == original_recipe.servings_num:
-                        ingredients = updateQuantity(ingredient_name, ingredients, ingredient_quantity)
+                        ingredients = updateQuantity(ingredient_name, ingredient_unit, ingredients, ingredient_quantity)
 
                     else:
 
@@ -176,7 +177,7 @@ class CombinedListView(APIView):
                         original_quantity = IngredientModel.objects.get(recipe_id=original_recipe.id,
                                                                         name=ingredient_name).quantity / original_recipe.servings_num
                         updated_quantity = original_quantity * shoppingListServing
-                        ingredients = updateQuantity(ingredient_name, ingredients, int(math.ceil(updated_quantity)))
+                        ingredients = updateQuantity(ingredient_name, ingredient_unit, ingredients, int(math.ceil(updated_quantity)))
 
 
 
@@ -186,7 +187,8 @@ class CombinedListView(APIView):
                     if shoppingListServing == original_recipe.servings_num:
                         ingredients.append({
                             'name': ingredient_name,
-                            'quantity': ingredient_quantity
+                            'quantity': ingredient_quantity,
+                            'unit': ingredient_unit
                         })
 
                     else:
@@ -205,7 +207,8 @@ class CombinedListView(APIView):
 
                         ingredients.append({
                             'name': ingredient_name,
-                            'quantity': int(math.ceil(updated_quantity))
+                            'quantity': int(math.ceil(updated_quantity)),
+                            'unit': ingredient_unit
                         })
 
         return Response(ingredients)
@@ -242,7 +245,7 @@ class IndividualListView(APIView):
             ingredients = []
 
             # All ingredients for this specific recipe
-            ingredients_data = IngredientModel.objects.filter(recipe_id=recipeID).values()
+            ingredients_data = original_recipe.ingredients.values()
 
             """
             Loop over all ingredients, if serving number for recipe in shopping cart is same as the recipe,
@@ -252,13 +255,15 @@ class IndividualListView(APIView):
             for j in range(0, len(ingredients_data)):
                 ingredient_name = ingredients_data[j]['name']
                 ingredient_quantity = ingredients_data[j]['quantity']
+                ingredient_unit = ingredients_data[j]['unit']
 
                 if shoppingListServing == original_recipe.servings_num:
 
                     ingredients.append(
                         {
                             'name': ingredient_name,
-                            'quantity': ingredient_quantity
+                            'quantity': ingredient_quantity,
+                            'unit': ingredient_unit
                         }
                     )
                 else:
@@ -278,7 +283,8 @@ class IndividualListView(APIView):
                     ingredients.append(
                         {
                             'name': ingredient_name,
-                            'quantity': int(math.ceil(updated_quantity))
+                            'quantity': int(math.ceil(updated_quantity)),
+                            'unit': ingredient_unit
                         }
                     )
 
