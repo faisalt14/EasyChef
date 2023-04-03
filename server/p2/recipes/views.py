@@ -177,12 +177,8 @@ class CreateRecipeView(RetrieveUpdateAPIView, CreateAPIView):
     queryset = RecipeModel.objects.all()
     serializer_class = RecipeSerializer
 
-    def perform_create(self, serializer):
-        # Set the user to the currently logged in user
-        serializer.save(user_id=self.request.user.id)
 
     def create(self, request, *args, **kwargs):
-
         step_ids = []
         ingredient_ids = []
         media_ids = []
@@ -267,8 +263,10 @@ class CreateRecipeView(RetrieveUpdateAPIView, CreateAPIView):
         #        ingredient_instance.quantity = int(new_quantity)
         #        ingredient_instance.save(update_fields=['quantity'])
 
+        user = self.request.user
+        recipe = recipe_serializer.save(user_id=user)
+        recipe.chef = user.name
         recipe.save()
-
 
         
         return Response(recipe_serializer.data, status=status.HTTP_201_CREATED)
