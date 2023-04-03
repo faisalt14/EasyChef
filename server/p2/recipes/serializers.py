@@ -139,7 +139,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     interactions = InteractionSerializer(many=True, required=False)
 
     name = serializers.CharField(required=True)
-    chef = serializers.CharField(read_only=True)
+    chef = serializers.SerializerMethodField()
     difficulty = serializers.IntegerField(allow_null=False)
     meal = serializers.IntegerField(allow_null=False)
     diet = serializers.CharField(required=True, allow_null=False)
@@ -160,9 +160,11 @@ class RecipeSerializer(serializers.ModelSerializer):
         }
 
     def perform_create(self, serializer):
-        # set the user_id and chef fields of the recipe instance
+        # Set the user and chef fields of the recipe instance
         user = self.request.user
-        serializer.save(chef=user.name)
+        recipe = serializer.save(user_id=user)
+        recipe.chef = user.name
+        recipe.save()
 
 class RecipesSerializer(serializers.ModelSerializer):
     media = serializers.SerializerMethodField(read_only=True)
@@ -180,10 +182,11 @@ class RecipesSerializer(serializers.ModelSerializer):
         return None
 
     def perform_create(self, serializer):
-        # set the user_id and chef fields of the recipe instance
+        # Set the user and chef fields of the recipe instance
         user = self.request.user
-        serializer.save(chef=user.name)
-
+        recipe = serializer.save(user_id=user)
+        recipe.chef = user.name
+        recipe.save()
 
 # class InteractedRecipesSerializer(serializers.ModelSerializer):
 #     class Meta:
