@@ -1,0 +1,12 @@
+body{
+    background-color: #EFEEEE
+}
+
+.carousel-table{
+    min-width: 30vw;
+}
+
+.recipe-col{
+    margin: 0px 20px 30px 20px;
+    width:300px
+}
