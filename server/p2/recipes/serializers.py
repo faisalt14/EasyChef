@@ -147,7 +147,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecipeModel
-        fields = ['id', 'user_id', 'name', 'based_on', 'total_reviews', 'total_likes', 'total_favs', 'avg_rating', 'published_time',
+        fields = ['id', 'user_id', 'chef', 'name', 'based_on', 'total_reviews', 'total_likes', 'total_favs', 'avg_rating', 'published_time',
                   'difficulty', 'meal', 'diet', 'cuisine', 'total_time', 'cooking_time', 'prep_time', 'calculated_total_time', 'calculated_prep_time', 'calculated_cook_time', 
                   'servings_num', 'media', 'steps', 'ingredients', 'interactions']
         extra_kwargs = {
@@ -158,11 +158,16 @@ class RecipeSerializer(serializers.ModelSerializer):
             'name': {'required': True}
         }
 
+    def perform_create(self, serializer):
+        # set the user_id and chef fields of the recipe instance
+        user = self.request.user
+        serializer.save(chef=user.name)
+
 class RecipesSerializer(serializers.ModelSerializer):
     media = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = RecipeModel
-        fields = ['id', 'name', 'difficulty', 'meal', 'diet', 'cuisine', 'cooking_time', 'avg_rating', 'total_reviews', 'total_likes', 'total_favs', 'media']
+        fields = ['id', 'chef', 'name', 'difficulty', 'meal', 'diet', 'cuisine', 'cooking_time', 'avg_rating', 'total_reviews', 'total_likes', 'total_favs', 'media']
     
     def get_media(self, obj):
         media = obj.media.first()
@@ -171,6 +176,10 @@ class RecipesSerializer(serializers.ModelSerializer):
             return serializer.data['media']
         return None
 
+    def perform_create(self, serializer):
+        # set the user_id and chef fields of the recipe instance
+        user = self.request.user
+        serializer.save(chef=user.name)
 
 
 # class InteractedRecipesSerializer(serializers.ModelSerializer):
