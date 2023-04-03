@@ -7,17 +7,17 @@ import Card from 'react-bootstrap/Card'
 import { StarFill } from 'react-bootstrap-icons'
 import $ from 'jquery'
 
-function RecipeCard(props) {
-    const [id, setId] = useState(props.id)
-    const [name, setName] = useState('Recipe Name')
-    const [chef, setChef] = useState('Chef Name')
+function RecipeCard({info}) {
+    const [id, setId] = useState(info.id)
+    const [name, setName] = useState(info.name)
+    const [chef, setChef] = useState('info.chef')
     const [img, setImg] = useState(DefaultImage)
-    const [rating, setRating] = useState(0)
-    const [difficulty, setDifficulty] = useState('Easy')
-    const [cuisine, setCuisine] = useState('Cuisine')
-    const [meal, setMeal] = useState('Meal')
-    const [diet, setDiet] = useState('Diet')
-    const [cookTime, setCookTime] = useState('Cooking Time')
+    const [rating, setRating] = useState(info.avg_rating)
+    const [difficulty, setDifficulty] = useState('info.difficulty')
+    const [cuisine, setCuisine] = useState('info.cuisine')
+    const [meal, setMeal] = useState('info.meal')
+    const [diet, setDiet] = useState('info.diet')
+    const [cookTime, setCookTime] = useState('info.cooking_time')
 
 
     const update = () => {
@@ -43,12 +43,12 @@ function RecipeCard(props) {
             success: function(xhr){
                 console.log(xhr)
                 setName(xhr.data.name)
-                setChef(xhr.data.user_id)
+                setChef(xhr.data.chef)
                 setDifficulty(xhr.data.difficulty)
                 setMeal(xhr.data.meal)
                 setDiet(xhr.data.diet.split(',')[0])
                 setCuisine(xhr.data.cuisine)
-                setCookTime(xhr.data.total_time)
+                setCookTime(xhr.data.cooking_time)
                 setImg(xhr.data.media[0].media)
                 setRating(Math.round(xhr.data.avg_rating))
             },

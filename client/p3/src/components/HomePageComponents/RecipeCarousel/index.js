@@ -14,23 +14,21 @@ function RecipeCarousel(props) {
                           '3': ['Popular', 3]}
     const [category, setCategory] = useState(categoryDict[props.category][0])
     const [categoryNum, setCategoryNum] = useState(categoryDict[props.category][1])
-    const [cards, setCards] = useState([])
+    const [cardInfo, setCardInfo] = useState(props.cardInfo)
+    const cards = []
     
     const update = () => {
     }
 
     useEffect(() =>{
-
-        $.ajax({
-            url: 'http://127.0.0.1:8000/',
-            method: 'Get',
-            success: function(xhr){
-                console.log(xhr)
-            },
-            error: function(xhr){
-                console.log(xhr)
-            }
-        })
+        cards.push(<RecipeCard info={cardInfo[0]} />)
+        cards.push(<RecipeCard info={cardInfo[1]} />)
+        cards.push(<RecipeCard info={cardInfo[2]} />)
+        if (categoryNum === 3){
+            cards.push(<RecipeCard info={cardInfo[3]} />)
+            cards.push(<RecipeCard info={cardInfo[4]} />)
+            cards.push(<RecipeCard info={cardInfo[5]} />)
+        }
     })
 
     return(
@@ -39,9 +37,7 @@ function RecipeCarousel(props) {
             <a className="nav-link btn" href="#">{category} <ArrowRight /></a>
           </div>
         <div className="recipe-carousel-cards">
-            <RecipeCard id='1'/>
-            <RecipeCard id='2'/>
-            <RecipeCard id='3'/>
+            {cards}
         </div>
         </>
     );

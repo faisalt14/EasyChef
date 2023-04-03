@@ -42,12 +42,12 @@ function HomePage(props) {
         <div>Searchbar Goes here</div>
         <div className='container-fluid carousel-table'>
             <div className='row'>
-                <div className='col recipe-col'> <RecipeCarousel category='0' /> </div>
-                <div className='col recipe-col'> <RecipeCarousel category='1' /> </div>
-                <div className='col recipe-col'> <RecipeCarousel category='2' /> </div>
+                <div className='col recipe-col'> <RecipeCarousel category='0' cardInfo={breakfast} /> </div>
+                <div className='col recipe-col'> <RecipeCarousel category='1' cardInfo={lunch} /> </div>
+                <div className='col recipe-col'> <RecipeCarousel category='2' cardInfo={dinner} /> </div>
             </div>
             <div className='row'>
-                <div className='col recipe-col'> <RecipeCarousel category='3' /> </div>
+                <div className='col recipe-col'> <RecipeCarousel category='3' cardInfo={popular} /> </div>
             </div>
         </div>
         </>
