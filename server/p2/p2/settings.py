@@ -58,7 +58,7 @@ ROOT_URLCONF = 'p2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '..', 'client/p3/build')],
+        'DIRS': [os.path.abspath(os.path.join(BASE_DIR, '..', 'client', 'p3', 'build', 'static'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -144,4 +144,4 @@ AUTH_USER_MODEL = 'accounts.User'
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60)
 }
-STATICFILES_DIRS = [os.path.join(BASE_DIR, '..', 'client', 'p3', 'build', 'static')]
+STATICFILES_DIRS = [os.path.abspath(os.path.join(BASE_DIR, '..', 'client', 'p3', 'build', 'static'))]
