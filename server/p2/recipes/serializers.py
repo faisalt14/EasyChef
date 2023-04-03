@@ -139,6 +139,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     interactions = InteractionSerializer(many=True, required=False)
 
     name = serializers.CharField(required=True)
+    chef = serializers.CharField(read_only=True)
     difficulty = serializers.IntegerField(allow_null=False)
     meal = serializers.IntegerField(allow_null=False)
     diet = serializers.CharField(required=True, allow_null=False)
@@ -165,6 +166,8 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 class RecipesSerializer(serializers.ModelSerializer):
     media = serializers.SerializerMethodField(read_only=True)
+    chef = serializers.SerializerMethodField()
+
     class Meta:
         model = RecipeModel
         fields = ['id', 'chef', 'name', 'difficulty', 'meal', 'diet', 'cuisine', 'cooking_time', 'avg_rating', 'total_reviews', 'total_likes', 'total_favs', 'media']
