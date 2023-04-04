@@ -138,16 +138,59 @@ class RecipeSerializer(serializers.ModelSerializer):
     ingredients = IngredientSerializer(many=True, required=True)
     interactions = InteractionSerializer(many=True, required=False)
 
+    difficulty_choices = {
+        0: 'Easy',
+        1: 'Medium',
+        2: 'Hard'
+    }
+    meal_choices = {
+        0: 'Breakfast',
+        1: 'Lunch',
+        2: 'Dinner',
+        3: 'Desserts',
+        4: 'Snacks',
+        5: 'Other'
+    }
+    diet_choices = {
+        0: 'Vegan',
+        1: 'Vegetarian',
+        2: 'Gluten-Free',
+        3: 'Halal',
+        4: 'Kosher',
+        5: 'None'
+    }
+    cuisine_choices = {
+        0: 'African',
+        1: 'Caribbean',
+        2: 'East Asian',
+        3: 'European',
+        4: 'French',
+        5: 'Italian',
+        6: 'Middle-Eastern',
+        7: 'North American',
+        8: 'Oceanic',
+        9: 'Russian',
+        10: 'Spanish',
+        11: 'South American',
+        12: 'South Asian',
+        13: 'Other'
+    }
+
     name = serializers.CharField(required=True)
-    difficulty = serializers.IntegerField(allow_null=False)
-    meal = serializers.IntegerField(allow_null=False)
+    chef = serializers.SerializerMethodField()
+    difficulty = serializers.ChoiceField(choices=list(difficulty_choices.items()), allow_null=False)
+    meal = serializers.ChoiceField(choices=list(meal_choices.items()), allow_null=False)
     diet = serializers.CharField(required=True, allow_null=False)
-    cuisine = serializers.IntegerField(required=True, allow_null=False)
+    cuisine = serializers.ChoiceField(choices=list(cuisine_choices.items()), required=True, allow_null=False)
+
     servings_num = serializers.IntegerField(required=True, allow_null=False)
+
+    def get_chef(self, obj):
+        return obj.user_id.name if obj.user_id else None
 
     class Meta:
         model = RecipeModel
-        fields = ['id', 'user_id', 'name', 'based_on', 'total_reviews', 'total_likes', 'total_favs', 'avg_rating', 'published_time',
+        fields = ['id', 'user_id', 'chef', 'name', 'based_on', 'total_reviews', 'total_likes', 'total_favs', 'avg_rating', 'published_time',
                   'difficulty', 'meal', 'diet', 'cuisine', 'total_time', 'cooking_time', 'prep_time', 'calculated_total_time', 'calculated_prep_time', 'calculated_cook_time', 
                   'servings_num', 'media', 'steps', 'ingredients', 'interactions']
         extra_kwargs = {
@@ -158,11 +201,68 @@ class RecipeSerializer(serializers.ModelSerializer):
             'name': {'required': True}
         }
 
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['difficulty'] = self.difficulty_choices.get(rep['difficulty'])
+        rep['meal'] = self.meal_choices.get(rep['meal'])
+        rep['cuisine'] = self.cuisine_choices.get(rep['cuisine'])
+
+        if rep['diet']:
+            int_values = [int(x) for x in rep['diet'].split(',') if x.strip()]
+            str_values = [self.diet_choices.get(x) for x in int_values]
+            rep['diet'] = ', '.join(str_values)
+
+        return rep
+
+
 class RecipesSerializer(serializers.ModelSerializer):
     media = serializers.SerializerMethodField(read_only=True)
+    chef = serializers.SerializerMethodField()
+
+    difficulty_choices = {
+        0: 'Easy',
+        1: 'Medium',
+        2: 'Hard'
+    }
+    meal_choices = {
+        0: 'Breakfast',
+        1: 'Lunch',
+        2: 'Dinner',
+        3: 'Desserts',
+        4: 'Snacks',
+        5: 'Other'
+    }
+    diet_choices = {
+        0: 'Vegan',
+        1: 'Vegetarian',
+        2: 'Gluten-Free',
+        3: 'Halal',
+        4: 'Kosher',
+        5: 'None'
+    }
+    cuisine_choices = {
+        0: 'African',
+        1: 'Caribbean',
+        2: 'East Asian',
+        3: 'European',
+        4: 'French',
+        5: 'Italian',
+        6: 'Middle-Eastern',
+        7: 'North American',
+        8: 'Oceanic',
+        9: 'Russian',
+        10: 'Spanish',
+        11: 'South American',
+        12: 'South Asian',
+        13: 'Other'
+    }
+
+    def get_chef(self, obj):
+        return obj.user_id.name if obj.user_id else None
+
     class Meta:
         model = RecipeModel
-        fields = ['id', 'name', 'difficulty', 'meal', 'diet', 'cuisine', 'cooking_time', 'avg_rating', 'total_reviews', 'total_likes', 'total_favs', 'media']
+        fields = ['id', 'chef', 'name', 'difficulty', 'meal', 'diet', 'cuisine', 'cooking_time', 'avg_rating', 'total_reviews', 'total_likes', 'total_favs', 'media']
     
     def get_media(self, obj):
         media = obj.media.first()
@@ -170,6 +270,19 @@ class RecipesSerializer(serializers.ModelSerializer):
             serializer = RecipeMediaSerializer(media)
             return serializer.data['media']
         return None
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['difficulty'] = self.difficulty_choices.get(rep['difficulty'])
+        rep['meal'] = self.meal_choices.get(rep['meal'])
+        rep['cuisine'] = self.cuisine_choices.get(rep['cuisine'])
+
+        if rep['diet']:
+            int_values = [int(x) for x in rep['diet'].split(',') if x.strip()]
+            str_values = [self.diet_choices.get(x) for x in int_values]
+            rep['diet'] = ', '.join(str_values)
+
+        return rep
 
 
 

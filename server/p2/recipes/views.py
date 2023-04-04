@@ -108,8 +108,8 @@ class RemixRecipeView(APIView):
                     base_step.step_num = index + 1
                     base_step.save()
                     step_ids.append(base_step)
-                recipe.calculated_prep_time = total_prep
-                recipe.calculated_cooking_time = total_cook
+                new_recipe.calculated_prep_time = total_prep
+                new_recipe.calculated_cooking_time = total_cook
                 new_recipe.steps.set(step_ids)
                 new_recipe.save()
 
@@ -176,10 +176,6 @@ class CreateRecipeView(RetrieveUpdateAPIView, CreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = RecipeModel.objects.all()
     serializer_class = RecipeSerializer
-
-    def perform_create(self, serializer):
-        # Set the user to the currently logged in user
-        serializer.save(user_id=self.request.user.id)
 
     def create(self, request, *args, **kwargs):
 
@@ -259,18 +255,11 @@ class CreateRecipeView(RetrieveUpdateAPIView, CreateAPIView):
         recipe.calculated_cook_time = total_cook
         # we need to calculate the total cooking time, prep_time
 
-        #servings_num = request.data.get('servings_num')
-        #if servings_num:
-        #    recipe_ingredient_instances = recipe.ingredients.all()
-        #    for ingredient_instance in recipe_ingredient_instances:
-        #        new_quantity = int(ingredient_instance.quantity) * int(servings_num)
-        #        ingredient_instance.quantity = int(new_quantity)
-        #        ingredient_instance.save(update_fields=['quantity'])
-
+        user = self.request.user
+        recipe = recipe_serializer.save(user_id=user)
+        recipe.chef = user.name
         recipe.save()
-
-
-        
+                
         return Response(recipe_serializer.data, status=status.HTTP_201_CREATED)
 
 class RecipeUpdateView(UpdateAPIView):
