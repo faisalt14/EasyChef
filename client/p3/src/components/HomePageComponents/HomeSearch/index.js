@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
-import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 import $ from 'jquery'
+import SearchFilterDropdown from './SearchFilterDropdown'
 
 function HomeSearch(props) {
 
@@ -23,7 +24,29 @@ function HomeSearch(props) {
     })
 
     return(
-        <div>Hello world</div>
+        <>
+        <div className="home-search-wrapper">
+            <div className="home-search-bg"></div>
+            <Form>
+                <h1 className="home-search-title">
+                    Search for Recipes
+                </h1>
+                <div className="home-search-bar-wrapper">
+                    <input className="home-search-bar" type="text" id="search" name="search"></input>
+                    <input className="home-search-submit" type="submit" value="Search"></input>
+                </div>
+                
+                <div className="home-search-filters-wrapper">
+                    <SearchFilterDropdown type='0'/>
+                    <SearchFilterDropdown type='1'/>
+                    <SearchFilterDropdown type='2'/>
+                    <SearchFilterDropdown type='3'/>
+                    <SearchFilterDropdown type='4'/>
+                </div>
+
+            </Form>
+        </div>
+        </>
     );
 }
 

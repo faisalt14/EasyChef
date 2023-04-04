@@ -15,20 +15,17 @@ function RecipeCarousel(props) {
     const [category, setCategory] = useState(categoryDict[props.category][0])
     const [categoryNum, setCategoryNum] = useState(categoryDict[props.category][1])
     const [cardInfo, setCardInfo] = useState(props.cardInfo)
+
     const cards = []
+    let cap = (categoryNum === 3 ? 6 : 3)
+    for (let i = 0; i < cap; i++){
+        cards.push(<RecipeCard info={cardInfo[i]} />)
+    }
     
     const update = () => {
     }
 
     useEffect(() =>{
-        cards.push(<RecipeCard info={cardInfo[0]} />)
-        cards.push(<RecipeCard info={cardInfo[1]} />)
-        cards.push(<RecipeCard info={cardInfo[2]} />)
-        if (categoryNum === 3){
-            cards.push(<RecipeCard info={cardInfo[3]} />)
-            cards.push(<RecipeCard info={cardInfo[4]} />)
-            cards.push(<RecipeCard info={cardInfo[5]} />)
-        }
     })
 
     return(

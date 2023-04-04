@@ -13,8 +13,7 @@
 }
 
 .card-img{
-    max-height: 10rem; 
-    min-height: 10rem;
+    height:9rem;
     object-fit: cover; 
     position: relative;
 }
@@ -25,6 +24,7 @@
     display: flex; 
     width: 100%; 
     align-items: flex-end;
+    overflow-x: hidden;
 }
 
 .tag{
@@ -50,4 +50,28 @@
 .hard{
     background-color: #027373; 
     color: white; 
+}
+
+.rating-stars{
+    margin-right:2px;
+}
+
+.recipe-info-wrapper{
+    display:flex; 
+    font-size:small; 
+    line-height:0px;
+}
+
+.rating-wrapper{
+    flex:0.4;
+}
+
+.cook-time-fav-wrapper{
+    flex:0.3;
+    overflow-x: hidden;
+}
+
+.card-title{
+    font-size:'larger';
+    margin-bottom: 0px;
 }

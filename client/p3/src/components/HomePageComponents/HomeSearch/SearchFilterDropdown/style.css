@@ -1,0 +1,13 @@
+.home-search-dropdown{
+    margin-left:1.5em; 
+    margin-right:1.5em; 
+    width:10vw; 
+    font-size:1vw; 
+    background-color:#04B4B4; 
+    border:0px;
+}
+
+.home-search-filter-options{
+    overflow-y:scroll;
+    max-height:10em;
+}

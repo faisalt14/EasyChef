@@ -21,14 +21,10 @@ function HomePage(props) {
             method: 'Get',
             success: function(xhr){
                 console.log(xhr)
-                setPopular(xhr.data.Popular)
-                setBreakfast(xhr.data.Breakfasts)
-                setLunch(xhr.data.Lunches)
-                setDinner(xhr.data.Dinners)
-                console.log(popular)
-                console.log(breakfast)
-                console.log(lunch)
-                console.log(dinner)
+                setPopular({popular: xhr.data.Popular})
+                setBreakfast({breakfast: xhr.data.Breakfasts})
+                setLunch({lunch: xhr.data.Lunches})
+                setDinner({dinner: xhr.data.Dinners})
             },
             error: function(xhr){
                 console.log(xhr)
@@ -39,7 +35,7 @@ function HomePage(props) {
     return(
         <>
         <div>Navbar goes here</div>
-        <div>Searchbar Goes here</div>
+        <HomeSearch />
         <div className='container-fluid carousel-table'>
             <div className='row'>
                 <div className='col recipe-col'> <RecipeCarousel category='0' cardInfo={breakfast} /> </div>

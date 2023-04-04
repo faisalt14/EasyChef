@@ -8,6 +8,6 @@
 .recipe-carousel-cards{
     background-color:#F2F2F2; 
     padding:10px; display:grid; 
-    grid-template-columns: auto auto auto auto auto auto; 
+    grid-template-columns: repeat(12, auto); 
     overflow-x: scroll;
 }
