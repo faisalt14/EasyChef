@@ -11,7 +11,7 @@ function HomeSearch(props) {
     }
 
     useEffect(() =>{
-        $.ajax({
+        /*$.ajax({
             url: 'http://127.0.0.1:8000/',
             method: 'Get',
             success: function(xhr){
@@ -20,7 +20,7 @@ function HomeSearch(props) {
             error: function(xhr){
                 console.log(xhr)
             }
-        })
+        })*/
     })
 
     return(

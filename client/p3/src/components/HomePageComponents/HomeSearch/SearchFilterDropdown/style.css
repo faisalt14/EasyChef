@@ -4,10 +4,15 @@
     width:10vw; 
     font-size:1vw; 
     background-color:#04B4B4; 
+    color:white;
+    text-align: center;
     border:0px;
 }
 
-.home-search-filter-options{
+.home-search-dropdown *{
     overflow-y:scroll;
     max-height:10em;
+    text-align: center;
+    background-color:white;
+    color: black;
 }

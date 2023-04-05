@@ -15,22 +15,23 @@ function HomePage(props) {
     const update = () => {
     }
 
-    useEffect(() =>{
+    useEffect(() => {
+        console.log("Loading Main Page")
         $.ajax({
             url: 'http://127.0.0.1:8000/recipes/',
             method: 'Get',
             success: function(xhr){
                 console.log(xhr)
-                setPopular({popular: xhr.data.Popular})
-                setBreakfast({breakfast: xhr.data.Breakfasts})
-                setLunch({lunch: xhr.data.Lunches})
-                setDinner({dinner: xhr.data.Dinners})
+                setPopular(xhr.Popular)
+                setBreakfast(xhr.Breakfasts)
+                setLunch(xhr.Lunches)
+                setDinner(xhr.Dinners)
             },
             error: function(xhr){
                 console.log(xhr)
             }
         })
-    })
+    }, [])
 
     return(
         <>
@@ -38,12 +39,12 @@ function HomePage(props) {
         <HomeSearch />
         <div className='container-fluid carousel-table'>
             <div className='row'>
-                <div className='col recipe-col'> <RecipeCarousel category='0' cardInfo={breakfast} /> </div>
-                <div className='col recipe-col'> <RecipeCarousel category='1' cardInfo={lunch} /> </div>
-                <div className='col recipe-col'> <RecipeCarousel category='2' cardInfo={dinner} /> </div>
+                <div className='col recipe-col'> <RecipeCarousel category='0' cardInfo={breakfast} key='Breakfast_Carousel' /> </div>
+                <div className='col recipe-col'> <RecipeCarousel category='1' cardInfo={lunch} key='Lunch_Carousel' /> </div>
+                <div className='col recipe-col'> <RecipeCarousel category='2' cardInfo={dinner} key='Dinner_Carousel' /> </div>
             </div>
             <div className='row'>
-                <div className='col recipe-col'> <RecipeCarousel category='3' cardInfo={popular} /> </div>
+                <div className='col recipe-col'> <RecipeCarousel category='3' cardInfo={popular} key='Popular_Carousel' /> </div>
             </div>
         </div>
         </>

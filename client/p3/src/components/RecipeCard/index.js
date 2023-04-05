@@ -8,36 +8,45 @@ import { StarFill, Stopwatch, BookmarkFill } from 'react-bootstrap-icons'
 import $ from 'jquery'
 
 function RecipeCard({info}) {
-    const [id, setId] = useState('info.id')
-    const [name, setName] = useState('info.name')
-    const [chef, setChef] = useState('info.chef')
+    const [id, setId] = useState(info.id)
+    const [name, setName] = useState(info.name)
+    const [chef, setChef] = useState(info.chef)
     const [img, setImg] = useState(DefaultImage)
-    const [rating, setRating] = useState('info.avg_rating')
-    const [difficulty, setDifficulty] = useState('info.difficulty')
-    const [cuisine, setCuisine] = useState('info.cuisine')
-    const [meal, setMeal] = useState('info.meal')
-    const [diet, setDiet] = useState('info.diet')
-    const [cookTime, setCookTime] = useState('info.cooking_time')
-    const [favs, setFavs] = useState('info.total_favs')
+    const [rating, setRating] = useState(info.avg_rating)
+    const [difficulty, setDifficulty] = useState(info.difficulty)
+    const [cuisine, setCuisine] = useState(info.cuisine)
+    const [meal, setMeal] = useState(info.meal)
+    const [diet, setDiet] = useState(info.diet)
+    const [cookTime, setCookTime] = useState(timeToStr(info.cooking_time))
+    const [favs, setFavs] = useState(info.total_favs)
 
+    function timeToStr(time){
+        let cleanedTime = time.split(':')
+        let result = ''
+        let timeUnits = ['h', 'm']
+        timeUnits.forEach((item, index) => {
+            result += cleanedTime[index] + item
+        })
+        return result
+    }
 
     const update = () => {
         $.ajax({
             url: 'http://127.0.0.1:8000/' + id + '/details/',
             method: 'Get',
             success: function(xhr){
-                console.log(xhr)
-                setName({name: xhr.data.name})
-                setChef({chef: xhr.data.chef})
-                setDifficulty({difficulty: xhr.data.difficulty})
-                setMeal({meal: xhr.data.meal})
-                setDiet({diet: xhr.data.diet.split(',')[0]})
-                setCuisine({cuisine: xhr.data.cuisine})
-                setCookTime({cookTime: xhr.data.cooking_time})
-                setImg({img: xhr.data.media[0].media})
-                setRating({rating: Math.round(xhr.data.avg_rating)})
-                setCookTime({cookTime: xhr.data.cooking_time})
-                setFavs({favs: xhr.data.total_favs})
+                setId(xhr.data.id)
+                setName(xhr.data.name)
+                setChef(xhr.data.chef)
+                setDifficulty(xhr.data.difficulty)
+                setMeal(xhr.data.meal)
+                setDiet(xhr.data.diet.split(',')[0])
+                setCuisine(xhr.data.cuisine)
+                setCookTime(xhr.data.cooking_time)
+                setImg(xhr.data.media[0].media)
+                setRating(Math.round(xhr.data.avg_rating))
+                setCookTime(xhr.data.cooking_time)
+                setFavs(xhr.data.total_favs)
             },
             error: function(xhr){
                 console.log(xhr)
@@ -63,14 +72,19 @@ function RecipeCard({info}) {
     })
 
     return(
-        <Card className='recipe-card-wrapper'>
+        <Card className='recipe-card-wrapper' id={'Card-' + id + '-Home'}>
             <div className="d-flex card-img-tag-wrapper">
                 <Card.Img className="card-img" variant="top" src={img} alt="preview image" />
                 <div className="tags-wrapper">
-                    <h5><span className="badge d-flex tag easy">{difficulty}</span></h5>
-                    <h5><span className="badge d-flex tag" >{cuisine}</span></h5>
-                    <h5><span className="badge d-flex tag" >{meal}</span></h5>
-                    <h5><span className="badge d-flex tag" >{diet}</span></h5>        
+                    <h5><span className={"badge d-flex tag " + difficulty.toLowerCase()}>{difficulty}</span></h5>
+                    {[cuisine, meal].map(item =>{
+                        if(item !== ''){
+                            return <h5><span className="badge d-flex tag" >{item}</span></h5>
+                        }
+                    })}
+                    {diet.split(',').map(diet => {
+                        return <h5><span className="badge d-flex tag" >{diet}</span></h5>
+                    })}
                 </div>
             </div>
             <Card.Body>
@@ -78,17 +92,17 @@ function RecipeCard({info}) {
                         <div className="rating-wrapper">
                             {ratingStars(rating)}
                         </div>
-                        <div className="cook-time-fav-wrapper">
-                            <b>3h15m{/*cookTime*/}</b>
+                        <div className="cook-time-fav-wrapper text-no-overflow cutoff">
+                            <b>{cookTime}</b>
                             <Stopwatch />
                         </div>
-                        <div className="cook-time-fav-wrapper">
-                            <b>300{/*favs*/}</b>
+                        <div className="cook-time-fav-wrapper text-no-overflow cutoff">
+                            <b>{favs}</b>
                             <BookmarkFill />
                         </div>
                     </div>
-                    <h4 className="card-title">{name}</h4>
-                    <i>{chef}</i>
+                    <h4 className="card-title text-no-overflow">{name}</h4>
+                    <i className="text-no-overflow">{chef}</i>
             </Card.Body>
         </Card>
     );

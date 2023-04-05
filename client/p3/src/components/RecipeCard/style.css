@@ -24,7 +24,10 @@
     display: flex; 
     width: 100%; 
     align-items: flex-end;
-    overflow-x: hidden;
+    overflow-x: scroll;
+}
+.tags-wrapper::-webkit-scrollbar{
+    display: none;
 }
 
 .tag{
@@ -44,7 +47,7 @@
 
 .medium{
     background-color: #04B4B4; 
-    color: black; 
+    color: white; 
 }
 
 .hard{
@@ -74,4 +77,14 @@
 .card-title{
     font-size:'larger';
     margin-bottom: 0px;
+}
+
+.text-no-overflow{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.cutoff{
+    text-overflow:clip; 
 }
