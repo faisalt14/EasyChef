@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../pages/CreateForm.css';
+import '../../pages/CreateRecipePage/CreateForm.css';
 
-function RecipeFilters() {
-  const [selectedOptions, setSelectedOptions] = useState("");
-  const [selectedOption2, setSelectedOption2] = useState("");
-  const [cuisineOption, setCuisineOption] = useState("");
-  const [dietOption, setDietOption] = useState([]);
+function RecipeFilters({ selectedDifficulty, setSelectedDifficulty, selectedCuisine, setSelectedCuisine, selectedMeal, setSelectedMeal, selectedDiets, setSelectedDiets }) {
 
   const difficulty = [
     { value: "0", label: 'Easy' },
@@ -113,8 +109,8 @@ const diet = [
 
   return (
     <>
-  <div className="container" style={{ maxWidth: "65%", padding: 0, margin: 0}}>
-
+  <div className="container-fluid justify-content-start" style={{ maxWidth: "65%", padding: 0, margin: 0}}>
+    <div className="col-10">
     <label
     id="recipe1.1-name"
     className="col-form-label"
@@ -126,16 +122,16 @@ const diet = [
         <Select
           options={difficulty}
           placeholder="Difficulty"
-          value={selectedOptions}
-          onChange={setSelectedOptions}
+          value={selectedDifficulty}
+          onChange={setSelectedDifficulty}
           styles={customStyles}
         />
       </div>
       <div className="col-xs-12 col-lg-3 col-sm-12 col-md-12 col-3">
         <Select
-          value={cuisineOption}
+          value={selectedCuisine}
           placeholder="Cuisine"
-          onChange={setCuisineOption}
+          onChange={setSelectedCuisine}
           options={cuisine}
           styles={customStyles}
           isClearable
@@ -144,9 +140,9 @@ const diet = [
       </div>
       <div className="col-xs-12 col-lg-3 col-sm-12 col-md-12 col-3">
         <Select
-          value={selectedOption2}
+          value={selectedMeal}
           placeholder="Meal"
-          onChange={setSelectedOption2}
+          onChange={setSelectedMeal}
           styles={customStyles}
           options={meal}
           isClearable
@@ -155,15 +151,16 @@ const diet = [
       </div>
       <div className="row-12 d-flex" style={{ marginLeft: '0', marginRight: '0'}}>
           <Select
-          value={dietOption}
+          value={selectedDiets}
           placeholder="Diet"
-          onChange={setDietOption}
+          onChange={setSelectedDiets}
           options={diet}
           styles={customStyles}
           isMulti
           isClearable
           isSearchable
         />
+      </div>
       </div>
       </div>
       </div>

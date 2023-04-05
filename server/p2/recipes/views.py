@@ -108,8 +108,8 @@ class RemixRecipeView(APIView):
                     base_step.step_num = index + 1
                     base_step.save()
                     step_ids.append(base_step)
-                recipe.calculated_prep_time = total_prep
-                recipe.calculated_cooking_time = total_cook
+                new_recipe.calculated_prep_time = total_prep
+                new_recipe.calculated_cooking_time = total_cook
                 new_recipe.steps.set(step_ids)
                 new_recipe.save()
 
@@ -169,7 +169,7 @@ class RemixRecipeView(APIView):
         response_data = RecipeSerializer(new_recipe).data
         return Response(response_data)
 
-class CreateRecipeView(RetrieveUpdateAPIView, CreateAPIView):
+class CreateRecipeView(CreateAPIView):
     # To create a recipe, send a POST request to /recipes/create-recipe/.
     # To update a recipe with ID 123, send a PUT or PATCH request to /recipes/123/.
 
@@ -254,14 +254,6 @@ class CreateRecipeView(RetrieveUpdateAPIView, CreateAPIView):
         recipe.calculated_prep_time = total_prep
         recipe.calculated_cook_time = total_cook
         # we need to calculate the total cooking time, prep_time
-
-        #servings_num = request.data.get('servings_num')
-        #if servings_num:
-        #    recipe_ingredient_instances = recipe.ingredients.all()
-        #    for ingredient_instance in recipe_ingredient_instances:
-        #        new_quantity = int(ingredient_instance.quantity) * int(servings_num)
-        #        ingredient_instance.quantity = int(new_quantity)
-        #        ingredient_instance.save(update_fields=['quantity'])
 
         user = self.request.user
         recipe = recipe_serializer.save(user_id=user)
@@ -417,9 +409,24 @@ class CreateStepView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = StepSerializer
     
-    def perform_create(self, serializer):
-        serializer.save()
-        return serializer.data
+    def create(self, request, *args, **kwargs):
+        media_list = request.data.get('media', '') # extract media IDs from the request data
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        step = serializer.save()
+
+        if media_list:
+            media_list = [int(x.strip()) for x in media_list.split(",")]
+
+        # Associate the media objects with the step
+        media_objects = []
+        for media_id in media_list:
+            media = get_object_or_404(StepMediaModel, id=media_id)
+            media.step_id = step
+            media_objects.append(media)
+        StepMediaModel.objects.bulk_update(media_objects, ['step_id'])
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class AddRecipeMedia(CreateAPIView):
     permission_classes = [IsAuthenticated]

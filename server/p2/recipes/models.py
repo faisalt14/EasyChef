@@ -123,7 +123,7 @@ class StepModel(models.Model):
             return f"{self.id} - Step {self.step_num} for an unspecified recipe"
 
 class StepMediaModel(models.Model):
-    step_id = models.ForeignKey("StepModel", on_delete=models.CASCADE, related_name="media")
+    step_id = models.ForeignKey("StepModel", on_delete=models.CASCADE, related_name="media", blank=True, null=True)
     media = models.FileField(upload_to="step-media/", blank=True)
 
     def __str__(self):

@@ -16,27 +16,10 @@ class StepMediaSerializer(serializers.ModelSerializer):
         model = StepMediaModel
         fields = ['id', 'step_id', 'media']
         extra_kwargs = {
-            'media': {'required': True}
+            'media': {'required': True},
+            'step_id': {'required': False}
+
         }
-
-class CommaSeparatedChoiceField(serializers.Field):
-    def __init__(self, choices, *args, **kwargs):
-        self.choices = choices
-        super().__init__(*args, **kwargs)
-
-    def to_representation(self, value):
-        if not value:
-            return ''
-        int_values = [int(x) for x in value.split(',') if x]
-        str_values = [self.choices.get(x) for x in int_values]
-        return ', '.join(str_values)
-
-    def to_internal_value(self, data):
-        if not data:
-            return ''
-        str_values = data.split(', ')
-        int_values = [key for str_value in str_values for key, value in self.choices.items() if value == str_value]
-        return ','.join(str(int_value) for int_value in int_values)
 
 class DurationField(serializers.Field):
     def to_representation(self, value):
@@ -79,8 +62,12 @@ class StepSerializer(serializers.ModelSerializer):
             validated_data['prep_time'] = prep
         step = StepModel.objects.create(**validated_data)
 
-        for media in media_data:
-            StepMediaModel.objects.create(step_id=step.id, **media_data)
+        # create and associate media objects with the step
+        for media_id in media_data:
+            if media_id:
+                media = StepMediaModel.objects.get(id=media_id)
+                media.step_id = step
+                media.save()
 
         return step
 
