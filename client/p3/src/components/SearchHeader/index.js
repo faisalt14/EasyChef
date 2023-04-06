@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
-import Form from 'react-bootstrap/Form'
 import $ from 'jquery'
 import CookingTime from '../Filters/CookingTime'
 import Cuisine from '../Filters/Cuisine'
@@ -25,7 +24,7 @@ function SearchHeader(props) {
     }
 
     const searchAjax = () => {
-        let categoryDict = {0: 'Recipe', 1: 'User', 2: 'Ingredient'}
+        let categoryDict = {0: 'Recipe', 1: 'User', 2: 'Ingredients'}
         $.ajax({
             url: 'http://127.0.0.1:8000/recipes/search/',
             method: 'Get',
@@ -45,19 +44,6 @@ function SearchHeader(props) {
             }
         })
     }
-
-    useEffect(() =>{
-        /*$.ajax({
-            url: 'http://127.0.0.1:8000/',
-            method: 'Get',
-            success: function(xhr){
-                console.log(xhr)
-            },
-            error: function(xhr){
-                console.log(xhr)
-            }
-        })*/
-    })
 
     return(
         <div className="search-wrapper">
@@ -92,38 +78,3 @@ function SearchHeader(props) {
 }
 
 export default SearchHeader;
-
-/*
-<Modal 
-            show={props.show}
-            onHide={props.onHide}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Header closeButton>
-                <Modal.Title>User Information</Modal.Title>
-            </Modal.Header>
-
-            <Modal.Body>
-                <div className="center-wrapper" style={{textAlign: 'center', marginTop:"1rem", marginBottom: "2rem",}}>
-                    <img className="profile-pic" src={defaultPFP} alt={defaultPFP}></img>
-                </div>
-                <div className="container-fluid">
-                    <div className="row bottom-margin-1rem">
-                        <ProfileDetailText category='First Name' info={fname}/>
-                        <ProfileDetailText category='Last Name' info={lname}/>
-                    </div>
-                    <div className="row bottom-margin-1rem">
-                        <ProfileDetailText category='UserName' info={username}/>
-                        <ProfileDetailText category='Email Address' info={email}/>
-                    </div>
-                </div>
-            </Modal.Body>
-
-            <Modal.Footer>
-                <Button  className="close-button">Edit</Button>
-                <Button onClick={props.onHide} className="close-button">Close</Button>
-            </Modal.Footer>
-        </Modal>
-         */

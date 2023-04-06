@@ -10,7 +10,7 @@ function RecipeCard({info}) {
     const [id, setId] = useState(info.id)
     const [name, setName] = useState(info.name)
     const [chef, setChef] = useState(info.chef)
-    const [img, setImg] = useState(media_or_default(info.media))
+    const [img, setImg] = useState(DefaultImage)
     const [rating, setRating] = useState(info.avg_rating)
     const [difficulty, setDifficulty] = useState(info.difficulty)
     const [cuisine, setCuisine] = useState(info.cuisine)
@@ -18,13 +18,6 @@ function RecipeCard({info}) {
     const [diet, setDiet] = useState(info.diet)
     const [cookTime, setCookTime] = useState(timeToStr(info.cooking_time))
     const [favs, setFavs] = useState(favShortener(parseInt(info.total_favs)))
-
-    function media_or_default(mediaArray){
-        if (mediaArray !== null){
-            return 'localhost:8000/' + mediaArray[0]
-        }
-        return DefaultImage
-    }
 
     function timeToStr(time){
         let cleanedTime = time.split(':')
