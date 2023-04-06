@@ -127,7 +127,7 @@ class StepMediaModel(models.Model):
     media = models.FileField(upload_to="step-media/", blank=True)
 
     def __str__(self):
-          return f"Media {self.id} for Step {self.step_id.id}"
+          return f"Media {self.id}"
 
 
 class IngredientModel(models.Model):

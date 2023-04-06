@@ -79,10 +79,12 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
 
   return (
     <>
-    <div style={{width: "50%"}}>
-      <h3>List of Ingredients</h3>
+    <div className="mt-2 row-12" style={{width: "50%", marginLeft: "32px"}}>
+      
+      <h3 className='mb-3' >              <span className="required" style={{color: "red"}}>* </span>
+ List of Ingredients</h3>
       {ingredients.length > 0 && (
-    <div className="ing" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px' }}>
+    <div className="ing" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px', width: "88%"}}>
     {ingredients.map((ingredient, index) => (
       <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
         <i style={{ maxWidth: '2rem', fontSize: '10px', color: '#04B4B4', cursor: 'pointer' }} className="bi bi-circle-fill"></i>
@@ -95,9 +97,9 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
     ))}
   </div>
       )}
-      <div className="row" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px' }}>
+      <div className="row" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px',  borderRadius:"10px" }}>
           <div className='col-3'>
-            <label>Ingredient:</label>
+            <label style={{fontWeight:"500"}}>Ingredient</label>
             <Select
               type="text" 
               options={options}
@@ -110,7 +112,7 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
 
           </div>
           <div className='col-3'>
-            <label>Quantity:</label>
+            <label style={{fontWeight:"500"}}>Quantity</label>
             <input
               className="form-control"
 
@@ -126,7 +128,7 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
           </div>
           <div className='col-3'>
 
-            <label>Unit:</label>
+            <label style={{fontWeight:"500"}}>Unit</label>
             <Select
               type="text" 
               value={unit}
@@ -137,14 +139,14 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
             </Select>
             </div>
 
-            <div className='col-3' style={{padding: 0, margin: 0}}>
+            <div className='col-3 mt-4' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
             <button type="button" className="btn"
-                      style={{backgroundColor: "#04b4b4", color: "white"}}
-                      onClick={handleSubmit}>Add</button>
+                      style={{backgroundColor: "#04b4b4", color: "white", fontWeight: '500'}}
+                      onClick={handleSubmit}>Add Ingredient</button>
             </div>
             {errorMessage1 && (
-        <div className="d-flex alert alert-danger" role="alert" style={{width: "40%"}}>
+        <div className="alert alert-danger ms-3" role="alert" style={{width: "45%"}}>
           {errorMessage1}
           <CloseButton style={{marginLeft: "20px"}} onClick={() => setErrorMessage1('')}/>
 

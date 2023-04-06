@@ -46,30 +46,22 @@ class StepSerializer(serializers.ModelSerializer):
             'step_num': {'required': False}
         }
 
-    def create(self, validated_data):
-        media_data = validated_data.get('media', '')
-        cook = validated_data.get('cooking_time', '')
-        prep = validated_data.get('prep_time', '')
+    # def create(self, validated_data):
+    #     cook = validated_data.get('cooking_time', '')
+    #     prep = validated_data.get('prep_time', '')
 
-        if isinstance(cook, str):
-            hours, minutes, seconds = map(int, cook.split(':'))
-            cook = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
-            validated_data['cooking_time'] = cook
+    #     if isinstance(cook, str):
+    #         hours, minutes, seconds = map(int, cook.split(':'))
+    #         cook = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+    #         validated_data['cooking_time'] = cook
 
-        if isinstance(prep, str):
-            hours, minutes, seconds = map(int, prep.split(':'))
-            prep = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
-            validated_data['prep_time'] = prep
-        step = StepModel.objects.create(**validated_data)
+    #     if isinstance(prep, str):
+    #         hours, minutes, seconds = map(int, prep.split(':'))
+    #         prep = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+    #         validated_data['prep_time'] = prep
+    #     step = StepModel.objects.create(**validated_data)
 
-        # create and associate media objects with the step
-        for media_id in media_data:
-            if media_id:
-                media = StepMediaModel.objects.get(id=media_id)
-                media.step_id = step
-                media.save()
-
-        return step
+    #     return step
 
 class IngredientSerializer(serializers.ModelSerializer):
     recipe_id = serializers.PrimaryKeyRelatedField(queryset=RecipeModel.objects.all(), required=False)

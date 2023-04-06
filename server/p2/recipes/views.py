@@ -8,6 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser
+from django.db import transaction
 
 from recipes.models import RecipeModel, IngredientModel, StepModel, StepMediaModel, RecipeMediaModel, InteractionModel, ReviewMediaModel
 from recipes.serializers import RecipesSerializer, RecipeSerializer, IngredientSerializer, StepSerializer, RecipeMediaSerializer, StepMediaSerializer, ReviewMediaSerializer, InteractionSerializer
@@ -183,9 +185,16 @@ class CreateRecipeView(CreateAPIView):
         ingredient_ids = []
         media_ids = []
 
+        print("requesting data", request.data)
+
         steps_list = request.data.get('steps', '')
         ingredients_list = request.data.get('ingredients', '')
         media_list = request.data.get('media', '')
+
+        print("requesting medis",media_list)
+        print("requesting ings", ingredients_list)
+        print("requesting steps", steps_list)
+
 
         if steps_list:
             steps_list = [int(x.strip()) for x in steps_list.split(",")]
@@ -408,31 +417,48 @@ class RecipeUpdateView(UpdateAPIView):
 class CreateStepView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = StepSerializer
-    
-    def create(self, request, *args, **kwargs):
-        media_list = request.data.get('media', '') # extract media IDs from the request data
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        step = serializer.save()
 
+    @transaction.atomic
+    def create(self, request, *args, **kwargs):
+        print('reuqest', request.data)
+        media_list = request.data.get('media', '')  # extract media IDs from the request data
         if media_list:
             media_list = [int(x.strip()) for x in media_list.split(",")]
 
+        cook = request.data['cooking_time']
+        prep = request.data['prep_time']
+
+        if isinstance(cook, str):
+            hours, minutes, seconds = map(int, cook.split(':'))
+            cook = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+
+        if isinstance(prep, str):
+            hours, minutes, seconds = map(int, prep.split(':'))
+            prep = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
+
+        step = StepModel.objects.create(cooking_time=cook, prep_time=prep,
+                                         instructions=request.data['instructions'])
+
+        print('media list', media_list)
         # Associate the media objects with the step
         media_objects = []
         for media_id in media_list:
             media = get_object_or_404(StepMediaModel, id=media_id)
             media.step_id = step
             media_objects.append(media)
-        StepMediaModel.objects.bulk_update(media_objects, ['step_id'])
+        # if media_list:
+        #     StepMediaModel.objects.bulk_update(media_objects, ['step_id'])
+        step.refresh_from_db()
+        serializer_data = StepSerializer(step)
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer_data.data, status=status.HTTP_201_CREATED)
 
 class AddRecipeMedia(CreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = StepMediaModel.objects.all()
     serializer_class = RecipeMediaSerializer
-    
+    parser_classes = [MultiPartParser]  # Add this line
+
     def perform_create(self, serializer):
         serializer.save()
         return serializer.data
@@ -441,6 +467,8 @@ class AddRecipeMedia(CreateAPIView):
 class AddStepMedia(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = StepMediaSerializer
+    parser_classes = [MultiPartParser]  # Add this line
+
 
 class CreateIngredientView(CreateAPIView):
     permission_classes = [IsAuthenticated]

@@ -69,6 +69,7 @@ const diet = [
     placeholder: (defaultStyles) => ({
       ...defaultStyles,
       color: "#fff",
+      fontWeight: "500",
       fontSize: "1rem", // increase font size
       width: "7.2rem",
     }),
@@ -109,50 +110,50 @@ const diet = [
 
   return (
     <>
-  <div className="container-fluid justify-content-start" style={{ maxWidth: "65%", padding: 0, margin: 0}}>
-    <div className="col-10">
+  <div className="container-fluid justify-content-start mb-3" style={{padding: 0, margin: 0}}>
+    <div className="col-12">
     <label
-    id="recipe1.1-name"
-    className="col-form-label"
+    className="ms-2"
     style={{fontSize: '18px'}}
     >Select Filters</label>
 
     <div className="row pe-4 me-4 d-flex" style={{ marginLeft: '0', marginRight: '0' }}>
-      <div className="col-xs-12 col-lg-3 col-sm-12 col-md-12 col-3">
+      <div className="col-xs-12 col-lg-4 col-sm-12 col-md-12 col-3">
         <Select
           options={difficulty}
           placeholder="Difficulty"
           value={selectedDifficulty}
           onChange={setSelectedDifficulty}
           styles={customStyles}
+          isClearable
         />
       </div>
-      <div className="col-xs-12 col-lg-3 col-sm-12 col-md-12 col-3">
+      <div className="col-xs-12 col-lg-4 col-sm-12 col-md-12 col-3">
         <Select
           value={selectedCuisine}
-          placeholder="Cuisine"
+          placeholder="* Cuisine"
           onChange={setSelectedCuisine}
           options={cuisine}
           styles={customStyles}
-          isClearable
           isSearchable
+          isClearable
         />
       </div>
-      <div className="col-xs-12 col-lg-3 col-sm-12 col-md-12 col-3">
+      <div className="col-xs-12 col-lg-4 col-sm-12 col-md-12 col-3">
         <Select
           value={selectedMeal}
           placeholder="Meal"
           onChange={setSelectedMeal}
           styles={customStyles}
           options={meal}
-          isClearable
           isSearchable
+          isClearable
         />
       </div>
       <div className="row-12 d-flex" style={{ marginLeft: '0', marginRight: '0'}}>
           <Select
           value={selectedDiets}
-          placeholder="Diet"
+          placeholder="* Diet"
           onChange={setSelectedDiets}
           options={diet}
           styles={customStyles}
