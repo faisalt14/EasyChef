@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
-import Button from 'react-bootstrap/Button'
 import $ from 'jquery'
 import RecipeCarousel from '../RecipeCarousel'
 import HomeSearch from '../HomeSearch'
