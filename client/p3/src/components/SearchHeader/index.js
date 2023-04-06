@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
 import $ from 'jquery'
@@ -18,7 +18,7 @@ function SearchHeader(props) {
 
     const handleKeyPress = (event) =>{
         setQuery(document.getElementById("searchBar") ? document.getElementById("searchBar").value : '')
-        if (event.key == 'Enter'){
+        if (event.key === 'Enter'){
             searchAjax()
         }
     }

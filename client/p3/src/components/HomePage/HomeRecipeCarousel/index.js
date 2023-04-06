@@ -11,9 +11,7 @@ function HomeRecipeCarousel(props) {
                           '2': ['Dinners', 2],
                           '3': ['Popular', 3]}
     const [category, setCategory] = useState(categoryDict[props.category][0])
-    const [categoryNum, setCategoryNum] = useState(categoryDict[props.category][1])
     const [cardInfo, setCardInfo] = useState(props.cardInfo)
-    const [cards, setCards] = useState([])
 
     useEffect(() =>{
         setCardInfo(props.cardInfo)
@@ -25,8 +23,8 @@ function HomeRecipeCarousel(props) {
             <a className="nav-link btn" href="#">{category} <ArrowRight /></a>
           </div>
         <div className="recipe-carousel-cards">
-            {cardInfo.map(cardInfo => {
-                return <RecipeCard info={cardInfo} />
+            {cardInfo.map((cardInfo, index) => {
+                return <RecipeCard info={cardInfo} key={index}/>
             })}
         </div>
         </div>

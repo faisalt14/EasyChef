@@ -50,20 +50,16 @@ function RecipeCard({info}) {
         let round_rating = Math.round(rating*2)/2
         for (let i = 0; i < 5; i++){
             if (i < round_rating && 0.5 === (round_rating - i)){
-                result.push(<StarHalf className="rating-stars"/>)
+                result.push(<StarHalf className="rating-stars" key={i}/>)
             }
             else if (i < round_rating){
-                result.push(<StarFill className="rating-stars"/>)
+                result.push(<StarFill className="rating-stars" key={i}/>)
             }
             else{
-                result.push(<Star className="rating-stars"/>)
+                result.push(<Star className="rating-stars" key={i}/>)
             }
         }
         return result
-    }
-
-    const update = () => {
-        
     }
 
     useEffect(() =>{
@@ -90,37 +86,38 @@ function RecipeCard({info}) {
                 console.log(xhr)
             }
         })
-    }, [info])
+    }, [info, id])
 
     return(
-        <Card className='recipe-card-wrapper' id={'Card-' + id + '-Home'}>
-            <div className="d-flex card-img-tag-wrapper">
+        <Card className='recipe-card-wrapper'>
+            <div className="card-img-tag-wrapper">
                 <Card.Img className="card-img" variant="top" src={img} alt={img.split('/').slice(-1)} />
                 <div className="tags-wrapper">
-                    <h5><span className={"badge d-flex tag " + difficulty.toLowerCase()}>{difficulty}</span></h5>
+                    <h5 className={"badge tag " + difficulty.toLowerCase()}>{difficulty}</h5>
                     {[cuisine, meal].map((item, index) =>{
                         if(item !== ''){
-                            return <h5><span className="badge d-flex tag" >{item}</span></h5>
+                            return <h5 className="badge tag" key={index}>{item}</h5>
                         }
+                        return null
                     })}
-                    {diet.split(',').map(diet_str => {
-                        return <h5><span className="badge d-flex tag" key={diet_str + ' tag for ' + name + ' (' + id + ')'}>{diet_str}</span></h5>
+                    {diet.split(',').map((diet_str, index) => {
+                        return <h5 className="badge tag" key={index}>{diet_str}</h5>
                     })}
                 </div>
             </div>
             <Card.Body>
-                    <div className="recipe-info-wrapper">
-                        <div className="rating-wrapper">
-                            {ratingStars(rating)}
-                        </div>
-                        <div className="cook-time-fav-wrapper text-no-overflow cutoff">
-                            <b>{cookTime}</b> <Stopwatch />
-                            &nbsp;&nbsp;&nbsp;
-                            <b>{favs}</b> <BookmarkFill />
-                        </div>
+                <div className="recipe-info-wrapper">
+                    <div className="rating-wrapper">
+                        {ratingStars(rating)}
                     </div>
-                    <h4 className="card-title text-no-overflow">{name}</h4>
-                    <i className="text-no-overflow">{chef}</i>
+                    <div className="cook-time-fav-wrapper text-no-overflow cutoff">
+                        <b>{cookTime}</b> <Stopwatch />
+                        &nbsp;&nbsp;&nbsp;
+                        <b>{favs}</b> <BookmarkFill />
+                    </div>
+                </div>
+                <h4 className="card-title text-no-overflow">{name}</h4>
+                <i className="text-no-overflow">{chef}</i>
             </Card.Body>
         </Card>
     );
