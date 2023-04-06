@@ -12,6 +12,8 @@ function Diet({selectedDiets, setSelectedDiets}) {
     { value: "5", label: 'None'}];
 
     const customStyles = {
+      menuPortal: base => ({ ...base, zIndex: 1 }),
+
       option: (defaultStyles, state) => ({
         ...defaultStyles,
         color: state.isSelected ? "#ffff" : "black",
@@ -77,6 +79,7 @@ function Diet({selectedDiets, setSelectedDiets}) {
           placeholder="Diet"
           onChange={setSelectedDiets}
           options={diet}
+          menuPortalTarget={document.body}
           styles={customStyles}
           isMulti
           isClearable

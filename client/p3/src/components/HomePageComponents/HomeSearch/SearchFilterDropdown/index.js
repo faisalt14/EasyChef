@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
-import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
+import Cuisine from '../../../Filters/Cuisine'
 import $ from 'jquery'
 
 function SearchFilterDropdown(props) {

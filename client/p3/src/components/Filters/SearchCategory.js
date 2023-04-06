@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Meal({selectedMeal, setSelectedMeal}) {
-  const meal = [
-    { value: "0", label: 'Breakfast' },
-    { value: "1", label: 'Lunch'},
-    { value: "2", label: 'Dinner' },
-    { value: "3", label: 'Desserts' },
-    { value: "4", label: 'Snacks' },
-    { value: "5", label: 'Other' }
+function SearchCategory({selectedCategory, setSelectedCategory}) {
+  const category = [
+    { value: "0", label: 'Recipe' },
+    { value: "1", label: 'Chef'},
+    { value: "2", label: 'Ingredients' },
     
   ];
 
@@ -77,15 +74,15 @@ function Meal({selectedMeal, setSelectedMeal}) {
 
   return (
         <Select
-          value={selectedMeal}
-          placeholder="Meal"
-          onChange={setSelectedMeal}
+          value={selectedCategory}
+          placeholder="Search By..."
+          onChange={setSelectedCategory}
           menuPortalTarget={document.body}
           styles={customStyles}
-          options={meal}
+          options={category}
           isClearable
           isSearchable
         />  )
 }
 
-export default Meal
+export default SearchCategory

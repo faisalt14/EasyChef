@@ -81,7 +81,7 @@ function RecipeCard({info}) {
                 setChef(xhr.chef)
                 setDifficulty(xhr.difficulty)
                 setMeal(xhr.meal)
-                setDiet(xhr.diet.split(',')[0])
+                setDiet(xhr.diet)
                 setCuisine(xhr.cuisine)
                 if (xhr.media[0]){
                     setImg(xhr.media[0].media)

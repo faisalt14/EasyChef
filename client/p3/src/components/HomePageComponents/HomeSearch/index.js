@@ -4,8 +4,18 @@ import './style.css'
 import Form from 'react-bootstrap/Form'
 import $ from 'jquery'
 import SearchFilterDropdown from './SearchFilterDropdown'
+import CookingTime from '../../Filters/CookingTime'
+import Cuisine from '../../Filters/Cuisine'
+import Diet from '../../Filters/Diet'
+import Meal from '../../Filters/Meal'
+import SearchCategory from '../../Filters/SearchCategory'
 
 function HomeSearch(props) {
+    const [selectedCookingTime, setSelectedCookingTime] = useState(0)
+    const [selectedCuisine, setSelectedCuisine] = useState(14)
+    const [selectedDiet, setSelectedDiet] = useState([])
+    const [selectedMeal, setSelectedMeal] = useState(6)
+    const [selectedCategory, setSelectedCategory] = useState(0)
 
     const update = () => {
     }
@@ -37,11 +47,21 @@ function HomeSearch(props) {
                 </div>
                 
                 <div className="home-search-filters-wrapper">
-                    <SearchFilterDropdown type='0'/>
-                    <SearchFilterDropdown type='1'/>
-                    <SearchFilterDropdown type='2'/>
-                    <SearchFilterDropdown type='3'/>
-                    <SearchFilterDropdown type='4'/>
+                    <div className="dropdown-wrapper">
+                        <SearchCategory selectedCookingTime={selectedCookingTime} setSelectedCategory={setSelectedCategory}/>
+                    </div>
+                    <div className="dropdown-wrapper">
+                        <CookingTime selectedCookingTime={selectedCookingTime} setSelectedCookingTime={setSelectedCookingTime}/>
+                    </div>
+                    <div className="dropdown-wrapper">
+                        <Cuisine selectedCuisine={selectedCuisine} setSelectedCuisine={setSelectedCuisine}/>
+                    </div>
+                    <div className="dropdown-wrapper">
+                        <Meal selectedMeal={selectedMeal} setSelectedMeal={setSelectedMeal}/>
+                    </div>
+                    <div className="dropdown-wrapper">
+                        <Diet selectedDiet={selectedDiet} setSelectedDiet={setSelectedDiet}/>
+                    </div>
                 </div>
 
             </Form>

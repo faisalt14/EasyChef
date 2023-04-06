@@ -10,6 +10,8 @@ function Difficulty({selectedDifficulty, setSelectedDifficulty}) {
   ];
 
   const customStyles = {
+    menuPortal: base => ({ ...base, zIndex: 1 }),
+
     option: (defaultStyles, state) => ({
       ...defaultStyles,
       color: state.isSelected ? "#ffff" : "black",
@@ -75,6 +77,7 @@ function Difficulty({selectedDifficulty, setSelectedDifficulty}) {
     placeholder="Difficulty"
     value={selectedDifficulty}
     onChange={setSelectedDifficulty}
+    menuPortalTarget={document.body}
     styles={customStyles}
   />
     )

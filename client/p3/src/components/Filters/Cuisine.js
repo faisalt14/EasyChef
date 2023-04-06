@@ -22,6 +22,8 @@ function Cuisine({selectedCuisine, setSelectedCuisine}) {
   ];
 
   const customStyles = {
+    menuPortal: base => ({ ...base, zIndex: 1 }),
+
     option: (defaultStyles, state) => ({
       ...defaultStyles,
       color: state.isSelected ? "#ffff" : "black",
@@ -87,6 +89,7 @@ function Cuisine({selectedCuisine, setSelectedCuisine}) {
           placeholder="Cuisine"
           onChange={setSelectedCuisine}
           options={cuisine}
+          menuPortalTarget={document.body}
           styles={customStyles}
           isClearable
           isSearchable

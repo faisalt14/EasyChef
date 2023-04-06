@@ -30,9 +30,9 @@ function RecipeCarousel(props) {
             <a className="nav-link btn" href="#">{category} <ArrowRight /></a>
           </div>
         <div className="recipe-carousel-cards">
-            {cardInfo.map(cardInfo => (
-                <RecipeCard info={cardInfo} />
-            ))}
+            {cardInfo.map(cardInfo => {
+                return <RecipeCard info={cardInfo} />
+            })}
         </div>
         </div>
     );
