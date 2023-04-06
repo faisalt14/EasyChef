@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
 import $ from 'jquery'
 import RecipeCarousel from '../RecipeCarousel'
-import HomeSearch from '../HomeSearch'
+import SearchHeader from '../../SearchHeader'
 
 function HomePage(props) {
     const [popular, setPopular] = useState([])
@@ -34,7 +34,7 @@ function HomePage(props) {
     return(
         <>
         <div>Navbar goes here</div>
-        <HomeSearch />
+        <SearchHeader />
         <div className='container-fluid carousel-table'>
             <div className='row'>
                 <div className='col recipe-col'> <RecipeCarousel category='0' cardInfo={breakfast} key='Breakfast_Carousel' /> </div>

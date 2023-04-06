@@ -78,6 +78,7 @@
 .card-title{
     font-size:'larger';
     margin-bottom: 0px;
+    line-height:normal;
 }
 
 .text-no-overflow{

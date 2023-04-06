@@ -1,8 +1,8 @@
-.home-search-wrapper{
+.search-wrapper{
     position:relative;
 }
 
-.home-search-bg{
+.search-bg{
     background-image: url('https://images.pexels.com/photos/1099680/pexels-photo-1099680.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
     background-size:100%;
     height:30vw;
@@ -13,7 +13,7 @@
     margin-bottom:50px;
 }
 
-.home-search-title{
+.search-title{
     text-align: center; 
     padding:50px; 
     position:absolute; 
@@ -26,7 +26,7 @@
     font-weight: 600
 }
 
-.home-search-bar-wrapper{
+.search-bar-wrapper{
     display:flex; 
     position:absolute; 
     top:50%; left:50%; 
@@ -35,10 +35,10 @@
     height:3.5rem;
 }
 
-.home-search-bar{
+.search-bar{
     width:50vw; 
 }
-.home-search-submit{
+.search-submit{
     width:10vw;
     min-width:120px;
     color:white; 
@@ -47,7 +47,7 @@
     border: 0px
 }
 
-.home-search-filters-wrapper{
+.search-filters-wrapper{
     display:flex; 
     position:absolute; 
     top:80%; 
@@ -55,7 +55,7 @@
     transform:translate(-50%, -50%);
 }
 
-.dropdown-wrapper{
+.search-dropdown-wrapper{
     margin-left:1.5em; 
     margin-right:1.5em; 
     width:15vw; 

@@ -28,6 +28,9 @@ function RecipeCard({info}) {
 
     function timeToStr(time){
         let cleanedTime = time.split(':')
+        if (parseInt(cleanedTime[2]) > 30){
+            cleanedTime[1] = parseInt(cleanedTime[1]) + 1
+        }
         let result = ''
         let timeUnits = ['h', 'm']
         timeUnits.forEach((item, index) => {
@@ -99,10 +102,10 @@ function RecipeCard({info}) {
     return(
         <Card className='recipe-card-wrapper' id={'Card-' + id + '-Home'}>
             <div className="d-flex card-img-tag-wrapper">
-                <Card.Img className="card-img" variant="top" src={img} alt="preview image" />
+                <Card.Img className="card-img" variant="top" src={img} alt={img.split('/').slice(-1)} />
                 <div className="tags-wrapper">
                     <h5><span className={"badge d-flex tag " + difficulty.toLowerCase()}>{difficulty}</span></h5>
-                    {[cuisine, meal].map(item =>{
+                    {[cuisine, meal].map((item, index) =>{
                         if(item !== ''){
                             return <h5><span className="badge d-flex tag" >{item}</span></h5>
                         }
@@ -120,7 +123,7 @@ function RecipeCard({info}) {
                         <div className="cook-time-fav-wrapper text-no-overflow cutoff">
                             <b>{cookTime}</b> <Stopwatch />
                             &nbsp;&nbsp;&nbsp;
-                            <b>{favs}</b> <BookmarkFill color="#0DE7E7"/>
+                            <b>{favs}</b> <BookmarkFill />
                         </div>
                     </div>
                     <h4 className="card-title text-no-overflow">{name}</h4>
