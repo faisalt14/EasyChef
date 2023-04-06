@@ -24,7 +24,7 @@ class UserDetailSerializer(serializers.ModelSerializer):
                                         last_name=validated_data.get('last_name', ''),
                                         phone_num=validated_data.get('phone_num', ''))
         user.save()
-        return Response({'message': 'success'}, status=200)
+        return user
 
 class UserDisplaySerializer(serializers.ModelSerializer):
     class Meta:
