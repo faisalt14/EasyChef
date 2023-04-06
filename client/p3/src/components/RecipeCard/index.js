@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
-import DefaultImage from '../../egg.jpg'
-import Button from 'react-bootstrap/Button'
+import DefaultImage from '../../Easy Chef Logo.png'
 import Card from 'react-bootstrap/Card'
-import { StarFill, Stopwatch, BookmarkFill } from 'react-bootstrap-icons'
+import { StarFill, StarHalf, Star, Stopwatch, BookmarkFill } from 'react-bootstrap-icons'
 import $ from 'jquery'
 
 function RecipeCard({info}) {
     const [id, setId] = useState(info.id)
     const [name, setName] = useState(info.name)
     const [chef, setChef] = useState(info.chef)
-    const [img, setImg] = useState(DefaultImage)
+    const [img, setImg] = useState(media_or_default(info.media))
     const [rating, setRating] = useState(info.avg_rating)
     const [difficulty, setDifficulty] = useState(info.difficulty)
     const [cuisine, setCuisine] = useState(info.cuisine)
     const [meal, setMeal] = useState(info.meal)
     const [diet, setDiet] = useState(info.diet)
     const [cookTime, setCookTime] = useState(timeToStr(info.cooking_time))
-    const [favs, setFavs] = useState(info.total_favs)
+    const [favs, setFavs] = useState(favShortener(parseInt(info.total_favs)))
+
+    function media_or_default(mediaArray){
+        if (mediaArray !== null){
+            return 'localhost:8000/' + mediaArray[0]
+        }
+        return DefaultImage
+    }
 
     function timeToStr(time){
         let cleanedTime = time.split(':')
@@ -27,49 +33,68 @@ function RecipeCard({info}) {
         timeUnits.forEach((item, index) => {
             result += cleanedTime[index] + item
         })
+        if (result[0] === "0"){
+            return result.substring(1)
+        }
         return result
     }
 
-    const update = () => {
-        $.ajax({
-            url: 'http://127.0.0.1:8000/' + id + '/details/',
-            method: 'Get',
-            success: function(xhr){
-                setId(xhr.data.id)
-                setName(xhr.data.name)
-                setChef(xhr.data.chef)
-                setDifficulty(xhr.data.difficulty)
-                setMeal(xhr.data.meal)
-                setDiet(xhr.data.diet.split(',')[0])
-                setCuisine(xhr.data.cuisine)
-                setCookTime(xhr.data.cooking_time)
-                setImg(xhr.data.media[0].media)
-                setRating(Math.round(xhr.data.avg_rating))
-                setCookTime(xhr.data.cooking_time)
-                setFavs(xhr.data.total_favs)
-            },
-            error: function(xhr){
-                console.log(xhr)
+    function favShortener(i){
+        if (i > 1000){
+            if (i > 1000000){
+                return (Math.round(i/100000) / 10) + "m"
             }
-        })
+            return (Math.round(i/100)/10) + "k"
+        }
+        return i
     }
 
     function ratingStars(rating) {
         let result = [];
+        let round_rating = Math.round(rating*2)/2
         for (let i = 0; i < 5; i++){
-            if (i < rating){
-                result.push(<StarFill className="rating-stars" color="#E47E20" />)
+            if (i < round_rating && 0.5 === (round_rating - i)){
+                result.push(<StarHalf className="rating-stars"/>)
+            }
+            else if (i < round_rating){
+                result.push(<StarFill className="rating-stars"/>)
             }
             else{
-                result.push(<StarFill className="rating-stars" />)
+                result.push(<Star className="rating-stars"/>)
             }
         }
         return result
     }
 
-    useEffect(() =>{
+    const update = () => {
+        
+    }
 
-    })
+    useEffect(() =>{
+        $.ajax({
+            url: 'http://127.0.0.1:8000/recipes/' + id + '/details/',
+            method: 'Get',
+            success: function(xhr){
+                //console.log(xhr)
+                setId(xhr.id)
+                setName(xhr.name)
+                setChef(xhr.chef)
+                setDifficulty(xhr.difficulty)
+                setMeal(xhr.meal)
+                setDiet(xhr.diet.split(',')[0])
+                setCuisine(xhr.cuisine)
+                if (xhr.media[0]){
+                    setImg(xhr.media[0].media)
+                }
+                setRating(xhr.avg_rating)
+                setCookTime(timeToStr(xhr.cooking_time))
+                setFavs(favShortener(parseInt(xhr.total_favs)))
+            },
+            error: function(xhr){
+                console.log(xhr)
+            }
+        })
+    }, [info])
 
     return(
         <Card className='recipe-card-wrapper' id={'Card-' + id + '-Home'}>
@@ -82,8 +107,8 @@ function RecipeCard({info}) {
                             return <h5><span className="badge d-flex tag" >{item}</span></h5>
                         }
                     })}
-                    {diet.split(',').map(diet => {
-                        return <h5><span className="badge d-flex tag" >{diet}</span></h5>
+                    {diet.split(',').map(diet_str => {
+                        return <h5><span className="badge d-flex tag" key={diet_str + ' tag for ' + name + ' (' + id + ')'}>{diet_str}</span></h5>
                     })}
                 </div>
             </div>
@@ -93,12 +118,9 @@ function RecipeCard({info}) {
                             {ratingStars(rating)}
                         </div>
                         <div className="cook-time-fav-wrapper text-no-overflow cutoff">
-                            <b>{cookTime}</b>
-                            <Stopwatch />
-                        </div>
-                        <div className="cook-time-fav-wrapper text-no-overflow cutoff">
-                            <b>{favs}</b>
-                            <BookmarkFill />
+                            <b>{cookTime}</b> <Stopwatch />
+                            &nbsp;&nbsp;&nbsp;
+                            <b>{favs}</b> <BookmarkFill color="#0DE7E7"/>
                         </div>
                     </div>
                     <h4 className="card-title text-no-overflow">{name}</h4>

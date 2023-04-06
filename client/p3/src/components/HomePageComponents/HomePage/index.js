@@ -16,7 +16,6 @@ function HomePage(props) {
     }
 
     useEffect(() => {
-        console.log("Loading Main Page")
         $.ajax({
             url: 'http://127.0.0.1:8000/recipes/',
             method: 'Get',
