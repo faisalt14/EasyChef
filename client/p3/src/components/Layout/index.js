@@ -22,7 +22,11 @@ const Layout = () => {
        
         <>
             <nav id="navbar">
-                <h3 id="logo">Logo</h3>
+
+                {/** Logo with link to home */}
+                <Link id="logo" to="/">                 
+                    <img src="https://www.linkpicture.com/q/Big-Bite-4.png" alt="react logo" style={{ width: '6rem', height: "5rem"}}/>
+                </Link>
 
                 {/* class name depends on whether the state isMobile or not */}
                 <ul 
