@@ -1,0 +1,178 @@
+/* Reference for navbar styling https://www.youtube.com/watch?v=P3W7MZ3JkyA*/ 
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #EFEEEE
+}
+
+
+.navbar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 6rem;
+    background-color: #FFFEFE;
+    color: white;
+}
+
+.logo{
+    font-size: 30px;
+    color: #E47E20;
+}
+
+.nav-links{
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    width: 75%;    
+    white-space: nowrap;
+}
+
+/* .nav-links a{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    color: #E47E20;
+} */
+
+/* .allRecipes, 
+.myRecipes, 
+.newRecipe, 
+.shoppingCart{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    color: white;
+} */
+
+.nav-item{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    color: white;
+    background-color: #E47E20;
+    border-radius: 5px;
+
+}
+
+
+.dropdownButton{
+    border: none;
+    background-color: #E47E20;
+    color: white;
+    font-size: 1.5rem;
+    padding: 5px 10px;
+    margin: 0px 10px;
+    border-radius: 5px;
+
+
+    text-decoration: none;
+    cursor: pointer;
+
+
+}
+
+.dropdown{
+    background-color: #E47E20;
+    border: none;
+}
+
+#accountLogo{
+    padding-top: 3px;
+}
+
+
+/* hide hamburger so it is not shown on larger screens */
+.mobile-menu-icon{
+    display: none;
+}
+
+/* css for smaller screens */
+
+@media screen and (max-width: 960px){
+    .logo{
+        display: flex;
+        position: absolute;
+        top: 15px;
+        left: 35px;
+    }
+
+    /* remove nav linkes on smaller screens */
+    .nav-links{
+        display: none;
+    }
+
+    .nav-links-mobile {
+        position: absolute;
+        display: block;
+        list-style: none;
+        background-color: #E47E20;
+        left: 0;
+        top: 75px;
+        transition: all 0.5s ease-out;
+        width: 100%;
+    }
+
+    /* .allRecipes, 
+    .myRecipes, 
+    .newRecipe, 
+    .shoppingCart{
+        color: white;
+        text-align: center;
+        padding: 32px; 
+        width: 100%;
+        transition: all 0.5s ease-out;
+        display: block;
+        
+    } */
+
+    .nav-item{
+        color: white;
+        text-align: center;
+        padding: 32px; 
+        width: 100%;
+        transition: all 0.5s ease-out;
+        display: block;
+    
+    }
+
+    .dropdownButton{
+        /* text-align: center;
+        padding: 32px; 
+        width: 100%;
+        display: block;
+        background-color: #E47E20;
+        color: #EFEEEE; */
+        display: none;
+
+    }
+
+    .mobile-menu-icon{
+        display: block;
+        position: absolute;
+        font-size: 30px;
+        color: white;
+        background-color: #E47E20;
+        border: none;
+        outline: none;
+        top: 15px; 
+        right: 25px;
+    }
+
+    
+}

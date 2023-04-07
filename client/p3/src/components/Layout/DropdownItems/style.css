@@ -1,0 +1,40 @@
+
+/*Reference for dropdown styling: https://www.youtube.com/watch?v=HE8jtK4FSZY&list=LL&index=1&t=1721s*/
+
+.submenu {
+    width: 10rem;
+    position: absolute;
+    list-style: none;
+    text-align: start;
+    top: 75px;
+}
+
+.submenu li {
+    background-color:  white;
+    cursor: pointer;
+}
+
+.submenu-clicked {
+    display: none;
+}
+
+.submenu-item {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: black;
+    padding: 16px;
+}
+
+.submenu-item:hover {
+    background-color: #dfd7d7;
+}
+
+/* 
+
+                <Link to="/" className="allRecipes"> All Recipes </Link>
+                <Link to="/" className="myRecipes"> My Recipes </Link>
+                <Link to="/" className="newRecipe"> Create New Recipe </Link>
+                <Link to="/" className="shoppingCart"> My Shopping List </Link>  
+ */
