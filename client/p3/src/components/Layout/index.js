@@ -21,8 +21,8 @@ const Layout = () => {
     return (
        
         <>
-            <nav className="navbar">
-                <h3 className="logo">Logo</h3>
+            <nav id="navbar">
+                <h3 id="logo">Logo</h3>
 
                 {/* class name depends on whether the state isMobile or not */}
                 <ul 
@@ -55,7 +55,7 @@ const Layout = () => {
 
 
                     {/* Add dropdown to navbar */}
-                    <button className="dropdownButton" 
+                    <button id="dropdownButton" 
                         onClick={() => setDropdown(!dropdown)}
 
                     > <FaUser id="accountLogo"/> </button>
@@ -65,10 +65,10 @@ const Layout = () => {
                 
                 {/* Collapased hamburger button */}
                 <button 
-                    className="mobile-menu-icon"
+                    id="mobile-menu-icon"
                     onClick={() => setIsMobile(!isMobile)}
                 >
-                    {isMobile ? <FaTimes/> : <FaBars/>}
+                    {isMobile ? <FaTimes className="collapseButton"/> : <FaBars className="collapseButton"/>}
 
                 </button>
 
