@@ -49,7 +49,7 @@ function RecipeCard({info}) {
         let result = [];
         let round_rating = Math.round(rating*2)/2
         for (let i = 0; i < 5; i++){
-            if (i < round_rating && 0.5 === (round_rating - i)){
+            if (0.5 === (round_rating - i)){
                 result.push(<StarHalf className="rating-stars" key={i}/>)
             }
             else if (i < round_rating){

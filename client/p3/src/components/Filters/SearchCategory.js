@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function SearchCategory({selectedCategory, setSelectedCategory}) {
+function SearchCategory({selectedCategory, setSelectedCategory, fontSize, height}) {
   const category = [
     { value: "0", label: 'Recipe' },
     { value: "1", label: 'Chef'},
     { value: "2", label: 'Ingredients' },
     
   ];
+  const newFontSize = (fontSize ? fontSize : "1rem")
+  const newHeight = (height ? height : "56px")
 
   const customStyles = {
     menuPortal: base => ({ ...base, zIndex: 1 }),
@@ -17,16 +19,19 @@ function SearchCategory({selectedCategory, setSelectedCategory}) {
       ...defaultStyles,
       color: state.isSelected ? "#ffff" : "black",
       backgroundColor: state.isSelected ? "#04B4B4" : "#fff",
-      fontSize: "1rem", // increase font size
+      fontSize: newFontSize, // increase font size
     }),
 
     control: (defaultStyles) => ({
       ...defaultStyles,
       backgroundColor: "#04B4B4",
       padding: "10px",
-      fontSize: "1rem", // increase font size
+      fontSize: newFontSize, // increase font size
+      height: newHeight,
       border: "none",
       boxShadow: "none",
+      padding: 0,
+      paddingTop: '0px'
 
     }),
     singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#fff",     fontSize: "1rem", // increase font size

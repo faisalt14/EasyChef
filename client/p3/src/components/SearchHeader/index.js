@@ -52,25 +52,25 @@ function SearchHeader(props) {
                 Search for Recipes
             </h1>
             <div className="search-bar-wrapper">
-                <input className="search-bar" type="text" id="searchBar" name="search" onKeyUp={handleKeyPress} ></input>
+                <input className="search-bar" type="text" id="searchBar" name="search" onKeyUp={handleKeyPress} placeholder="Enter your query..."></input>
                 <input className="search-submit" type="button" value="Search" onClick={() => {searchAjax()}}></input>
             </div>
             
             <div className="search-filters-wrapper">
                 <div className="search-dropdown-wrapper">
-                    <SearchCategory selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory}/>
+                    <SearchCategory selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
                 </div>
                 <div className="search-dropdown-wrapper">
-                    <CookingTime selectedCookingTime={selectedCookingTime} setSelectedCookingTime={setSelectedCookingTime}/>
+                    <CookingTime selectedCookingTime={selectedCookingTime} setSelectedCookingTime={setSelectedCookingTime} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
                 </div>
                 <div className="search-dropdown-wrapper">
-                    <Cuisine selectedCuisine={selectedCuisine} setSelectedCuisine={setSelectedCuisine}/>
+                    <Cuisine selectedCuisine={selectedCuisine} setSelectedCuisine={setSelectedCuisine} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
                 </div>
                 <div className="search-dropdown-wrapper">
-                    <Meal selectedMeal={selectedMeal} setSelectedMeal={setSelectedMeal}/>
+                    <Meal selectedMeal={selectedMeal} setSelectedMeal={setSelectedMeal} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
                 </div>
                 <div className="search-dropdown-wrapper">
-                    <Diet selectedDiets={selectedDiets} setSelectedDiets={setSelectedDiets}/>
+                    <Diet selectedDiets={selectedDiets} setSelectedDiets={setSelectedDiets} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
                 </div>
             </div>
         </div>
