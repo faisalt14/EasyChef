@@ -1,10 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import RecipeDetailView from './pages/RecipeDetailPage/RecipeDetailView';
 import CreateForm from './pages/CreateRecipePage/CreateForm';
 
 function App() {
   return (
-    <CreateForm/>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/recipes/:recipe_id/details" element={<RecipeDetailView />} />
+          <Route path="/recipes/create-recipe" element={<CreateForm />} />
+          {/* Add other routes here as needed */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

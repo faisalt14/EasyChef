@@ -3,18 +3,21 @@ import './CreateForm.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RecipeFilters from '../../components/CreateRecipe/RecipeFilters';
 import UploadImage from '../../components/CreateRecipe/UploadImage';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PrepCookTime from '../../components/CreateRecipe/PrepCookTime';
 import axios from 'axios';
 import Ingredients from '../../components/CreateRecipe/Ingredients';
 import AddStep from '../../components/CreateRecipe/AddStep';
+import { useNavigate  } from 'react-router-dom';
+
 
 const baseURL = "http://127.0.0.1:8000/recipes/create-recipe/";
 
 
 function CreateForm() {
   const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgwOTUwOTIxLCJpYXQiOjE2ODA5NDczMjEsImp0aSI6IjYxNjhmN2FiN2QwMzRhNzY5YjVlYzM5MDk2ZTQ1NjI1IiwidXNlcl9pZCI6MX0.ddB7-1pcGdjmtBoorNIBXnJ9WgQg1BSHAV2e-Zp3Dio";
+  const navigate = useNavigate();
 
   const [post, setPost] = useState(null);
   const [selectedName, setName] = useState('');
@@ -277,6 +280,8 @@ useEffect(() => {
       toast.success('Recipe created successfully');
       setPost(response.data);
       resetForm();
+      navigate(`/recipes/${response.data.id}/details`);
+
     }).catch(error => {
       console.log(error.response.data);
     });
