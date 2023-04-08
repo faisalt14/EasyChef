@@ -51,7 +51,7 @@
 .search-filters-wrapper{
     display:flex; 
     position:absolute; 
-    top:75%; 
+    top:70%; 
     left:50%; 
     transform:translate(-50%, -50%);
 }
@@ -61,4 +61,12 @@
     margin-right:1em; 
     width:15vw;  
     border:0px;
+}
+
+.diet-filter-wrapper{
+    display:flex; 
+    position:absolute; 
+    top:90%; 
+    left:50%; 
+    transform:translate(-50%, -50%);
 }

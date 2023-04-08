@@ -69,8 +69,10 @@ function SearchHeader(props) {
                 <div className="search-dropdown-wrapper">
                     <Meal selectedMeal={selectedMeal} setSelectedMeal={setSelectedMeal} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
                 </div>
-                <div className="search-dropdown-wrapper">
-                    <Diet selectedDiets={selectedDiets} setSelectedDiets={setSelectedDiets} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
+            </div>
+            <div className="diet-filter-wrapper">
+                <div >
+                    <Diet selectedDiets={selectedDiets} setSelectedDiets={setSelectedDiets} fontSize='calc(0.5rem + 0.5vw)' height='calc(2*calc(1rem + 1vw))'/>
                 </div>
             </div>
         </div>

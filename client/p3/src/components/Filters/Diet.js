@@ -12,11 +12,12 @@ function Diet({selectedDiets, setSelectedDiets, fontSize, height}) {
     { value: "5", label: 'None'}];
     
     const newFontSize = (fontSize ? fontSize : "1rem")
-    const newHeight = (height ? 'calc(2*' + height + ')': "56px")
+    const newHeight = (height ? height : "56px")
 
     const customStyles = {
       valueContainer: base => ({
         ...base,
+        maxWidth: '90vw',
         maxHeight: newHeight,
         overflowY: "Scroll",
         "::-webkit-scrollbar": {
