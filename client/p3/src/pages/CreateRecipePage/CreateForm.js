@@ -289,11 +289,11 @@ useEffect(() => {
           <h2 className='mt-2' style={{fontWeight:"550"}}>Create a Recipe</h2>
         </div>
         <hr />
-        {/* <div className="col-12" style={{ backgroundColor: '#efeeee' }}>
+        <div className="col-12 mb-5" style={{ backgroundColor: '#efeeee' }}>
           <p className="lead fw-normal" style={{ fontSize: '22px', color: '#656767', textAlign: 'center' }}>
             Create your own recipe here! Show off your culinary skills and share your masterpiece with the world.
           </p>
-        </div> */}
+        </div>
       </div>
     </div>
 
@@ -449,7 +449,7 @@ useEffect(() => {
              </div>
 )}
         <div className="col-12 text-center mt-4">
-          <button type="submit" className="btn btn-lg" onClick={handleSubmit} style={{backgroundColor: "#E47E20", color: "white", fontWeight: '500'
+          <button type="submit" className="btn btn-lg" onClick={handleSubmit} style={{backgroundColor: "#E47E20", color: "white", fontWeight: '550'
 }}>
           Post to Easy Chef!
         
