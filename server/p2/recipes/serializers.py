@@ -20,6 +20,10 @@ class StepMediaSerializer(serializers.ModelSerializer):
             'step_id': {'required': False}
 
         }
+    def create(self, validated_data):
+        print("Validated data:", validated_data)  # Add this line
+        instance = StepMediaModel.objects.create(**validated_data)
+        return instance
 
 class DurationField(serializers.Field):
     def to_representation(self, value):
@@ -277,7 +281,8 @@ class RecipesSerializer(serializers.ModelSerializer):
 
         if rep['diet']:
             int_values = [int(x) for x in rep['diet'].split(',') if x.strip()]
-            str_values = [self.diet_choices.get(x) for x in int_values]
+            str_values = [self.diet_choices.get(x) for x in int_values if self.diet_choices.get(x) is not None]
+            print(str_values)
             rep['diet'] = ', '.join(str_values)
 
         return rep

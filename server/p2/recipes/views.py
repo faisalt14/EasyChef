@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, FormParser
 from django.db import transaction
 
 from recipes.models import RecipeModel, IngredientModel, StepModel, StepMediaModel, RecipeMediaModel, InteractionModel, ReviewMediaModel
@@ -421,7 +421,8 @@ class CreateStepView(CreateAPIView):
     @transaction.atomic
     def create(self, request, *args, **kwargs):
         print('reuqest', request.data)
-        media_list = request.data.get('media', '')  # extract media IDs from the request data
+        media_list = ', '.join(map(str, request.data.get('media', [])))
+        print('media list', media_list)
         if media_list:
             media_list = [int(x.strip()) for x in media_list.split(",")]
 
@@ -443,8 +444,10 @@ class CreateStepView(CreateAPIView):
         # Associate the media objects with the step
         media_objects = []
         for media_id in media_list:
+            print('here')
             media = get_object_or_404(StepMediaModel, id=media_id)
             media.step_id = step
+            media.save()
             media_objects.append(media)
         # if media_list:
         #     StepMediaModel.objects.bulk_update(media_objects, ['step_id'])
@@ -467,8 +470,16 @@ class AddRecipeMedia(CreateAPIView):
 class AddStepMedia(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = StepMediaSerializer
-    parser_classes = [MultiPartParser]  # Add this line
+    parser_classes = [MultiPartParser, FormParser]  # Add this line
 
+    def create(self, request, *args, **kwargs):
+        print("Request data:", request.data)  # Add this line
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        print("Serializer valid:", serializer.is_valid())  # Add this line
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class CreateIngredientView(CreateAPIView):
     permission_classes = [IsAuthenticated]

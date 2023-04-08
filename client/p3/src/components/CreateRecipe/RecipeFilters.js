@@ -69,7 +69,7 @@ const diet = [
     placeholder: (defaultStyles) => ({
       ...defaultStyles,
       color: "#fff",
-      fontWeight: "500",
+      fontWeight: "550",
       fontSize: "1rem", // increase font size
       width: "7.2rem",
     }),

@@ -59,7 +59,6 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
   const handleRemove = (ingredient) => {
     // Split the ingredient string to extract the name
     const name = ingredient.split(' ').pop();
-    console.log(name);
     // Find the corresponding option based on the name
     const option = options.find(o => o.name.toLowerCase() === name.toLowerCase());
   
@@ -81,10 +80,10 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
     <>
     <div className="mt-2 row-12" style={{width: "50%", marginLeft: "32px"}}>
       
-      <h3 className='mb-3' >              <span className="required" style={{color: "red"}}>* </span>
+      <h3 className='mb-3' >  <span className="required" style={{color: "red"}}>* </span>
  List of Ingredients</h3>
       {ingredients.length > 0 && (
-    <div className="ing" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px', width: "88%"}}>
+    <div className="ing ms-3" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px', width: "88%"}}>
     {ingredients.map((ingredient, index) => (
       <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
         <i style={{ maxWidth: '2rem', fontSize: '10px', color: '#04B4B4', cursor: 'pointer' }} className="bi bi-circle-fill"></i>
@@ -92,14 +91,14 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
           {ingredient.split(' ').slice(0, 2).join(' ')}
           <span style={{ fontWeight: '600' }}> {ingredient.split(' ').slice(2).join(' ')}</span>
         </p>
-        <button onClick={() => handleRemove(ingredient)} style={{ marginLeft: 'auto', borderRadius: '2px', cursor: 'pointer', border: 'none', backgroundColor: '#E47E20', color: 'white', padding: '5px 10px', fontSize: '16px' }}>Remove</button>
+        <button onClick={() => handleRemove(ingredient)} style={{ marginLeft: 'auto', borderRadius: '5px', cursor: 'pointer', border: 'none', backgroundColor: '#E47E20', color: 'white', padding: '5px 10px', fontSize: '16px' }}>Remove</button>
       </div>
     ))}
   </div>
       )}
-      <div className="row" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px',  borderRadius:"10px" }}>
+      <div className="row ms-2 mb-5" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px',  borderRadius:"10px" }}>
           <div className='col-3'>
-            <label style={{fontWeight:"500"}}>Ingredient</label>
+            <label className='mb-2' style={{fontWeight:"500", fontSize:"18px"}}>Ingredient</label>
             <Select
               type="text" 
               options={options}
@@ -112,7 +111,7 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
 
           </div>
           <div className='col-3'>
-            <label style={{fontWeight:"500"}}>Quantity</label>
+            <label className='mb-2' style={{fontWeight:"500", fontSize:"18px"}}>Quantity</label>
             <input
               className="form-control"
 
@@ -128,7 +127,7 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
           </div>
           <div className='col-3'>
 
-            <label style={{fontWeight:"500"}}>Unit</label>
+            <label className='mb-2' style={{fontWeight:"500", fontSize:"18px"}}>Unit</label>
             <Select
               type="text" 
               value={unit}
@@ -141,17 +140,23 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
 
             <div className='col-3 mt-4' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
-            <button type="button" className="btn"
-                      style={{backgroundColor: "#04b4b4", color: "white", fontWeight: '500'}}
+            <button type="button" className="btn mt-2"
+                      style={{backgroundColor: "#04b4b4", color: "white", fontWeight: '500', fontSize:'18px'}}
                       onClick={handleSubmit}>Add Ingredient</button>
             </div>
             {errorMessage1 && (
-        <div className="alert alert-danger ms-3" role="alert" style={{width: "45%"}}>
-          {errorMessage1}
-          <CloseButton style={{marginLeft: "20px"}} onClick={() => setErrorMessage1('')}/>
-
-        </div>
-      )}
+  <div
+    className="alert alert-danger ms-3"
+    role="alert"
+    style={{ width: "60%", display: "flex", alignItems: "center" }}
+  >
+    {errorMessage1}
+    <CloseButton
+      style={{ marginLeft: "20px" }}
+      onClick={() => setErrorMessage1("")}
+    />
+  </div>
+)}
 
       </div>
     </div>

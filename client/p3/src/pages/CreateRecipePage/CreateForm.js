@@ -14,7 +14,7 @@ const baseURL = "http://127.0.0.1:8000/recipes/create-recipe/";
 
 
 function CreateForm() {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgwODIxODk3LCJpYXQiOjE2ODA4MTgyOTcsImp0aSI6ImY5MDJmYmMyYTgxODQ5YWRhMDc2Yzc1OTg4Zjc3NmUyIiwidXNlcl9pZCI6Mn0.rw8-_C_WjsIHt97B_W8oufxFYbfxWaU8iR8YzdDs74A";
+  const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgwOTUwOTIxLCJpYXQiOjE2ODA5NDczMjEsImp0aSI6IjYxNjhmN2FiN2QwMzRhNzY5YjVlYzM5MDk2ZTQ1NjI1IiwidXNlcl9pZCI6MX0.ddB7-1pcGdjmtBoorNIBXnJ9WgQg1BSHAV2e-Zp3Dio";
 
   const [post, setPost] = useState(null);
   const [selectedName, setName] = useState('');
@@ -45,15 +45,14 @@ function CreateForm() {
   const [hasTypedServings, setHasTypedServings] = useState(false);
   const [hasAddedIngredients, setHasAddedIngredients] = useState(false);
   const [hasAddedSteps, setHasAddedSteps] = useState(false);
-  
+  const [reset, setReset] = useState(false);
+
 useEffect(() => {
   if (selectedCuisine !== "" && selectedDiets.length > 0) {
     setErrorMessageFilters("");
     setDisplayFiltersError(false);
   }
-}, [selectedCuisine, selectedDiets]);
 
-useEffect(() => {
   if (selectSteps.length > 0) {
     setHasAddedSteps(true);
     setErrorMessageSteps("");
@@ -89,7 +88,7 @@ useEffect(() => {
     setHasTypedName(false);
   }
 
-}, [selectSteps, selectedServings, ingredient_dic, selectedName, selectedPrepTime, selectedCookTime]);
+}, [selectSteps, selectedServings, ingredient_dic, selectedName, selectedPrepTime, selectedCookTime, selectedCuisine, selectedDiets]);
 
   // make a post request for recipes. use a post request to iterate over selectedImages and send post request
   // then put them in a string for final request
@@ -106,8 +105,10 @@ useEffect(() => {
     setCookTime("00:00:00");
   }
 
-  function handleSubmit() {
+  function handleSubmit(event) {
     // Reset error messages on every submit
+    event.preventDefault();
+  
     setErrorMessageName("");
     setErrorMessageFilters("");
     setErrorMessagePrep("");
@@ -116,34 +117,45 @@ useEffect(() => {
     setErrorMessageSteps("");
     setDisplayFiltersError(false);
   
+    let hasErrors = false;
+  
     if (selectedName === "") {
       setErrorMessageName("Recipe Name is required");
+      hasErrors = true;
     }
   
     if (selectedPrepTime === "00:00:00" || selectedCookTime === "00:00:00") {
       setErrorMessagePrep("Recipe Prep time and Recipe Cooking time are required");
+      hasErrors = true;
     }
   
     if (selectedCuisine === "" || selectedDiets.length === 0) {
       setErrorMessageFilters("Cuisine and Diet are required");
       // Set displayFiltersError to true when the error occurs
       setDisplayFiltersError(true);
+      hasErrors = true;
     }
   
     if (selectSteps.length === 0) {
       setErrorMessageSteps("At least 1 Step is required");
+      hasErrors = true;
     }
   
     if (Object.keys(ingredient_dic).length === 0) {
       setErrorMessageIngredients("At least 1 Ingredient is required");
+      hasErrors = true;
     }
   
     if (selectedServings === 0) {
       setErrorMessageServing("Servings are required");
-    } else {
+      hasErrors = true;
+    }
+  
+    if (!hasErrors) {
       createPost();
     }
   }
+  
   
   
   async function createPost() {
@@ -163,6 +175,7 @@ useEffect(() => {
           },
         }).catch(error => {
           console.log(error.response.data);
+          return { failed: true };
         });
       });
   
@@ -179,29 +192,29 @@ useEffect(() => {
   
       const sendPostRequests = async () => {
         for (const step of selectSteps) {
-          let stepMediaIds = '';
-  
+          let stepMediaIds = [];
+        
           if (step.images.length !== 0) {
-            const stepMediaPromises = step.images.map(async (image) => {
-              const objectUrl = URL.createObjectURL(image);
-              const filename = image.name;
-              const type = image.type;
-              const convertedFile = await fetch(objectUrl)
-                .then((response) => response.arrayBuffer())
-                .then((buffer) => new File([buffer], filename, { type }));
-              return axios.post('http://127.0.0.1:8000/recipes/steps/create/media/', { media: convertedFile }, {
+            const stepMediaPromises = step.images.map(async (image) => {        
+              // Create a FormData object
+              const formData = new FormData();
+              formData.append('media', image);
+        
+              return axios.post('http://127.0.0.1:8000/recipes/steps/create/media/', formData, {
                 headers: {
                   'Content-Type': 'multipart/form-data',
                   'Authorization': `Bearer ${token}`,
                 },
               }).catch(error => {
                 console.log(error.response.data);
+                return { failed: true };
               });
             });
+        
   
             const mediaResponses = await Promise.all(stepMediaPromises);
   
-            stepMediaIds = mediaResponses.map((response) => response.data.id).join(', ');
+            stepMediaIds = mediaResponses.map((response) => response.data.id);
           }
   
           const stepResponse = await axios.post('http://127.0.0.1:8000/recipes/steps/create/', {
@@ -219,6 +232,8 @@ useEffect(() => {
             return response;
           }).catch(error => {
             console.log(error.response.data);
+            return { failed: true };
+
           });
     
           stepIds.push(stepResponse.data.id);
@@ -257,6 +272,7 @@ useEffect(() => {
         'Authorization': `Bearer ${token}`,
       },
     }).then((response) => {
+      setReset(true);
       console.log('Recipe created successfully:', response.data);
       toast.success('Recipe created successfully');
       setPost(response.data);
@@ -269,20 +285,37 @@ useEffect(() => {
     <>
     <div className="container-fluid">
       <div className="row">
-        <div className="col-sm-12" style={{ height: '3.5em', backgroundColor: '#E47E20', color: '#FFFFFF', paddingTop: '0.5rem', textAlign: 'center', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset' }}>
-          <h2>Create a Recipe</h2>
+        <div className="col-sm-12" style={{ height: '5em', backgroundColor: '#E47E20', color: '#FFFFFF', paddingTop: '0.5rem', textAlign: 'center', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset' }}>
+          <h2 className='mt-2' style={{fontWeight:"550"}}>Create a Recipe</h2>
         </div>
         <hr />
-        <div className="col-12" style={{ backgroundColor: '#efeeee' }}>
+        {/* <div className="col-12" style={{ backgroundColor: '#efeeee' }}>
           <p className="lead fw-normal" style={{ fontSize: '22px', color: '#656767', textAlign: 'center' }}>
             Create your own recipe here! Show off your culinary skills and share your masterpiece with the world.
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
 
-    <form className="container-fluid recipe-form" style={{backgroundColor: "#efeeee"}} method="POST" encType="multipart/form-data">
-      <div className="row mx-auto my-5">
+    <form className="ms-2 container-fluid recipe-form" style={{backgroundColor: "#efeeee"}} method="POST" encType="multipart/form-data">
+    <div className='ms-5 mt-3' style={{ backgroundColor: "#04a5a5", padding: "1rem", borderRadius: "5px", width:"50%"}}>
+  <h2 style={{ color: "white", fontWeight: "550", marginBottom: "0.5rem" }}>
+    1. Recipe Basics
+  </h2>
+  <p
+    className="mt-2 lead fw-normal"
+    style={{
+      fontSize: "19px",
+      color: "#F9F9F9",
+      width: "100%",
+      marginLeft: "0.5rem",
+    }}
+  >
+    Let's get cookin'! Start by filling in your recipe's basic info.
+  </p>
+</div>
+
+      <div className="row mx-auto my-5 ms-4">
         <div className="col-md-6">
         {(errorMessageName && hasTypedName===false) && (
               <div className="ms-4 alert alert-danger" role="alert" style={{margin:0, width: "30%"}}>
@@ -343,7 +376,7 @@ useEffect(() => {
                 {errorMessageServing}
               </div>
             )}
-        <div className="row mb-3 ms-3">
+        <div className="row mb-5 ms-3">
           <label htmlFor="number-of-servings" className="col-3 form-label" style={{ fontSize: "18px", width:"30%" }}>
           <span className="required" style={{color: "red"}}>* </span>
 
@@ -363,14 +396,31 @@ useEffect(() => {
               style={{ width: "90px" }}
             />
           </div>
-        </div>
 
+        </div>
+        <div className='ms-4 mt-4' style={{ backgroundColor: "#04a5a5", padding: "1rem", borderRadius: "5px", width:"122%"}}>
+  <h2 style={{ color: "white", fontWeight: "550", marginBottom: "0.5rem" }}>
+  2. Recipe Ingredients
+    </h2>
+  <p
+    className="mt-2 lead fw-normal"
+    style={{
+      fontSize: "19px",
+      color: "#F9F9F9",
+      width: "100%",
+      marginLeft: "0.5rem",
+    }}
+  >
+        Adding ingredients is easy! Just list them one by one, with the quantity and unit of measurement.  </p>
+</div>
           </div>
         </div>
 
         <div className="col-md-6">
           <div className="row justify-content-center">
-            <UploadImage selectImages={selectImages} setImages={setImages} image_name="Recipe" />
+            <UploadImage selectImages={selectImages} setImages={setImages} image_name="Recipe"               
+              reset={reset}
+              setReset={setReset} />
           </div>
         </div>
         {(errorMessageIngredients && !hasAddedIngredients) && (
@@ -380,22 +430,24 @@ useEffect(() => {
                 </div>
              </div>
 )}
+
         <Ingredients setIngredient_dic={setIngredient_dic} ingredient_dic={ingredient_dic} onIngredientAdded={() => setHasAddedIngredients(true)}/>
         <br/>
 
-        {(errorMessageSteps && !hasAddedSteps) && (
-              <div className="mt-4 ms-1 row" style={{width:"100%"}}>
-                <div className="ms-4 mt-3 alert alert-danger" role="alert" style={{width:"15%"}}>
-                {errorMessageSteps}
-                </div>
-             </div>
-)}
+
         <AddStep 
         selectSteps={selectSteps}
         setSelectedSteps={setSelectedSteps}
         onStepAdded={() => setHasAddedSteps(true)}
          />
 
+{(errorMessageSteps && !hasAddedSteps) && (
+              <div className="ms-3 row" style={{width:"100%"}}>
+                <div className="ms-4 mt-3 alert alert-danger" role="alert" style={{width:"15%"}}>
+                {errorMessageSteps}
+                </div>
+             </div>
+)}
         <div className="col-12 text-center mt-4">
           <button type="submit" className="btn btn-lg" onClick={handleSubmit} style={{backgroundColor: "#E47E20", color: "white", fontWeight: '500'
 }}>
