@@ -5,8 +5,9 @@ import "./style.css"
 import {FaBars, FaTimes, FaUser} from "react-icons/fa"; 
 import Select from 'react-select'; 
 import { navItems } from "./NavItems/items";
-import Dropdown from "./DropdownItems";
 import { useRef } from 'react';
+import NotLoggedInDropdown from "./Dropdown/NotLoggedIn";
+import LoggedInDropdown from "./Dropdown/LoggedIn";
 {/*Reference for using react-icons: https://www.youtube.com/watch?v=amf18mxNX18&t=331s  */}
 
 
@@ -15,6 +16,7 @@ const Layout = () => {
 
     const [isMobile, setIsMobile] = useState(false);
     const [dropdown, setDropdown] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);  
 
 
 
@@ -63,7 +65,12 @@ const Layout = () => {
                         onClick={() => setDropdown(!dropdown)}
 
                     > <FaUser id="accountLogo"/> </button>
-                    {dropdown && <Dropdown />}
+                    { /* {dropdown && <NotLoggedInDropdown />}  */  }
+
+                    { /* {(dropdown && loggedIn) ? (< LoggedInDropdown />) : (< NotLoggedInDropdown/>)} */}
+
+                    { loggedIn ? (dropdown && <LoggedInDropdown/>) :  (dropdown && <NotLoggedInDropdown />)}
+                    
 
                 </ul>
                 

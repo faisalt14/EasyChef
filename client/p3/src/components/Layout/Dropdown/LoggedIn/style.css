@@ -11,6 +11,7 @@
 .submenu li {
     background-color:  white;
     cursor: pointer;
+    /* text-align: center; */
 }
 
 .submenu-clicked {

@@ -1,4 +1,5 @@
-export const accountsDropDown = [
+{/** Drop down for logged in user */}
+export const signedInDropDown = [
     {
         id: 1, 
         title: 'View Profile',
@@ -18,3 +19,6 @@ export const accountsDropDown = [
         Cname: 'submenu-item'
     }
 ]
+
+
+

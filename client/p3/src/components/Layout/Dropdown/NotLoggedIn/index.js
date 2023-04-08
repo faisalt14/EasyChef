@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { accountsDropDown } from "./items";
+import { nonSignedInDropdown } from "./items";
 import { Link } from "react-router-dom";
 import "./style.css";
 
 /*Reference for dropdown: https://www.youtube.com/watch?v=HE8jtK4FSZY&list=LL&index=1&t=1721s*/
-const Dropdown = () => {
+const NotLoggedInDropdown = () => {
 
     const [dropdown, setDropdown] = useState(false);
 
     return (
         <>
             <ul className={ dropdown ? "submenu-clicked" : "submenu"} onClick={() => setDropdown(!dropdown)}>
-                {accountsDropDown.map( item => {
+                {nonSignedInDropdown.map( item => {
                     return (
                         <li key={item.id}>
                             <Link
@@ -29,4 +29,4 @@ const Dropdown = () => {
     )
 }
 
-export default Dropdown;
+export default NotLoggedInDropdown;
