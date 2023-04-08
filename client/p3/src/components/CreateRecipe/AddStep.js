@@ -156,90 +156,102 @@ function AddStep({ selectSteps, setSelectedSteps }) {
     </button>
             </div>
             <div className="row ms-2">
-              <div
-                key={index}
-                className="mb-2 col-6 ms-2"
-                style={{
-                  backgroundColor: 'white',
-                  boxShadow:
-                    'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
-                  padding: '20px',
-                  maxHeight: '200px',
-                  borderRadius: '8px',
-                  overflow: 'auto',
-                }}
-              >
-                <p style={{ fontSize: '17px', position: 'absolute' }}>
-                  {step.description}
-                </p>
-              </div>
-              <div className="col-4 ms-4">
-                <div
-                  className="mt-4 d-flex"
-                  style={{ margin: 0, padding: 0 }}
-                >
-                  {step.images.map((image, index) => (
-                    <div
-                      key={index}
-                      className="mb-3"
-                      style={{ flexBasis: 'calc(100% / 3)', marginRight: '4px' }}
-                    >
-                      <Zoom>
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt="step"
-                        style={{ width: '100%' }}
-                      />
-                      </Zoom>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className='ms-2 me-2'
-                  style={{
-                    fontWeight: '600',
-                    color: 'white',
-                    backgroundColor: '#04b4b4',
-                    padding: '5px',
-                    paddingRight: 0, 
-                    marginRight: 0,
-                    borderRadius: '5px',
-                    marginBottom: '0.5rem',
-                    width: '15%',
-                  }}
-                >
-                  Cook time: {step.cookTime.split(':')[0]} hrs{' '}
-                  {step.cookTime.split(':')[1]} mins
-                </div>
-                <div
-                  style={{
-                    fontWeight: '600',
-                    color: 'white',
-                    backgroundColor: '#04b4b4',
-                    padding: '5px',
-                    borderRadius: '5px',
-                    marginBottom: '0.5rem',
-                    width: '14%',
-                  }}
-                >
-                  Prep time: {step.prepTime.split(':')[0]} hrs{' '}
-                  {step.prepTime.split(':')[1]} mins
-                </div>
-                <div className='ms-2'
-                  style={{
-                    fontWeight: '600',
-                    color: 'white',
-                    backgroundColor: '#04b4b4',
-                    padding: '5px',
-                    borderRadius: '5px',
-                    marginBottom: '0.5rem',
-                    width: '14%',
-                  }}
-                >
-                  Total time: {calculateTotalTime(step.prepTime, step.cookTime).split(':')[0]} hrs{' '}
-                  {calculateTotalTime(step.prepTime, step.cookTime).split(':')[1]} mins
-                </div>
-            </div>
+  <div className="col-md-6 col-12">
+    <div
+      key={index}
+      className="mb-2"
+      style={{
+        backgroundColor: 'white',
+        boxShadow:
+          'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+        padding: '20px',
+        borderRadius: '8px',
+        overflow: 'auto',
+      }}
+    >
+      <p style={{ fontSize: '17px' }}>{step.description}</p>
+    </div>
+    <div className="d-flex flex-wrap" style={{ justifyContent: "flex-start" }}>
+  <div
+    className="me-2"
+    style={{
+      fontWeight: "600",
+      color: "white",
+      backgroundColor: "#04b4b4",
+      padding: "5px",
+      paddingLeft: "8px",
+      paddingRight: "8px",
+      borderRadius: "5px",
+      marginBottom: "0.5rem",
+    }}
+  >
+    Cook time: {step.cookTime.split(":")[0]} hrs{" "}
+    {step.cookTime.split(":")[1]} mins
+  </div>
+  <div
+      className="me-2"
+
+    style={{
+      fontWeight: "600",
+      color: "white",
+      backgroundColor: "#04b4b4",
+      padding: "5px",
+      paddingLeft: "8px",
+      paddingRight: "8px",
+      borderRadius: "5px",
+      marginBottom: "0.5rem",
+    }}
+  >
+    Prep time: {step.prepTime.split(":")[0]} hrs{" "}
+    {step.prepTime.split(":")[1]} mins
+  </div>
+  <div
+
+    style={{
+      fontWeight: "600",
+      color: "white",
+      backgroundColor: "#04b4b4",
+      padding: "5px",
+      paddingLeft: "8px",
+      paddingRight: "8px",
+      borderRadius: "5px",
+      marginBottom: "0.5rem",
+    }}
+  >
+    Total time: {calculateTotalTime(step.prepTime, step.cookTime).split(":")[0]} hrs{" "}
+    {calculateTotalTime(step.prepTime, step.cookTime).split(":")[1]} mins
+  </div>
+</div>
+
+  </div>
+  <div className="col-md-4 col-12">
+    <div
+      className="d-flex flex-wrap"
+      style={{ justifyContent: 'center', alignItems: 'center' }}
+    >
+      {step.images.map((image, index) => (
+       <div
+       key={index}
+       className="mb-3"
+       style={{
+         flexBasis: 'calc(100% / 3 - 8px)',
+         marginRight: '4px',
+         minWidth: 0,
+       }}
+     >
+       <Zoom>
+         <img
+           src={URL.createObjectURL(image)}
+           alt="step"
+           style={{ width: '100%', objectFit: 'cover' }}
+         />
+       </Zoom>
+     </div>
+      ))}
+    </div>
+  </div>
+</div>
+
           </div>
         </>
       ))}

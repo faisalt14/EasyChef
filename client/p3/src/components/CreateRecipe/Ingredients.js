@@ -78,7 +78,7 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
 
   return (
     <>
-    <div className="mt-2 row-12" style={{width: "50%", marginLeft: "32px"}}>
+    <div className="mt-2" style={{width: "50%", marginLeft: "32px", position:'relative'}}>
       
       <h3 className='mb-3' >  <span className="required" style={{color: "red"}}>* </span>
  List of Ingredients</h3>
@@ -96,69 +96,94 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
     ))}
   </div>
       )}
-      <div className="row ms-2 mb-5" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px',  borderRadius:"10px" }}>
-          <div className='col-3'>
-            <label className='mb-2' style={{fontWeight:"500", fontSize:"18px"}}>Ingredient</label>
-            <Select
-              type="text" 
-              options={options}
-              getOptionLabel={(options) => options.name}
-              getOptionValue={(options) => options.id}
-              value={name}
-              onChange={setName}
-            >
-            </Select>
-
-          </div>
-          <div className='col-3'>
-            <label className='mb-2' style={{fontWeight:"500", fontSize:"18px"}}>Quantity</label>
-            <input
-              className="form-control"
-
-              type="number"
-              value={quantity}
-              onChange={(e) => {
-                const regex = /^[0-9]{1,2}$/;
-                if (e.target.value === "" || regex.test(e.target.value)) {
-                  setQuantity(e.target.value);
-                }
-              }}
-            />
-          </div>
-          <div className='col-3'>
-
-            <label className='mb-2' style={{fontWeight:"500", fontSize:"18px"}}>Unit</label>
-            <Select
-              type="text" 
-              value={unit}
-              onChange={setUnit}
-              options = {units_object}
-            >
-              
-            </Select>
-            </div>
-
-            <div className='col-3 mt-4' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-
-            <button type="button" className="btn mt-2"
-                      style={{backgroundColor: "#04b4b4", color: "white", fontWeight: '500', fontSize:'18px'}}
-                      onClick={handleSubmit}>Add Ingredient</button>
-            </div>
-            {errorMessage1 && (
-  <div
-    className="alert alert-danger ms-3"
-    role="alert"
-    style={{ width: "60%", display: "flex", alignItems: "center" }}
-  >
-    {errorMessage1}
-    <CloseButton
-      style={{ marginLeft: "20px" }}
-      onClick={() => setErrorMessage1("")}
+<div
+  className="row ms-2 mb-5"
+  style={{
+    backgroundColor: "white",
+    boxShadow:
+      "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
+    padding: "20px",
+    borderRadius: "10px",
+  }}
+>
+  <div className="col-md-3 col-sm-12">
+    <label className="mb-2" style={{ fontWeight: "500", fontSize: "18px" }}>
+      Ingredient
+    </label>
+    <Select
+      type="text"
+      options={options}
+      getOptionLabel={(options) => options.name}
+      getOptionValue={(options) => options.id}
+      value={name}
+      onChange={setName}
+    ></Select>
+  </div>
+  <div className="col-md-3 col-sm-12">
+    <label className="mb-2" style={{ fontWeight: "500", fontSize: "18px" }}>
+      Quantity
+    </label>
+    <input
+      className="form-control"
+      type="number"
+      value={quantity}
+      onChange={(e) => {
+        const regex = /^[0-9]{1,2}$/;
+        if (e.target.value === "" || regex.test(e.target.value)) {
+          setQuantity(e.target.value);
+        }
+      }}
     />
   </div>
-)}
+  <div className="col-md-3 col-sm-12">
+    <label className="mb-2" style={{ fontWeight: "500", fontSize: "18px" }}>
+      Unit
+    </label>
+    <Select
+      type="text"
+      value={unit}
+      onChange={setUnit}
+      options={units_object}
+    ></Select>
+  </div>
+  <div
+    className="col-md-3 col-sm-12 mt-4"
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <button
+      type="button"
+      className="btn mt-2"
+      style={{
+        backgroundColor: "#04b4b4",
+        color: "white",
+        fontWeight: "500",
+        fontSize: "18px",
+        whiteSpace: "nowrap"
+      }}
+      onClick={handleSubmit}
+    >
+      Add Ingredient
+    </button>
+  </div>
+  {errorMessage1 && (
+    <div
+      className="alert alert-danger ms-3"
+      role="alert"
+      style={{ width: "60%", display: "flex", alignItems: "center" }}
+    >
+      {errorMessage1}
+      <CloseButton
+        style={{ marginLeft: "20px" }}
+        onClick={() => setErrorMessage1("")}
+      />
+    </div>
+  )}
+</div>
 
-      </div>
     </div>
     </>
   );
