@@ -4,13 +4,13 @@ export const nonSignedInDropdown = [
     {
         id: 1, 
         title: 'Log In',
-        path:  "/",
+        path:  "/login",
         Cname: 'submenu-item'
     }, 
     {
         id: 2, 
-        title: 'Sign Up',
-        path:  "/",
+        title: 'Register',
+        path:  "/register",
         Cname: 'submenu-item'
     }
 ]

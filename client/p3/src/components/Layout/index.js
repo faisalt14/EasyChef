@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import "./style.css"
@@ -8,6 +8,7 @@ import { navItems } from "./NavItems/items";
 import { useRef } from 'react';
 import NotLoggedInDropdown from "./Dropdown/NotLoggedIn";
 import LoggedInDropdown from "./Dropdown/LoggedIn";
+import LoggedInContext from "../../contexts/LoggedInContext";
 {/*Reference for using react-icons: https://www.youtube.com/watch?v=amf18mxNX18&t=331s  */}
 
 
@@ -16,7 +17,8 @@ const Layout = () => {
 
     const [isMobile, setIsMobile] = useState(false);
     const [dropdown, setDropdown] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false);  
+    // const [loggedIn, setLoggedIn] = useState(false);  
+    const {loggedIn, setLoggedIn} = useContext(LoggedInContext); 
 
 
 
@@ -84,6 +86,7 @@ const Layout = () => {
                 </button>
 
             </nav>
+            <Outlet/>
 
         </>
 

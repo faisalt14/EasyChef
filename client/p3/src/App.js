@@ -2,6 +2,11 @@ import logo from './logo.svg';
 import './App.css';
 import Layout from './components/Layout';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Register from './components/Register';
+import Login from './components/LogIn';
+import LoggedInContext, { useLoggedInContext } from './contexts/LoggedInContext';
+
+
 
 function App() {
   // return (
@@ -27,11 +32,20 @@ function App() {
     <h1> Welcome to our app!</h1>
   )
 
+    const navbar = (
+        <LoggedInContext.Provider value={useLoggedInContext()}>
+          <Layout />
+        </LoggedInContext.Provider>
+      
+    )
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={navbar}> 
           <Route index element = {home} />
+          <Route path="register" element={ <Register/>} />
+          <Route path="login" element={ <Login/>} />
         </Route>
       </Routes>
     </BrowserRouter>
