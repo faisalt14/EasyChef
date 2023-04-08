@@ -15,7 +15,7 @@ export const signedInDropDown = [
     {
         id: 3, 
         title: 'Logout',
-        path:  "/",
+        path:  "/logout",
         Cname: 'submenu-item'
     }
 ]
