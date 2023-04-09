@@ -169,10 +169,11 @@ function AddStep({ selectSteps, setSelectedSteps }) {
     borderRadius: '8px',
     minHeight: '170px',
     maxHeight: '190px',
-    overflowY:"scroll"
+    overflowY:"scroll",
+    overflowX: 'hidden'
   }}
 >
-  <div style={{ minWidth: '400px', whiteSpace:'pre-wrap' }}>
+  <div style={{ minWidth: '400px', whiteSpace:'pre-wrap', wordBreak: 'break-word' }}>
     <p style={{ fontSize: '17px' }}>{step.description}</p>
   </div>
 </div>
@@ -233,7 +234,7 @@ function AddStep({ selectSteps, setSelectedSteps }) {
   </div>
   <div className="col-md-12 col-sm-12 col-lg-6 col-12">
 
-    {step.images && (
+  {step.images && step.images.length > 0 && (
     <div
     className="d-flex flex-wrap"
     style={{ justifyContent: 'start', alignItems: 'center', minHeight:'170px', marginTop:'-15px'}}
