@@ -15,6 +15,7 @@ from recipes.models import RecipeModel, IngredientModel, StepModel, StepMediaMod
 from recipes.serializers import RecipesSerializer, RecipeSerializer, IngredientSerializer, StepSerializer, RecipeMediaSerializer, StepMediaSerializer, ReviewMediaSerializer, InteractionSerializer
 from accounts.models import User
 from accounts.serializers import UserDetailSerializer
+from rest_framework.permissions import AllowAny
 
 # Create your views here.
 
@@ -117,6 +118,7 @@ class RemixRecipeView(APIView):
 
             if key == "ingredients":     
                 ingredients_list = json.loads(value)
+                print(ingredients_list)
                 ingredient_ids = []
                 # Create Ingredient instances
                 for ingredient_id, data in ingredients_list.items():
@@ -125,7 +127,7 @@ class RemixRecipeView(APIView):
                     ingredient_base = get_object_or_404(IngredientModel, id=ingredient_id)
                     copied_ingredient = IngredientModel()
                     copied_ingredient.recipe_id = new_recipe
-                    
+                    # copied_ingredient.name 
                     copied_ingredient.quantity = quantity
                     #copied_ingredient.quantity = int(int(ingredient_base.quantity) / int(original_recipe.servings_num) * int(new_recipe.servings_num))
 
@@ -495,8 +497,8 @@ class CreateIngredientView(CreateAPIView):
 class RecipeDetailView(RetrieveAPIView):
     serializer_class = RecipeSerializer
     queryset = RecipeModel.objects.all()
-    permission_classes = []
-
+    authentication_classes = []
+    permission_classes = [AllowAny]
     def get_object(self):
         queryset = self.get_queryset()
         obj = get_object_or_404(queryset, id=self.kwargs['recipe_id'])
