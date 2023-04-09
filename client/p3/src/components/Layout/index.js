@@ -28,24 +28,23 @@ const Layout = () => {
             <nav id="navbar">
 
                 {/** Logo with link to home */}
-                <Link id="logo" to="/">                 
-                    <img src="https://www.linkpicture.com/q/Big-Bite-4.png" alt="react logo" style={{ width: '6rem', height: "5rem"}}/>
+                    <Link id="logo" to="/">                 
+                    <img id="logoImg" src="https://www.linkpicture.com/q/Big-Bite-4.png" alt="react logo" style={{ width: '6rem', height: "5rem"}}/>
                 </Link>
+
+
 
                 {/* class name depends on whether the state isMobile or not */}
                 <ul 
                     className={isMobile ? "nav-links-mobile" : "nav-links"}
                     onClick={() => setIsMobile(false)}
                 >   
-                
-                    {/**
+ 
 
-                    <Link to="/" className="allRecipes"> All Recipes </Link>
-                    <Link to="/" className="myRecipes"> My Recipes </Link>
-                    <Link to="/" className="newRecipe"> Create New Recipe </Link>
-                    <Link to="/" className="shoppingCart"> My Shopping List </Link>  
-                    
-                    */}
+            
+
+                    {/*Search Bar*/}
+                    <input id="navSearchBar" value={"Search for recipes ..."}/>
 
                     {/* Display all navbar items */}
                     {navItems.map( item => {

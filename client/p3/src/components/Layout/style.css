@@ -10,7 +10,6 @@ body{
     background-color: #EFEEEE
 }
 
-
 #navbar{
     display: flex;
     justify-content: space-around;
@@ -29,6 +28,17 @@ body{
     white-space: nowrap;
 }
 
+.nav-links #navSearchBar{
+    border: none;
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: #bcb7b2;
+    padding: 0.5rem;
+    margin: 0 10px;
+    width: 14rem;
+    cursor: text;
+}
+
 .nav-item{
     text-decoration: none;
     color: white;
@@ -39,6 +49,7 @@ body{
     color: white;
     background-color: #E47E20;
     border-radius: 5px;
+
 
 }
 
@@ -83,12 +94,6 @@ body{
 /* css for smaller screens */
 
 @media screen and (max-width: 960px){
-    /* #logo{
-        display: flex;
-        position: absolute;
-        top: 15px;
-        left: 35px;
-    } */
 
     /* remove nav linkes on smaller screens */
     .nav-links{
@@ -104,6 +109,11 @@ body{
         top: 75px;
         transition: all 0.5s ease-out;
         
+    }
+
+    .nav-links-mobile #navSearchBar{
+        display: none;
+
     }
 
     .nav-links-mobile .nav-item{
