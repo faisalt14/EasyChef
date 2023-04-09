@@ -33,8 +33,7 @@ class SignUpView(CreateAPIView):
                     return Response({'message': 'enter a valid email'}, status=400)
             if request.data.get('password') != request.data.get('password2'):
                 return Response({'message': 'passwords do not match'}, status=400)
-            serializer.create(request.data)
-            return Response(UserDetailSerializer(request.user).data, status=200)
+            return Response(UserDetailSerializer(serializer.create(request.data)).data, status=200)
 
         if User.objects.filter(username=request.data.get('username')).exists():
             return Response({'message': 'username is already taken'}, status=400)

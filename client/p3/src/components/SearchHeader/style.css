@@ -1,0 +1,79 @@
+.search-wrapper{
+    position:relative;
+}
+
+.search-bg{
+    background-image: url('https://images.pexels.com/photos/1099680/pexels-photo-1099680.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+    background-size:100%;
+    height:30vw;
+    min-height: 300px;
+    min-width: 750px;
+    background-repeat:no-repeat;
+    filter:blur(1px) brightness(0.75);
+    margin-bottom:50px;
+}
+
+.search-title{
+    text-align: center; 
+    padding:50px; 
+    position:absolute; 
+    top:30%; 
+    left:50%; 
+    transform:translate(-50%, -50%); 
+    color:white; 
+    font-size:calc(2rem + 2vw);
+    width:100%; 
+    font-weight: 600
+}
+
+.search-bar-wrapper{
+    display:flex; 
+    position:absolute; 
+    top:50%;
+    left:50%; 
+    transform:translate(-50%, -50%); 
+    font-size: calc(0.25rem + 1vw);
+    height:calc(0.5rem + 2vw);
+}
+
+.magnifying-glass-icon{
+    position:absolute;
+    top:25%;
+    left:1.5%;
+}
+
+.search-bar{
+    width:40vw; 
+    padding-left: 6%;
+}
+.search-submit{
+    width:12vw;
+    min-width:80px;
+    color:white; 
+    background-color:#04B4B4; 
+    border-radius:5px; 
+    border: 0px
+}
+
+.search-filters-wrapper{
+    display:flex; 
+    position:absolute; 
+    top:70%; 
+    left:50%; 
+    transform:translate(-50%, -50%);
+}
+
+.search-dropdown-wrapper{
+    margin-left:1em; 
+    margin-right:1em; 
+    width:15vw;  
+    border:0px;
+}
+
+.diet-filter-wrapper{
+    display:flex; 
+    position:absolute; 
+    top:90%; 
+    left:50%; 
+    transform:translate(-50%, -50%);
+}
