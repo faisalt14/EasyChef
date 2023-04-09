@@ -78,12 +78,12 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
 
   return (
     <>
-    <div className="mt-2" style={{width: "50%", marginLeft: "32px", position:'relative'}}>
+    <div className="mt-2" style={{width: "100%", marginLeft: "32px", position:'relative'}}>
       
       <h3 className='mb-3' >  <span className="required" style={{color: "red"}}>* </span>
  List of Ingredients</h3>
       {ingredients.length > 0 && (
-    <div className="ing ms-3" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px', width: "88%"}}>
+    <div className="ing ms-3" style={{ backgroundColor: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', padding: '20px', width: "50%"}}>
     {ingredients.map((ingredient, index) => (
       <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
         <i style={{ maxWidth: '2rem', fontSize: '10px', color: '#04B4B4', cursor: 'pointer' }} className="bi bi-circle-fill"></i>
@@ -104,9 +104,11 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
       "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
     padding: "20px",
     borderRadius: "10px",
+    maxWidth: "100%",
+    width: "65%",
   }}
 >
-  <div className="col-md-3 col-sm-12">
+  <div className="col-md-3 col-lg-3 col-sm-12">
     <label className="mb-2" style={{ fontWeight: "500", fontSize: "18px" }}>
       Ingredient
     </label>
@@ -119,7 +121,7 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
       onChange={setName}
     ></Select>
   </div>
-  <div className="col-md-3 col-sm-12">
+  <div className="col-md-3 col-md-3 col-sm-12">
     <label className="mb-2" style={{ fontWeight: "500", fontSize: "18px" }}>
       Quantity
     </label>
@@ -146,23 +148,18 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
       options={units_object}
     ></Select>
   </div>
-  <div
-    className="col-md-3 col-sm-12 mt-4"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-  >
+
+  <div className="col-md-3 col-lg-3 col-sm-12 d-flex align-items-end">
     <button
       type="button"
-      className="btn mt-2"
+      className="btn"
       style={{
         backgroundColor: "#04b4b4",
         color: "white",
         fontWeight: "500",
         fontSize: "18px",
-        whiteSpace: "nowrap"
+        // width: "100%",
+        maxWidth:'2000px'
       }}
       onClick={handleSubmit}
     >

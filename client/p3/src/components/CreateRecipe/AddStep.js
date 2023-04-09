@@ -5,6 +5,7 @@ import CloseButton from 'react-bootstrap/CloseButton';
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import { v4 as uuidv4 } from 'uuid';
+import './AddStep.css'
 
 function AddStep({ selectSteps, setSelectedSteps }) {
   const [steps, setSteps] = useState([]);
@@ -155,23 +156,29 @@ function AddStep({ selectSteps, setSelectedSteps }) {
       Edit
     </button>
             </div>
-            <div className="row ms-2">
-  <div className="col-md-6 col-12">
-    <div
-      key={index}
-      className="mb-2"
-      style={{
-        backgroundColor: 'white',
-        boxShadow:
-          'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
-        padding: '20px',
-        borderRadius: '8px',
-        overflow: 'auto',
-      }}
-    >
-      <p style={{ fontSize: '17px' }}>{step.description}</p>
-    </div>
-    <div className="d-flex flex-wrap" style={{ justifyContent: "flex-start" }}>
+  <div className="row ms-2">
+    <div className="col-md-12 col-sm-12 col-lg-6 col-12">
+      <div
+  key={index}
+  className="mb-2"
+  style={{
+    backgroundColor: 'white',
+    boxShadow:
+      'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px',
+    padding: '20px',
+    borderRadius: '8px',
+    minHeight: '170px',
+    maxHeight: '190px',
+    overflowY:"scroll"
+  }}
+>
+  <div style={{ minWidth: '400px', whiteSpace:'pre-wrap' }}>
+    <p style={{ fontSize: '17px' }}>{step.description}</p>
+  </div>
+</div>
+
+
+    <div className="d-flex flex-wrap" style={{ justifyContent: "flex-start", minWidth:'650px' }}>
   <div
     className="me-2"
     style={{
@@ -224,91 +231,100 @@ function AddStep({ selectSteps, setSelectedSteps }) {
 </div>
 
   </div>
-  <div className="col-md-4 col-12">
+  <div className="col-md-12 col-sm-12 col-lg-6 col-12">
+
+    {step.images && (
     <div
-      className="d-flex flex-wrap"
-      style={{ justifyContent: 'center', alignItems: 'center' }}
-    >
-      {step.images.map((image, index) => (
-       <div
-       key={index}
-       className="mb-3"
-       style={{
-         flexBasis: 'calc(100% / 3 - 8px)',
-         marginRight: '4px',
-         minWidth: 0,
-       }}
-     >
-       <Zoom>
-         <img
-           src={URL.createObjectURL(image)}
-           alt="step"
-           style={{ width: '100%', objectFit: 'cover' }}
-         />
-       </Zoom>
-     </div>
-      ))}
-    </div>
+    className="d-flex flex-wrap"
+    style={{ justifyContent: 'start', alignItems: 'center', minHeight:'170px', marginTop:'-15px'}}
+  >
+    {step.images.map((image, index) => (
+      <div
+        key={index}
+        className="mb-3 me-3 col-lg-4 col-md-12 col-sm-12 col-12 px-0 custom-col" // Updated Bootstrap classes
+        style={{
+          flexBasis: 'calc(30% - 8px)',
+          marginRight: '4px',
+          minWidth: 0,
+        }}
+      >
+        <Zoom>
+          <img
+            src={URL.createObjectURL(image)}
+            alt="step"
+            className="img-fluid"
+            style={{ width: '100%', objectFit: 'cover', minHeight:'160px', minWidth:'160px'}}
+          />
+        </Zoom>
+      </div>
+    ))}
+  </div>)
+    }
   </div>
 </div>
 
           </div>
         </>
       ))}
-        <div className="row ms-4" style={{ width: '100%', marginTop: "60px" }}>
-          <div className="col-md-7 form-outline" style={{ margin: 0, padding: 0, width: "49%"}}>
-            <div className="d-flex align-items-center">
-              <label className="form-label me-3" style={{ fontSize: '27px', fontWeight: '550' }}> <span className="required" style={{color: "red"}}>* </span>
-New Step</label>
-            </div>
-            <h5 className='ms-3'>Step Description</h5>
-
-            <textarea
-              className="ms-3 form-control"
-              value={desc}
-              onChange={(event) => setDesc(event.target.value)}
-              style={{ boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', width: 'calc(22vw + 300px)', overflow: 'auto' }}
-              rows="8"
-            ></textarea>
-        <div className='row mt-3' style={{padding: 0, margin: 0}}>
-          <PrepCookTime
-            selectedPrepTime={selectedPrepTime}
-            selectedCookTime={selectedCookTime}
-            setPrepTime={setPrepTime}
-            setCookTime={setCookTime}
-            reset={resetPrepCookTime}
-            name="Step"
-          />
-        </div>
-          </div>
-
-          <div className="col mt-4" style={{ margin: 0, padding: 0, height: "20%" }}>
-            <UploadImage
-              selectImages={images}
-              setImages={setImages}
-              image_name="Step"
-              reset={reset}
-              setReset={setReset}
-            />
-          </div>
-        </div>
-        <div>
-        <button
-                type="button"
-                className="btn mb-3"
-                style={{ backgroundColor: "#04b4b4", color: "white", fontWeight: '550', width:"10%", marginLeft:'4rem' }}
-                onClick={handleSubmit}
-              >
-                Add Step
-        </button>
-        </div>
-        {errorMessage && (
-          <div className="ms-5 d-flex alert alert-danger" role="alert" style={{ width: "40%" }}>
+<div className="row ms-4" style={{ width: '100%'}}>
+  <div className="col-md-12 col-lg-6 col-sm-12 col-12 form-outline me-5">
+      <div className="row align-items-center">
+      <label className="col-sm-12 col-lg-3 form-label" style={{ fontSize: '27px', fontWeight: '550', minWidth:'180px' }}> <span className="required" style={{color: "red"}}>* </span>
+    New Step</label>
+      {errorMessage && (
+        <div className="col-sm-12 col-md-9 d-flex align-items-center">
+          <div className="alert alert-danger d-flex align-items-center" role="alert" style={{ padding: "6px 12px", marginBottom: "0" }}>
             {errorMessage}
-            <CloseButton style={{ marginLeft: "20px" }} onClick={() => setErrorMessage('')} />
+            <CloseButton style={{ position: 'relative', marginLeft: '5px' }} onClick={() => setErrorMessage('')} />
           </div>
-        )}
+        </div>
+      )}
+    </div>
 
+    <h5 className='ms-3'>Step Description</h5>
+
+    <textarea
+      className="ms-3 form-control"
+      value={desc}
+      onChange={(event) => setDesc(event.target.value)}
+      style={{ boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px', width: '100%', overflow: 'auto' }}
+      rows="8"
+    ></textarea>
+<div className='row mt-3' style={{padding: 0, margin: 0}}>
+  <PrepCookTime
+    selectedPrepTime={selectedPrepTime}
+    selectedCookTime={selectedCookTime}
+    setPrepTime={setPrepTime}
+    setCookTime={setCookTime}
+    reset={resetPrepCookTime}
+    name="Step"
+  />
+</div>
+  </div>
+
+  <div className="col-md-12 col-lg-5 col-sm-12 col-12 mt-4 ms-4 d-flex justify-content-center align-items-center">
+    <UploadImage
+      selectImages={images}
+      setImages={setImages}
+      image_name="Step"
+      reset={reset}
+      setReset={setReset}
+    />
+  </div>
+  <div className="row ms-4" style={{ marginTop: 0}}>
+  <div className="col-12">
+    <button 
+      type="button"
+      className="btn"
+      style={{ backgroundColor: "#04b4b4", color: "white", fontWeight: '550', minWidth: "120px", padding: "6px 12px", fontSize:'18px' }}
+      onClick={handleSubmit}
+    >
+      Add Step
+    </button>
+  </div>
+</div>
+</div>
 </>); };
 
 export default AddStep;
+
