@@ -28,7 +28,9 @@ body{
     white-space: nowrap;
 }
 
-.nav-links #navSearchBar{
+/* Old search bar css */
+
+/* .nav-links #navSearchBar{
     border: none;
     border-radius: 5px;
     border: 1px solid;
@@ -37,7 +39,43 @@ body{
     margin: 0 10px;
     width: 14rem;
     cursor: text;
+} */
+
+
+/* New search bar css */
+.nav-links .search-bar-wrapper{
+    display:flex;  
+    justify-content: flex-start;
+    border: 1px solid #d9d4d4;
+    margin-right: 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+
 }
+
+.nav-links .magnifying-glass-icon{
+    color: black;
+    height: 2.6rem;
+    padding-left: 6px;
+    font-size: 1.3rem;
+    background-color: #FFFEFE;
+
+}
+
+.nav-links .search-bar{
+    width:14rem; 
+    height: 2.6rem;
+    padding-left: 6px;
+    margin-right: 10px;
+    border: none;
+    font-size: 1rem;
+}
+
+/* To remove blue highlight around search bar */
+.search-bar:focus{
+    outline-width: 0;
+}
+
 
 .nav-item{
     text-decoration: none;
@@ -111,10 +149,17 @@ body{
         
     }
 
-    .nav-links-mobile #navSearchBar{
+    /* .nav-links-mobile #navSearchBar{
         display: none;
 
+    } */
+
+    .nav-links-mobile .search-bar-wrapper{
+        display: none;
+    
     }
+
+
 
     .nav-links-mobile .nav-item{
         color: white;

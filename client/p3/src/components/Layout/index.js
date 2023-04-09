@@ -9,6 +9,7 @@ import { useRef } from 'react';
 import NotLoggedInDropdown from "./Dropdown/NotLoggedIn";
 import LoggedInDropdown from "./Dropdown/LoggedIn";
 import LoggedInContext from "../../contexts/LoggedInContext";
+import { Search } from 'react-bootstrap-icons'
 {/*Reference for using react-icons: https://www.youtube.com/watch?v=amf18mxNX18&t=331s  */}
 
 
@@ -44,7 +45,30 @@ const Layout = () => {
             
 
                     {/*Search Bar*/}
-                    <input id="navSearchBar" value={"Search for recipes ..."}/>
+                    {/** 
+                        
+                        <input id="navSearchBar" type="text" placeholder={"Search for a Recipe..."}/> 
+
+                        <div className="search-bar-wrapper">
+                            <Search className="magnifying-glass-icon" style={{cursor:'pointer'}} />
+                            <input className="search-bar" type="text" id="searchBar" name="search" placeholder="Search for a Recipe..."></input>
+                        </div>
+                
+                
+                    */}
+
+                    <div className="search-bar-wrapper">
+                        <Search className="magnifying-glass-icon" style={{cursor:'pointer'}} />
+                        <input className="search-bar" type="text" id="searchBar" name="search" placeholder="Search for a Recipe..."></input>
+                    </div>
+                    
+
+
+                    
+    
+
+
+    
 
                     {/* Display all navbar items */}
                     {navItems.map( item => {
