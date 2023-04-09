@@ -53,9 +53,8 @@ function SearchHeader(props) {
                 Search for Recipes
             </h1>
             <div className="search-bar-wrapper">
-                <Search className="magnifying-glass-icon" />
+                <Search className="magnifying-glass-icon" style={{cursor:'pointer'}} onClick={searchAjax} />
                 <input className="search-bar" type="text" id="searchBar" name="search" onKeyUp={handleKeyPress} placeholder="Search for a Recipe..."></input>
-                <input className="search-submit" type="button" value="Search" onClick={() => {searchAjax()}}></input>
             </div>
             
             <div className="search-filters-wrapper">
