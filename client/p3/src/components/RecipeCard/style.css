@@ -58,10 +58,10 @@
 
 .rating-stars{
     margin-right:2px;
-    color: #E47E20;
 }
 
 .recipe-info-wrapper{
+    color:#E47E20;
     display:flex; 
     font-size:small; 
     line-height:0px;
@@ -90,4 +90,8 @@
 
 .cutoff{
     text-overflow:clip; 
+}
+
+.grey{
+    color:grey;
 }

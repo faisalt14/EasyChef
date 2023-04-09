@@ -36,8 +36,15 @@
     height:calc(0.5rem + 2vw);
 }
 
+.magnifying-glass-icon{
+    position:absolute;
+    top:25%;
+    left:1.5%;
+}
+
 .search-bar{
     width:40vw; 
+    padding-left: 6%;
 }
 .search-submit{
     width:12vw;

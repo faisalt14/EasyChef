@@ -34,12 +34,12 @@ function SearchCategory({selectedCategory, setSelectedCategory, fontSize, height
       paddingTop: '0px'
 
     }),
-    singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#fff",     fontSize: "1rem", // increase font size
+    singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#fff", fontSize: newFontSize, // increase font size
   }),
     placeholder: (defaultStyles) => ({
       ...defaultStyles,
       color: "#fff",
-      fontSize: "1rem", // increase font size
+      fontSize: newFontSize, // increase font size
       width: "7.2rem",
     }),
     multiValue: (defaultStyles) => ({
@@ -53,14 +53,14 @@ function SearchCategory({selectedCategory, setSelectedCategory, fontSize, height
     multiValueLabel: (defaultStyles) => ({
       ...defaultStyles,
       color: "#04B4B4",
-      fontSize: "1rem", // increase font size
+      fontSize: newFontSize, // increase font size
       fontWeight: "normal",
     }),
   
     multiValueRemove: (defaultStyles) => ({
       ...defaultStyles,
       color: "#fff",
-      fontSize: "1rem", // increase font size
+      fontSize: newFontSize, // increase font size
       ':hover': {
         backgroundColor: '#fff',
         color: '#04B4B4',

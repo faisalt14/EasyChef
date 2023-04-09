@@ -7,6 +7,7 @@ import Cuisine from '../Filters/Cuisine'
 import Diet from '../Filters/Diet'
 import Meal from '../Filters/Meal'
 import SearchCategory from '../Filters/SearchCategory'
+import { Search } from 'react-bootstrap-icons'
 
 function SearchHeader(props) {
     const [query, setQuery] = useState('')
@@ -52,28 +53,47 @@ function SearchHeader(props) {
                 Search for Recipes
             </h1>
             <div className="search-bar-wrapper">
-                <input className="search-bar" type="text" id="searchBar" name="search" onKeyUp={handleKeyPress} placeholder="Enter your query..."></input>
+                <Search className="magnifying-glass-icon" />
+                <input className="search-bar" type="text" id="searchBar" name="search" onKeyUp={handleKeyPress} placeholder="Search for a Recipe..."></input>
                 <input className="search-submit" type="button" value="Search" onClick={() => {searchAjax()}}></input>
             </div>
             
             <div className="search-filters-wrapper">
                 <div className="search-dropdown-wrapper">
-                    <SearchCategory selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
+                    <SearchCategory 
+                    selectedCategory={selectedCategory} 
+                    setSelectedCategory={setSelectedCategory} 
+                    fontSize='calc(0.5rem + 0.5vw)' 
+                    height='calc(1rem + 1vw)'/>
                 </div>
                 <div className="search-dropdown-wrapper">
-                    <CookingTime selectedCookingTime={selectedCookingTime} setSelectedCookingTime={setSelectedCookingTime} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
+                    <CookingTime 
+                    selectedCookingTime={selectedCookingTime} 
+                    setSelectedCookingTime={setSelectedCookingTime} 
+                    fontSize='calc(0.5rem + 0.5vw)' 
+                    height='calc(1rem + 1vw)'/>
                 </div>
                 <div className="search-dropdown-wrapper">
-                    <Cuisine selectedCuisine={selectedCuisine} setSelectedCuisine={setSelectedCuisine} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
+                    <Cuisine 
+                    selectedCuisine={selectedCuisine} 
+                    setSelectedCuisine={setSelectedCuisine} 
+                    fontSize='calc(0.5rem + 0.5vw)' 
+                    height='calc(1rem + 1vw)'/>
                 </div>
                 <div className="search-dropdown-wrapper">
-                    <Meal selectedMeal={selectedMeal} setSelectedMeal={setSelectedMeal} fontSize='calc(0.5rem + 0.5vw)' height='calc(1rem + 1vw)'/>
+                    <Meal 
+                    selectedMeal={selectedMeal} 
+                    setSelectedMeal={setSelectedMeal} 
+                    fontSize='calc(0.5rem + 0.5vw)' 
+                    height='calc(1rem + 1vw)'/>
                 </div>
             </div>
             <div className="diet-filter-wrapper">
-                <div >
-                    <Diet selectedDiets={selectedDiets} setSelectedDiets={setSelectedDiets} fontSize='calc(0.5rem + 0.5vw)' height='calc(2*calc(1rem + 1vw))'/>
-                </div>
+                <Diet 
+                selectedDiets={selectedDiets} 
+                setSelectedDiets={setSelectedDiets} 
+                fontSize='calc(0.5rem + 0.5vw)' 
+                height='calc(2*calc(1rem + 1vw))'/>
             </div>
         </div>
     );

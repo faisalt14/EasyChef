@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
 import DefaultImage from '../../Easy Chef Logo.png'
 import Card from 'react-bootstrap/Card'
-import { StarFill, StarHalf, Star, Stopwatch, BookmarkFill } from 'react-bootstrap-icons'
+import { StarFill, StarHalf, Star, Stopwatch, Bookmark } from 'react-bootstrap-icons'
 import $ from 'jquery'
 
 function RecipeCard({info}) {
@@ -111,12 +111,12 @@ function RecipeCard({info}) {
                         {ratingStars(rating)}
                     </div>
                     <div className="cook-time-fav-wrapper text-no-overflow cutoff">
-                        <b>{cookTime}</b> <Stopwatch />
+                        <b className="grey">{cookTime}</b> <Stopwatch />
                         &nbsp;&nbsp;&nbsp;
-                        <b>{favs}</b> <BookmarkFill />
+                        <b className="grey">{favs}</b> <Bookmark />
                     </div>
                 </div>
-                <h4 className="card-title text-no-overflow">{name}</h4>
+                <h4 className="card-title text-no-overflow"><b>{name}</b></h4>
                 <i className="text-no-overflow">{chef}</i>
             </Card.Body>
         </Card>
