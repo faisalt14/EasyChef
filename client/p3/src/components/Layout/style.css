@@ -85,15 +85,18 @@ body{
     margin: 0 10px;
     cursor: pointer;
     color: white;
-    background-color: #E47E20;
+    /* background-color: #E47E20; */
     border-radius: 5px;
-
+    background-image: linear-gradient(to right, #E47E20, #c66c17); /* Change the background color to a gradient */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 
 }
 
 .nav-links .nav-item:hover{
-    background-color: #c66c17;
-
+    /* background-color: #c66c17; */
+    background-image: linear-gradient(to left, #E47E20, #c66c17); /* Reverse the gradient direction on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Increase the shadow on hover */
+    transform: translateY(-2px); /* Add a subtle lift effect on hover */
 }
 
 

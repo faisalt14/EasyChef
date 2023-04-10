@@ -26,11 +26,11 @@ const Layout = () => {
     return (
        
         <>
-            <nav id="navbar">
+            <nav id="navbar" className="navbar navbar-expand-lg navbar-light" style={{height: '96px'}}>
 
                 {/** Logo with link to home */}
                     <Link id="logo" to="/">                 
-                    <img id="logoImg" src="https://www.linkpicture.com/q/Big-Bite-4.png" alt="react logo" style={{ width: '6rem', height: "5rem"}}/>
+                    <img id="logoImg" src="https://www.linkpicture.com/q/Big-Bite-4.png" alt="react logo" style={{width: "100px", overflow:"hidden", marginBottom: "-26px", marginTop: "-26px"}}/>
                 </Link>
 
 
@@ -78,6 +78,7 @@ const Layout = () => {
                                     to={item.path} 
                                     className={item.Cname}
                                     key={item.id}
+                                    style={{fontSize:'17px'}}
                                 >
                                     {item.title}
                                 </Link>
