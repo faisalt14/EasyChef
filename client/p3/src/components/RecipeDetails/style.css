@@ -1,3 +1,23 @@
-div {
-  font-family: 'Roboto', sans-serif;
+.time-box {
+  background-color: #E47E20;
+  padding: 5px 12px;
+  border-radius: 5px;
+  color: white;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  text-align: center;
 }
+
+.based-on-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.based-on-text-wrapper {
+  margin-bottom: 10px;
+}
+

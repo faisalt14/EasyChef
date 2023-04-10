@@ -7,10 +7,10 @@ function Servings({ initialServings, ingredients, onServingsChange }) {
 
   useEffect(() => {
     onServingsChange(servingNumber);
-  }, [servingNumber, onServingsChange]);
+  }, [servingNumber]);
 
   const handleSetServings = () => {
-    setServingNumber(Math.ceil(parseFloat(inputValue)) || initialServings);
+    setServingNumber(prevServingNumber => Math.ceil(parseFloat(inputValue)) || prevServingNumber);
   };
 
   const handleResetServings = () => {
@@ -60,7 +60,7 @@ function Servings({ initialServings, ingredients, onServingsChange }) {
       </label>
       <input
         style={{
-          width: '10vh',
+          width: '13vh',
           height: '2.6rem',
           fontFamily: 'Roboto',
           marginTop: '5px',

@@ -422,14 +422,15 @@ class CreateStepView(CreateAPIView):
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
-        print('reuqest', request.data)
         media_list = ', '.join(map(str, request.data.get('media', [])))
-        print('media list', media_list)
         if media_list:
             media_list = [int(x.strip()) for x in media_list.split(",")]
 
         cook = request.data['cooking_time']
         prep = request.data['prep_time']
+
+        print(f"Raw cooking_time: {cook}")
+        print(f"Raw prep_time: {prep}")
 
         if isinstance(cook, str):
             hours, minutes, seconds = map(int, cook.split(':'))
@@ -442,11 +443,9 @@ class CreateStepView(CreateAPIView):
         step = StepModel.objects.create(cooking_time=cook, prep_time=prep,
                                          instructions=request.data['instructions'])
 
-        print('media list', media_list)
         # Associate the media objects with the step
         media_objects = []
         for media_id in media_list:
-            print('here')
             media = get_object_or_404(StepMediaModel, id=media_id)
             media.step_id = step
             media.save()
@@ -539,6 +538,16 @@ class AddInteractionMedia(CreateAPIView):
 class InteractionView(RetrieveUpdateAPIView):
     serializer_class = InteractionSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+        recipe = get_object_or_404(RecipeModel, id=self.kwargs['recipe_id'])
+        return get_object_or_404(InteractionModel, user_id=user, recipe_id=recipe)
+
+    def get(self, request, *args, **kwargs):
+        interaction = self.get_object()
+        serializer = self.serializer_class(interaction)
+        return Response(serializer.data, status=200)
     
     def post(self, request, *args, **kwargs):
         serializer = InteractionSerializer(data=request.data)

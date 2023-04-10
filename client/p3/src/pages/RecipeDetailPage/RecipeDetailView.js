@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import RecipeDetails from '../../components/RecipeDetails/RecipeDetails';
+import { useLocation } from 'react-router-dom';
 
 function RecipeDetailView() {
   const [recipeDetails, setRecipeDetails] = useState(null);
   const { recipe_id } = useParams();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state && location.state.scrollToTop) {
+      window.scrollTo(0, 0);
+    }
+  }, [location]);
 
   useEffect(() => {
     const fetchRecipeDetails = async () => {
