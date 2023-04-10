@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import HomePage from './components/HomePage';
 import reportWebVitals from './reportWebVitals';
+import ShoppingCart from './components/ShoppingCart';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <HomePage />
-  </React.StrictMode>
+
+  <ShoppingCart />
 );
 
 // If you want to start measuring performance in your app, pass a function
