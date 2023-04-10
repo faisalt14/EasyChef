@@ -3,7 +3,7 @@ import "./style.css"
 
 const CombinedList = () => {
     const [combinedData, setCombinedData] = useState([]);
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTYwMTYxLCJpYXQiOjE2ODExNTY1NjEsImp0aSI6ImRhNzI4NjJkNjZmODQwZTJiYTJjOTA5M2FkNjBkNmQwIiwidXNlcl9pZCI6MX0.MoeUuEL-MugL3x-u6NwGYTLeQ6qft1sVY1HIyj27iAo")
+    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTYwNTAzLCJpYXQiOjE2ODExNTY5MDMsImp0aSI6IjM1YzE2ZDE0OWRlZTQ2MGViOGRiZmQ0ZGExNDQ3Y2I0IiwidXNlcl9pZCI6MX0.2qR6-TCPP8xVHCvo1A7KGKF6M5_o6QKRCNRi_9eXUQk")
     const [clearCartClicks, setclearCartClicks] = useState(0); 
 
     const [value, setValue] = useState(['inital'])
@@ -20,9 +20,6 @@ const CombinedList = () => {
             
         })
        
-
-
-
     }
 
 
@@ -53,9 +50,7 @@ const CombinedList = () => {
 
     
     return (
-        <>
-
-                
+        <> 
             <table>
                 <thead>
                     <tr>
@@ -89,8 +84,6 @@ const CombinedList = () => {
                             </div>    
                         </tbody>
 
-                        // console.log('here')
-
                     ) : 
                     (
                         <div className="bodyContainer">
@@ -112,22 +105,14 @@ const CombinedList = () => {
                     )
                 }
 
-   
-        </table>
+            </table>
 
-        <div className="clearButtonContainer">
-            <button id="clearButton" onClick={() => clearCart()}> Empty Shopping Cart</button>
-        </div>
-        
-        
-        
-        
+            <div className="clearButtonContainer">
+                <button id="clearButton" onClick={() => clearCart()}> Empty Shopping Cart</button>
+            </div> 
         </>
-
-
-        
+ 
     )
-
 }
 
 export default CombinedList; 

@@ -8,7 +8,7 @@
 
 .headerContainer{
     width: 100vw;
-    border: solid pink 3px;
+    /* border: solid pink 3px; */
     display: flex;
     justify-content: center;
     margin-top: 3rem;
@@ -39,8 +39,7 @@
 
 .empty-body-container {
     width: 100vw;
-    /* background-color: #D9D9D9; */
-    border: solid 3px red;
+    /* border: solid 3px red; */
     margin-top: 2rem;
     padding: 4px;
     height: 3em;
@@ -80,7 +79,7 @@
 .bodyContainer {
     display: flex;
     justify-content: center;
-    border: solid 3px black;
+    /* border: solid 3px black; */
     margin-top: 2rem;
     width: 100vw;
     padding: 4px;
@@ -120,12 +119,17 @@
 }
 
 .clearButtonContainer {
+    /* position: fixed;
+    bottom: 1rem; */
     margin-top: 2rem;
     width: 100vw;
     display: flex;
     justify-content: center;
-    border: solid 3px black;
+    /* border: solid 3px black; */
     height: 50px;
+
+    
+
 }
 
 .clearButtonContainer #clearButton{
