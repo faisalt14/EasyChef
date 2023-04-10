@@ -39,6 +39,8 @@ const ShoppingCart = () => {
                     {activeTab === "tab1" ? <CombinedList/> : <IndividualList/>}
                 </div>
             </div>
+
+
         
         </>
     )
