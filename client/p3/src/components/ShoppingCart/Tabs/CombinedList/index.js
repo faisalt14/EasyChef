@@ -3,7 +3,7 @@ import "./style.css"
 
 const CombinedList = () => {
     const [combinedData, setCombinedData] = useState([]);
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTU1ODcxLCJpYXQiOjE2ODExNTIyNzEsImp0aSI6Ijc2OTJiZjc0MmRjODQzM2VhY2Y4YTA3N2NlOTM4NmIyIiwidXNlcl9pZCI6MX0.JyOlGnXti0piNT2trfCu03Ib23VReMl92BWWjKMAHeA")
+    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTYwMTYxLCJpYXQiOjE2ODExNTY1NjEsImp0aSI6ImRhNzI4NjJkNjZmODQwZTJiYTJjOTA5M2FkNjBkNmQwIiwidXNlcl9pZCI6MX0.MoeUuEL-MugL3x-u6NwGYTLeQ6qft1sVY1HIyj27iAo")
     const [clearCartClicks, setclearCartClicks] = useState(0); 
 
     const [value, setValue] = useState(['inital'])
@@ -47,7 +47,7 @@ const CombinedList = () => {
 
     }, [clearCartClicks])
 
-    // console.log(combinedData)
+    // console.log(Object.keys(combinedData).length)
 
 
 
@@ -70,22 +70,49 @@ const CombinedList = () => {
                     </tr>
                 </thead>
 
-                <div className="bodyContainer">
+                {
+                    Object.keys(combinedData).length == 0 ? (
+                        <tbody>
+                        
+                        
 
-                    <tbody className="body">
-
-                        <div className="ingredient-quantity-container"> 
-                            { 
-                                combinedData.map( (dict, index) => (
-                                    <tr key={index}>
-                                        <td className="bodyIngredient"> {dict.name} </td>
-                                        <td className="bodyQuantity"> {dict.quantity} {dict.unit}</td>
+                            <div className="empty-body-container"> 
+                            
+                                    <tr>
+                                        <div className="empty-ingredient-quantity-container">
+                                            <td className="emptyBodyIngredient" > - </td>
+                                            <td className="emptyBodyQuantity" > - </td>
+                                        </div>
                                     </tr>
-                                ))
-                            }
-                        </div>              
-                    </tbody>
-                </div>     
+                            
+                            
+                            </div>    
+                        </tbody>
+
+                        // console.log('here')
+
+                    ) : 
+                    (
+                        <div className="bodyContainer">
+                            <tbody className="body">
+        
+                                <div className="ingredient-quantity-container"> 
+                                    { 
+                                        combinedData.map( (dict, index) => (
+                                            <tr key={index}>
+                                                <td className="bodyIngredient"> {dict.name} </td>
+                                                <td className="bodyQuantity"> {dict.quantity} {dict.unit}</td>
+                                            </tr>
+                                        ))
+                                    }
+                                </div>              
+                            </tbody>
+                        </div>  
+
+                    )
+                }
+
+   
         </table>
 
         <div className="clearButtonContainer">

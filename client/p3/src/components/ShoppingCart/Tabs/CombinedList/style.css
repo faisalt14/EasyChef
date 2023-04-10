@@ -37,6 +37,46 @@
     font-weight: 500;
 }
 
+.empty-body-container {
+    width: 100vw;
+    /* background-color: #D9D9D9; */
+    border: solid 3px red;
+    margin-top: 2rem;
+    padding: 4px;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+}
+
+.empty-ingredient-quantity-container {
+    background-color: #D9D9D9;
+    border: solid black 1px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+}
+
+.empty-ingredient-quantity-container .emptyBodyIngredient {
+    width: 40vw;
+    background-color: #D9D9D9;
+    text-align: center;
+    font-weight: 600;
+    padding: 0.25rem;
+    margin-top: 5px;
+    border-right: solid black 1px;
+}
+
+.empty-ingredient-quantity-container .emptyBodyQuantity {
+    
+    width: 40vw;
+    background-color: #D9D9D9;
+    text-align: center;
+    font-weight: 600;
+    padding: 0.25rem;
+    margin-top: 5px;
+
+
+}
+
 .bodyContainer {
     display: flex;
     justify-content: center;
@@ -51,8 +91,6 @@
     background-color: #D9D9D9;
     /* height: 2em; */
 }
-
-    
 
 .bodyContainer .bodyIngredient {
     width: 40vw;
