@@ -14,13 +14,13 @@ class User(AbstractUser):
     '''
     phone_num = models.CharField(max_length=100, default="", null=True, blank=True)
     avatar = models.ImageField(upload_to="avatars/", null=True, blank=True, default='avatars/default.png')
-
+    
     @property
     def name(self):
         if self.first_name and self.last_name:
             return f"{self.first_name} {self.last_name}"
         return self.username
-
+        
 class ShoppingRecipeModel(models.Model):
     user_id = models.ForeignKey("User", on_delete=models.CASCADE, null=False, related_name="shoppingCartItems")
     recipe_id = models.ForeignKey("recipes.RecipeModel", on_delete=models.CASCADE)
