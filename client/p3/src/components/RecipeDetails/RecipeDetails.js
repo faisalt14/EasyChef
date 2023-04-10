@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Star, StarFill, StarHalf, HeartFill, BookmarkFill } from 'react-bootstrap-icons';
+import { Star, StarFill, StarHalf, HeartFill, BookmarkFill, AlignCenter } from 'react-bootstrap-icons';
 import ReviewForm from './ReviewForm';
+import './style.css';
+import Servings from './Servings';
+import RecipeSteps from './RecipeSteps';
 
 const formatTime = (timeString) => {
   const timeParts = timeString.split(':').map(Number);
@@ -76,26 +79,46 @@ function RecipeDetails({ recipe }) {
     based_on,
     total_likes,
     total_favs,
-    published_time
+    published_time,
+    servings_num,
+    steps,
+    ingredients
   } = recipe;
 
+
+  // Split ingredients into two columns
+  const half = Math.ceil(ingredients.length / 2);
+  const column1 = ingredients.slice(0, half);
+  const column2 = ingredients.slice(half);
+  const [servings, setServings] = useState(servings_num);
+  const [displayedIngredients, setDisplayedIngredients] = useState(ingredients);
+
+  const handleServingsChange = (newServings) => {
+    setServings(newServings);
+    const updatedIngredients = ingredients.map((ingredient) => ({
+      ...ingredient,
+      quantity: Math.ceil((ingredient.quantity / servings_num) * newServings),
+    }));
+    setDisplayedIngredients(updatedIngredients);
+  };
+
+  
   return (
     <div style={{fontFamily: 'Roboto'}}>
-    <Carousel>
-      {media.map((imageObj, index) => (
-        <Carousel.Item key={index}>
-          <img
-            className="d-block w-100"
-            src={imageObj.media}
-            alt={`Image ${index}`}
-            style={{ height: '35rem', objectFit: 'cover' }}
-          />
-        </Carousel.Item>
-      ))}
-    </Carousel>
+<Carousel>
+  {media.map((imageObj, index) => (
+    <Carousel.Item key={index}>
+      <img
+        className="d-block w-100"
+        src={imageObj.media}
+        alt={`Image ${index}`}
+        style={{ height: '35rem', objectFit: 'contain' }}
+      />
+    </Carousel.Item>
+  ))}
+</Carousel>
 
-
-      <div className="container-fluid padding" style={{ backgroundColor: 'white' }}>
+      <div className="container-fluid padding" style={{ backgroundColor: 'white', fontFamily: 'Roboto'}}>
         <div className="row welcome text-center">
           <div className="col-12 mt-3">
             <h2 style={{ fontSize: '1.8rem', fontWeight:'400' }}>{chef}</h2>
@@ -128,30 +151,30 @@ function RecipeDetails({ recipe }) {
       <div className="col-xs-12 col-sm-4 col-md-4 mb-3 mt-3 text-center ms-3" style={{ maxWidth: '29rem', borderRight: '1px solid #c8cccc' }}>
           {difficulty && (
       <p style={{ fontSize: '20px' }}>
-        Difficulty: <span style={{ fontWeight: 550 }}>{difficulty}</span>
+        Difficulty: <span style={{ fontWeight: 500 }}>{difficulty}</span>
       </p>
     )}
     {cuisine && (
       <p style={{ fontSize: '20px' }}>
-        Cuisine: <span style={{ fontWeight: 550 }}>{cuisine}</span>
+        Cuisine: <span style={{ fontWeight: 500 }}>{cuisine}</span>
       </p>
     )}
     {meal && (
       <p style={{ fontSize: '20px' }}>
-        Meal: <span style={{ fontWeight: 550 }}>{meal}</span>
+        Meal: <span style={{ fontWeight: 500 }}>{meal}</span>
       </p>
     )}
     {diet && (
       <p style={{ fontSize: '20px' }}>
-        Diet: <span style={{ fontWeight: 550 }}>{diet}</span>
+        Diet: <span style={{ fontWeight: 500 }}>{diet}</span>
       </p>
     )}
 
       </div>
       <div className="col-xs-12 col-sm-4 col-md-4 mb-3 mt-3 text-center" style={{ maxWidth: '29rem', borderRight: '1px solid #c8cccc' }}>
-        <p style={{ fontSize: '20px' }}>Total time: <span style={{ fontWeight: 550 }}>{formatTime(total_time)}</span> </p>
-        <p style={{ fontSize: '20px' }}>Prep time: <span style={{ fontWeight: 550 }}>{formatTime(prep_time)}</span> </p>
-        <p style={{ fontSize: '20px' }}>Cooking time: <span style={{ fontWeight: 550 }}>{formatTime(cooking_time)}</span> </p>
+        <p style={{ fontSize: '20px' }}>Total time: <span style={{ fontWeight: 500 }}>{formatTime(total_time)}</span> </p>
+        <p style={{ fontSize: '20px' }}>Prep time: <span style={{ fontWeight: 500 }}>{formatTime(prep_time)}</span> </p>
+        <p style={{ fontSize: '20px' }}>Cooking time: <span style={{ fontWeight: 500 }}>{formatTime(cooking_time)}</span> </p>
       </div>
       <div className="col-xs-12 col-sm-4 col-md-4 mb-3 mt-3 text-center" style={{ maxWidth: '29rem' }}>
         <div className="d-flex justify-content-between">
@@ -183,54 +206,63 @@ function RecipeDetails({ recipe }) {
          </div>)
       }
     </div>
-    <div style={{ backgroundColor: "#E47E20", padding: "1rem", borderRadius: "5px", width:'80%', marginLeft: 'auto', marginRight: 'auto'}}>
-  <h2 className="justify-content-center text-center" style={{ color: "white", fontWeight: "450", marginBottom: "0.5rem" }}>
-   Recipe Ingredients
-    </h2>
+    <div className="mt-5" style={{ padding: "1rem", borderRadius: "5px", width:'80%', marginLeft: 'auto', marginRight: 'auto'}}>
+  <h1 className="justify-content-center text-center" style={{ color: "#E47E20", fontWeight: "550", marginBottom: "0.5rem" }}>
+  Ingredients
+    </h1>
+    <hr style={{ height: '7px', opacity: 0.8, backgroundColor: '#E47E20', border: 'none' }}></hr>
+    
 </div>
-<div className="row">
-      <div className="container-fluid justify-content-center d-flex" style={{margin: "auto"}} >
-        <div className="row">
-          <div className="col-6 mt-4">
-            {/* <div className="row" style={{minWidth: "23rem"}}>
-              <i style="max-width: 2rem; font-size: 20px; color: #04B4B4; cursor: pointer" class="bi bi-plus-circle-fill"></i>
-              <p style="max-width: 20rem; font-size: 18px;" >1 teaspoon <span style="font-weight: 600;">baking soda</span></p>
-            </div>     
-            <div class="row" style="min-width: 23rem;">
-              <i style="max-width: 2rem; font-size: 20px; color: #04B4B4; cursor: pointer" class="bi bi-plus-circle-fill"></i>
-              <p style="max-width: 16rem; font-size: 18px;" >1 cup <span style="font-weight: 600;">unsalted butter</span></p>
+<div className="row mx-auto" style={{ maxWidth: '40%' }}>
+        <div className="col-6 mt-5 d-flex flex-column align-items-start" style={{padding:0, margin:0}}>
+          {displayedIngredients.slice(0, half).map((ingredient, index) => (
+            <div key={index} className="d-flex align-items-start mb-2 me-5">
+              <i
+                style={{
+                  maxWidth: '2rem',
+                  fontSize: '16px',
+                  color: '#04B4B4',
+                }}
+                className="bi bi-circle-fill"
+              ></i>
+              <p className="mb-0 ms-2" style={{ fontSize: '18px' }}>
+                {ingredient.quantity} {ingredient.unit}{' '}
+                <span style={{ fontWeight: '500' }}>{ingredient.name}</span>
+              </p>
             </div>
-            <div class="row" style="min-width: 23rem;">
-              <i style="max-width: 2rem; font-size: 20px; color: #04B4B4; cursor: pointer" class="bi bi-plus-circle-fill"></i>
-              <p style="max-width: 16rem; font-size: 18px;" >1 large <span style="font-weight: 600;">egg</span></p>
-            </div> */}
-          </div>
-          <div className="col-6 mt-4">
-            {/* <div class="row" style="min-width: 23rem; margin-left: 2px;">
-              <i style="max-width: 2rem; font-size: 20px; color: #04B4B4; cursor: pointer" class="bi bi-plus-circle-fill"></i>
-              <p style="max-width: 16rem; font-size: 18px;" >1 teaspoon <span style="font-weight: 600;">baking soda</span></p>
-            </div>     
-            <div class="row" style="min-width: 23rem; margin-left: 2px;">
-              <i style="max-width: 2rem; font-size: 20px; color: #EEB682; cursor: pointer" class="bi bi-dash-circle-fill"></i>
-              <p style="max-width: 16rem; font-size: 18px;" >1 cup <span style="font-weight: 600;">unsalted butter</span></p>
-            </div> */}
-          </div>
+          ))}
+        </div>
+        <div className="col-6 mt-5 d-flex flex-column align-items-start" style={{padding:0, margin:0}}>
+          {displayedIngredients.slice(half).map((ingredient, index) => (
+            <div key={index} className="d-flex align-items-start mb-2">
+              <i
+                style={{
+                  maxWidth: '2rem',
+                  fontSize: '16px',
+                  color: '#04B4B4',
+                }}
+                className="ms-5 bi bi-circle-fill"
+              ></i>
+              <p className="mb-0 ms-2" style={{ fontSize: '18px' }}>
+                {ingredient.quantity} {ingredient.unit}{' '}
+                <span style={{ fontWeight: '500' }}>{ingredient.name}</span>
+              </p>
+            </div>
+          ))}
         </div>
       </div>
-
-    </div>
-    {/* <div className="row d-flex mt-4 pt-3 pb-4" style="background-color: #D9D9D9; color: white; display: flex; align-items: center; justify-content: center; max-width: 70rem; margin: auto; border-radius: 15px;">
-      <span style={{maxWidth: "6.1rem", fontSize: "18px", marginTop: "3px", color: "black", fontWeight: 600}}>Serves: 3</span>
-      <label style="max-width: 10.4rem; font-size: 18px; margin-top: 3px; color: black; font-weight: 600;" for="serve_number">Custom Servings:</label>
-      <input style="width: 10vh; height: 2.6rem; margin-top: 5px;" type="number" class="form-control" id="serving_number" placeholder="">
-      <button type="button" className="btn mt-2 ms-3" style="background-color:#04B4B4; color: white; max-width: 7.8rem; font-size: 18px;">Set Servings</button>
-      <button type="button" className="btn mt-2 ms-3" style="background-color:#04B4B4; color: white; max-width: 12.5rem; font-size: 18px;">Add to Shopping List</button>
-
-    </div> */}
-
+      <Servings initialServings={servings_num} onServingsChange={handleServingsChange} />
+      <div className="mt-5" style={{ padding: "1rem", borderRadius: "5px", width:'80%', marginLeft: 'auto', marginRight: 'auto'}}>
+  <h1 className="justify-content-center text-center" style={{ color: "#E47E20", fontWeight: "550", marginBottom: "0.5rem" }}>
+  Directions
+    </h1>
+    <hr style={{ height: '7px', opacity: 0.8, backgroundColor: '#E47E20', border: 'none' }}></hr>
+    
+</div>
+      <RecipeSteps steps={steps} />
 
       </div>
-      <ReviewForm/>
+      {/* <ReviewForm/> */}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import UploadImage from '../CreateRecipe/UploadImage.js';
+import './style.css';
 
 const ReviewForm = () => {
   const [rating, setRating] = useState(0);

@@ -16,7 +16,7 @@ const baseURL = "http://127.0.0.1:8000/recipes/create-recipe/";
 
 
 function CreateForm() {
-  const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMDI1NDkzLCJpYXQiOjE2ODEwMjE4OTMsImp0aSI6ImQ4YTBmZGNmNzE0NDRjYWY5OTE0N2E4YjY1YzRhZWQ5IiwidXNlcl9pZCI6MX0.kuJBuhndq0KtQETEoGsvRBZkj-96Mni4UVa4oda7Zpk";
+  const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTAzMjI0LCJpYXQiOjE2ODEwOTk2MjQsImp0aSI6ImQ3MzY5MWY0MTE0ZDRmOTI5YTY4ZTIxZGQwZGU3NTNlIiwidXNlcl9pZCI6MX0.TQf4y1gYOxnfbYGZE_HkiqQ7dlHqVxGy9ssWyGmU-ok";
   const navigate = useNavigate();
 
   const [post, setPost] = useState(null);

@@ -15,6 +15,9 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
 
   const units_object = [
     { value: "cups", label: 'cups' },
+    { value: "small", label: 'small' },
+    { value: "medium", label: 'medium' },
+    { value: "large", label: 'large' },
     { value: "kg", label: 'kg'},
     { value: "g", label: 'g' },
     { value: "tbs", label: 'tbs' },
