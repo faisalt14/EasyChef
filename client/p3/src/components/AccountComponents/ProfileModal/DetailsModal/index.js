@@ -27,7 +27,7 @@ function DetailsModal(props) {
                     <label htmlFor='pfp-upload' className="edit-pfp-icon">
                         <PencilSquare />
                     </label>
-                    <input type='file' id='pfp-upload' accpet="image/" onChange={() => editPfp()} hidden></input>
+                    <input type='file' id='pfp-upload' accept="image/" onChange={() => editPfp()} hidden></input>
                 </div>
                 <div className="container-fluid">
                     <div className="row">

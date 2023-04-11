@@ -7,11 +7,16 @@ import $ from 'jquery'
 function LoginModal(props) {
     const [username, setUsername] = useState(null)
     const [password, setPassword] = useState(null)
+    const [register, setRegister] = useState(false)
 
     const handleKeyPress = (event) =>{
         if (event.key === 'Enter'){
             handleLogin()
         }
+    }
+
+    const handleRegisterClick = () => {
+        register ? setRegister(false) : setRegister(true)
     }
 
     const handleLogin = () => {
@@ -40,18 +45,19 @@ function LoginModal(props) {
             <Modal.Title>Log In</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body className="body-wrapper row" style={{marginBottom: '2rem'}}>
-            <h5>Username: 
-                <input type='text' id='username' onChange={event => setUsername(event.target.value)} onKeyUp={handleKeyPress}></input>
+        <Modal.Body className="body-wrapper row" style={{marginBottom: '2rem', textAlign:'center'}}>
+            <h5>
+                Username: <input type='text' id='username' onChange={event => setUsername(event.target.value)} onKeyUp={handleKeyPress}></input>
             </h5>
-            <h5>Password: 
-                <input type='password' id='password' onChange={event => setPassword(event.target.value)} onKeyUp={handleKeyPress}></input>
+            <h5>
+                Password: <input type='password' id='password' onChange={event => setPassword(event.target.value)} onKeyUp={handleKeyPress}></input>
             </h5>
             <br></br>
-            <input type='submit' onClick={handleLogin} value="Log In"></input>
+            <input type='submit' onClick={handleLogin} value="Log In" style={{width: '20em'}}></input>
         </Modal.Body>
 
         <Modal.Footer>
+            <Button onClick={() => {handleRegisterClick()}} className="footer-button btn-secondary"> {register ? 'Back to Login' : 'Sign Up'}</Button>
             <Button onClick={props.onHide} className="footer-button btn-secondary">Close</Button>
         </Modal.Footer>
         </>
