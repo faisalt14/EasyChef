@@ -76,39 +76,32 @@ class EditProfileView(APIView):
 
         serializer = UserEditSerializer(data=request.data)
         if serializer.is_valid():
-
             if request.data.get('email'):
                 try:
                     validate_email(request.data.get('email'))
                     request.user.email = request.data.get('email')
                 except ValidationError:
                     return Response({'message': 'enter a valid email'}, status=400)
+            elif request.data.get('email') == '':
+                request.user.email = ''
+
             if request.data.get('password') != request.data.get('password2'):
                 return Response({'message': 'passwords do not match'}, status=400)
             elif request.data.get('password'):
                 request.user.set_password(request.data.get('password'))
-
-            if request.data.get('first_name'):
-                request.user.first_name = request.data.get('first_name')
-            if request.data.get('last_name'):
-                request.user.last_name = request.data.get('last_name')
-            if request.data.get('phone_num'):
-                request.user.phone_num = request.data.get('phone_num')
+            request.user.first_name = request.data.get('first_name')
+            request.user.last_name = request.data.get('last_name')
+            request.user.phone_num = request.data.get('phone_num')
             try:
                 request.user.avatar = request.FILES['avatar']
             except:
-                print('no avatar change')
+                pass
 
             request.user.save()
             update_session_auth_hash(request, request.user)
             return Response(UserDetailSerializer(request.user).data, status=200)
-        Email_Error = ''
-        try:
-            if serializer.errors['email']:
-                Email_Error = ' ' + serializer.errors['email'][0].title()
-        except:
-            pass
-        return Response({'message': 'serializer is invalid!' + Email_Error}, status=400)
+            
+        return Response(serializer.errors, status=400)
 
 class ProfileDetailsView(RetrieveAPIView):
     serializer_class = UserDetailSerializer
