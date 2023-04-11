@@ -9,12 +9,13 @@ from recipes.models import RecipeModel
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
-
+    
     class Meta:
         model = User
         fields = ['username', 'password', 'email', 'first_name', 'last_name', 'phone_num', 'avatar']
         extra_kwargs = {
-            'password': {'write_only': True}
+            'username': {'required': True},
+            'password': {'write_only': True, 'required': True},
         }
 
     def create(self, validated_data):

@@ -25,25 +25,20 @@ from django.db.models import Q
 class SignUpView(CreateAPIView):
     def post(self, request):
         serializer = UserDetailSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid() and (request.data.get('password') == request.data.get('password2')):
             if request.data.get('email'):
                 try:
                     validate_email(request.data.get('email'))
                 except ValidationError:
                     return Response({'message': 'enter a valid email'}, status=400)
             if request.data.get('password') != request.data.get('password2'):
-                return Response({'message': 'passwords do not match'}, status=400)
+                return Response({'password2': 'passwords do not match'}, status=400)
             return Response(UserDetailSerializer(serializer.create(request.data)).data, status=200)
 
-        if User.objects.filter(username=request.data.get('username')).exists():
-            return Response({'message': 'username is already taken'}, status=400)
-        errors = ""
-
-        if not request.data.get('password2'):
-            errors = errors + ' [password2 - This Field Is Required.]'
-        for error in serializer.errors:
-            errors = errors + ' [' + error + ' - ' + serializer.errors[error][0].title() + ']'
-        return Response({'message': 'Errors in request:' + errors}, status=400)
+        errors = serializer.errors
+        if request.data.get('password') != request.data.get('password2'):
+            errors.update({'password2': 'Passwords do not match.'})
+        return Response(errors, status=400)
 
 
 class LoginView(APIView):
