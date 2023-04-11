@@ -15,25 +15,133 @@ import { useNavigate  } from 'react-router-dom';
 const baseURL = "http://127.0.0.1:8000/recipes/create-recipe/";
 
 
-function CreateForm() {
+// there are all functions outside of the CreateRecipe component that are used in Remix Recipe and Edit Recipe
+const convertResponseToSteps = (response) => {
+  return response.map((step) => {
+    const mediaItems = step.media
+      ? step.media.map((mediaItem) => ({
+          url: mediaItem.media,
+        }))
+      : [];
+
+    return {
+      id: step.id,
+      description: step.instructions,
+      prepTime: step.prep_time,
+      cookTime: step.cooking_time,
+      images: mediaItems,
+    };
+  });
+};
+
+
+const formatTime = (timeString) => {
+  if (!timeString) {
+    return {
+      hours: "00",
+      minutes: "00"
+    };
+  }
+
+  const timeArray = timeString.split(':');
+  const hours = timeArray[0];
+  const minutes = timeArray[1];
+
+  return {
+    hours,
+    minutes
+  };
+};
+
+function dietStringToArray(dietStr) {
+  const dietLabels = {
+    '0': 'Vegan',
+    '1': 'Vegetarian',
+    '2': 'Gluten-Free',
+    '3': 'Halal',
+    '4': 'Kosher',
+    '5': 'None',
+  };
+
+  return dietStr.split(', ').map(diet => {
+    const index = Object.values(dietLabels).indexOf(diet);
+    return { value: index.toString(), label: diet };
+  });
+}
+
+function getObjectByLabel(array, label) {
+  return array.find(element => element.label === label);
+}
+
+function getDifficultyObjectByLabel(label) {
+  const difficulty = [
+    { value: "0", label: 'Easy' },
+    { value: "1", label: 'Medium'},
+    { value: "2", label: 'Hard' }
+  ];
+
+  return getObjectByLabel(difficulty, label);
+}
+
+function getMealObjectByLabel(label) {
+  const meal = [
+    { value: "0", label: 'Breakfast' },
+    { value: "1", label: 'Lunch'},
+    { value: "2", label: 'Dinner' },
+    { value: "3", label: 'Desserts' },
+    { value: "4", label: 'Snacks' },
+    { value: "5", label: 'Other' }
+  ];
+
+  return getObjectByLabel(meal, label);
+}
+
+function getCuisineObjectByLabel(label) {
+  const cuisine = [
+    { value: "0", label: 'African'},
+    { value: "1", label: 'Caribbean'},
+    { value: "2", label: 'East Asian'},
+    { value: "3", label: 'European' },
+    { value: "4", label: 'French' },
+    { value: "5", label: 'Italian'},
+    { value: "6", label: 'Middle-Eastern'},
+    { value: "7", label: 'North American'},
+    { value: "8", label: 'Oceanic'},
+    { value: "9", label: 'Russian' },
+    { value: "10", label: 'Spanish' },
+    { value: "11", label: 'South American'},
+    { value: "12", label: 'South Asian'},
+    { value: "13", label: 'Other' }
+  ];
+
+  return getObjectByLabel(cuisine, label);
+}
+
+
+function CreateForm({ initialValues }) {
   const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTUwNjM5LCJpYXQiOjE2ODExNDcwMzksImp0aSI6IjA4MzUxMDk2NDM5NjQxNGE5NmFlZDg4ZDBkMzFiZGNjIiwidXNlcl9pZCI6MX0.YEp86aXF2UAFW6LVgZ2RdVyVg9O3WBWjMTQ6IXWAbCY";
   const navigate = useNavigate();
 
+  const initialPrepTime = initialValues ? formatTime(initialValues.prep_time) : { hours: "00", minutes: "00" };
+  const initialCookTime = initialValues ? formatTime(initialValues.cooking_time) : { hours: "00", minutes: "00" };
+  const convertedSteps = initialValues ? convertResponseToSteps(initialValues.steps) : [];
+
   const [post, setPost] = useState(null);
-  const [selectedName, setName] = useState('');
-  const [selectedDifficulty, setSelectedDifficulty] = useState('');
-  const [selectedCuisine, setSelectedCuisine] = useState('');
-  const [selectedMeal, setSelectedMeal] = useState('');
-  const [selectedDiets, setSelectedDiets] = useState([]);
+  const [selectedName, setName] = useState(initialValues ? initialValues.name : '');
+  const [selectedDifficulty, setSelectedDifficulty] = useState(initialValues ? getDifficultyObjectByLabel(initialValues.difficulty) : '');
+  const [selectedCuisine, setSelectedCuisine] = useState(initialValues ? getCuisineObjectByLabel(initialValues.cuisine) : '');
+  const [selectedMeal, setSelectedMeal] = useState(initialValues ? getMealObjectByLabel(initialValues.meal) : '');
+  const [selectedDiets, setSelectedDiets] = useState(
+    initialValues ? dietStringToArray(initialValues.diet) : []
+  );
+  const [selectSteps, setSelectedSteps] = useState(initialValues ? convertedSteps : []);
+  const [selectImages, setImages] = useState(initialValues ? initialValues.media : []);
+  const [ingredient_dic, setIngredient_dic] = useState(initialValues ? initialValues.ingredients : {});
 
-  const [selectSteps, setSelectedSteps] = useState([]);
-  const [selectImages, setImages] = useState([]);
-  const [ingredient_dic, setIngredient_dic] = useState({});
-
-  const [selectedPrepTime, setPrepTime] = useState("00:00:00");
-  const [selectedCookTime, setCookTime] = useState("00:00:00");
+  const [selectedPrepTime, setPrepTime] = useState(initialPrepTime);
+  const [selectedCookTime, setCookTime] = useState(initialCookTime);
   const [resetPrepCookTime, setResetPrepCookTime] = useState(false);
-  const [selectedServings, setServings] = useState(0);
+  const [selectedServings, setServings] = useState(initialValues ? initialValues.servings_num : 0);
 
   const [errorMessageName, setErrorMessageName] = useState("");
   const [errorMessageFilters, setErrorMessageFilters] = useState("");
@@ -436,7 +544,12 @@ useEffect(() => {
              </div>
 )}
 
-        <Ingredients setIngredient_dic={setIngredient_dic} ingredient_dic={ingredient_dic} onIngredientAdded={() => setHasAddedIngredients(true)}/>
+        <Ingredients
+          setIngredient_dic={setIngredient_dic}
+          ingredient_dic={ingredient_dic}
+          onIngredientAdded={() => setHasAddedIngredients(true)}
+          initialIngredients={initialValues ? initialValues.ingredients : []}
+        />
         <br/>
 
 

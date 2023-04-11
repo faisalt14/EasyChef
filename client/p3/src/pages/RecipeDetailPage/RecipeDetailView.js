@@ -8,6 +8,7 @@ function RecipeDetailView() {
   const { recipe_id } = useParams();
   const location = useLocation();
 
+
   useEffect(() => {
     if (location.state && location.state.scrollToTop) {
       window.scrollTo(0, 0);

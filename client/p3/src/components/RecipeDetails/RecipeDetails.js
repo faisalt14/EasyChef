@@ -220,14 +220,24 @@ function RecipeDetails({ recipe }) {
           </div> */}
         </div>
         <div className="row d-flex justify-content-center">
-          <Link to="/create_recipe">
-            <button type="button" className="btn ms-3 ps-4" style={{ backgroundColor: '#04B4B4', color: 'white', fontSize: '18px', maxWidth: '20rem' }}>Remix Recipe</button>
-          </Link>
+        <Link to={`/recipes/${id}/remix-recipe`}>
+        <button
+          type="button"
+          className="btn ms-3 ps-4 pe-4"
+          style={{
+            backgroundColor: '#04B4B4',
+            color: 'white',
+            fontSize: '17px',
+            maxWidth: '20rem',
+            fontWeight: '500',
+          }}
+        >
+          Remix Recipe
+        </button>
+      </Link>
         </div>
         <div className="row d-flex justify-content-center">
-          <Link to="/reviews">
-          <button type="button" className="btn mt-2 ms-3" style={{ backgroundColor: '#04B4B4', color: 'white', maxWidth: '20rem', fontSize: '18px' }}>Leave a Review</button>
-          </Link>
+          <button type="button" className="btn mt-2 ms-3" style={{ backgroundColor: '#04B4B4', color: 'white', maxWidth: '9.5rem', fontSize: '17px' }}><a href="#reviews" style={{ textDecoration: 'none', color:"white", fontWeight:'500' }}>Leave a Review</a></button>
         </div>
       </div>
       {based_on && (
@@ -297,8 +307,9 @@ function RecipeDetails({ recipe }) {
 </div>
       <RecipeSteps steps={steps} 
       />
+      <div id="reviews">
       <ReviewForm interactions={interactions}/>
-
+      </div>
       </div>
     </div>
   );

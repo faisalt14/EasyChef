@@ -21,7 +21,6 @@ class StepMediaSerializer(serializers.ModelSerializer):
 
         }
     def create(self, validated_data):
-        print("Validated data:", validated_data)  # Add this line
         instance = StepMediaModel.objects.create(**validated_data)
         return instance
 
@@ -84,11 +83,15 @@ class ReviewMediaSerializer(serializers.ModelSerializer):
         model = ReviewMediaModel
         fields = ['id', 'interaction_id', 'media']
 
+    def create(self, validated_data):
+        instance = ReviewMediaModel.objects.create(**validated_data)
+        return instance
+
 class InteractionSerializer(serializers.ModelSerializer):
     media = ReviewMediaSerializer(many=True, read_only=False, required=False)
-    like = serializers.BooleanField(required=False)
-    favourite = serializers.BooleanField(required=False)
-    rating = serializers.IntegerField(required=False)
+    like = serializers.BooleanField(required=False, default=False)
+    favourite = serializers.BooleanField(required=False, default=False)
+    rating = serializers.IntegerField(required=False, default=0)
     comment = serializers.CharField(required=False, allow_null=True)
 
     

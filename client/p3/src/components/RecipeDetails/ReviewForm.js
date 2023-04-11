@@ -123,6 +123,7 @@ const ReviewForm = ({ interactions }) => {
               </form>
               </Box>
 <Box sx={{ mt: 2 }}>
+  {/* set a condition where either rating is not empty or comment is not empty */}
     {interactions.map((interaction) => (
       <Box
         key={interaction.id}

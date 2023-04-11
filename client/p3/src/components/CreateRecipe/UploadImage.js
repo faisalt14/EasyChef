@@ -13,8 +13,9 @@ registerPlugin(FilePondPluginImagePreview);
 function UploadImage({ selectImages, setImages, image_name, reset, setReset }) {
   const [errorMessage, setErrorMessage] = useState('');
   const pondRef = useRef(null);
-
+  const [initialFiles, setInitialFiles] = useState([]);
   const [resetState, setResetState] = useState(false);
+
   useEffect(() => {
     setResetState(reset);
   }, [reset]);
@@ -87,19 +88,6 @@ function UploadImage({ selectImages, setImages, image_name, reset, setReset }) {
           <CloseButton style={{ marginLeft: '20px' }} onClick={() => setErrorMessage('')} />
         </div>
       )}
-      {/* <div className="images" style={{ margin: '20px' }}>
-        {selectImages &&
-          selectImages.map((file, index) => {
-            return (
-              <>
-                <div key={index} className="image">
-                  <img className="div-image" src={URL.createObjectURL(file)} height="200" />
-                  <button onClick={() => setImages(selectImages.filter((e) => e !== file))}>Delete</button>
-                </div>
-              </>
-            );
-          })}
-      </div> */}
     </>
   );
 }

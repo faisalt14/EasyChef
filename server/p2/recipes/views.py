@@ -474,10 +474,8 @@ class AddStepMedia(CreateAPIView):
     parser_classes = [MultiPartParser, FormParser]  # Add this line
 
     def create(self, request, *args, **kwargs):
-        print("Request data:", request.data)  # Add this line
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        print("Serializer valid:", serializer.is_valid())  # Add this line
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -520,6 +518,14 @@ class DeleteRecipe(DestroyAPIView):
 class AddInteractionMedia(CreateAPIView):
     serializer_class = ReviewMediaSerializer
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]  # Add this line
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def post(self, request, *args, **kwargs):
         # Get the interaction, if it exists

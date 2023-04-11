@@ -4,9 +4,12 @@ import Select from 'react-select';
 import './ingredients.css';
 import CloseButton from 'react-bootstrap/CloseButton';
 
-function Ingredients({ ingredient_dic, setIngredient_dic }) {
-  const [ingredients, setIngredients] = useState([]);
-  const [name, setName] = useState('');
+function Ingredients({ ingredient_dic, setIngredient_dic, initialIngredients }) {
+  const [ingredients, setIngredients] = useState(initialIngredients
+    ? initialIngredients.map(
+        ({ quantity, unit, name }) => `${quantity} ${unit} ${name}`
+      )
+    : []);  const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [unit, setUnit] = useState('');
   const [options, setOptions] = useState([]);
