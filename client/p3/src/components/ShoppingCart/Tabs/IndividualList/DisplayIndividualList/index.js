@@ -14,9 +14,9 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
 
 
             {console.log(recipeDetails[0].id)}
-
-            
             */}
+
+            {console.log(cartInfo[0].ingredients)}
 
             <table>
                 <tr>
@@ -55,9 +55,15 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
                                         <div className="ingredientsColumnContainer">
 
                                             <div className="ingredientsBox">
+
                                                 <ul className="ingredientsList">
-                                                    <li className="listItem" > item 1</li>
-                                                    <li className="listItem" > item 2</li>
+
+                                                {(cartInfo[index].ingredients).map( (ingredientsDict, i) => (
+                                                    <li className="listItem" > {ingredientsDict.name}  {ingredientsDict.quantity} {ingredientsDict.unit}</li>
+                                                    
+                                                ))}
+                                                
+                                    
                                                 </ul>
                                             </div>
                                             
