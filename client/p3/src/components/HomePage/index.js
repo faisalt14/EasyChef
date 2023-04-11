@@ -16,7 +16,7 @@ function HomePage(props) {
             url: 'http://127.0.0.1:8000/recipes/',
             method: 'Get',
             success: function(xhr){
-                console.log(xhr)
+                //console.log(xhr)
                 setPopular(xhr.Popular)
                 setBreakfast(xhr.Breakfasts)
                 setLunch(xhr.Lunches)
