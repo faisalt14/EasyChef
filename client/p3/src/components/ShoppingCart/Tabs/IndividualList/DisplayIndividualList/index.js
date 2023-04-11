@@ -34,35 +34,61 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
                     <tbody>
 
                         <div className="card-ingredients-container">
+                          
+                            {recipeDetails.map( (dict, index) => (
+                                
+                                <div className="rowContainer"> 
+                                <tr key={index} > 
 
-                            <div className="cardContainer">
-                                <td className="card"> < RecipeCard info={recipeDetails[0]}/> </td>
-                            </div>
-                            
-
-                            <td className="ingredientsColumn">
-                                <div className="ingredientsColumnContainer">
-
-                                    <div className="ingredientsBox">
-                                        <ul className="ingredientsList">
-                                            <li className="listItem" > item 1</li>
-                                            <li className="listItem" > item 2</li>
-
-                                        </ul>
-                                    </div>
                                     
-                                    <div className="ingredientColSecondRow">
-                                        <label className="servingsLabel"> Servings: <input type="number" className="servingsInput" id="quantity"/></label>
-                                        <button className="servingsUpdateButton"> Update</button>
-                                        <button className="deleteButton"> Remove </button>
+                                            
+                                    <td className="cardContainer"> 
+                                        <div className="card">
+                                            < RecipeCard info={recipeDetails[index]}/> 
+                                        </div>
+                                    </td>
+                                    
 
-                                    </div>
-                             
 
-                                </div>
+                                    <td className="ingredientsColumn">
+                                        
+                                        <div className="ingredientsColumnContainer">
 
-                            
-                            </td>
+                                            <div className="ingredientsBox">
+                                                <ul className="ingredientsList">
+                                                    <li className="listItem" > item 1</li>
+                                                    <li className="listItem" > item 2</li>
+                                                </ul>
+                                            </div>
+                                            
+                                            <div className="ingredientColSecondRow">
+                                                <label className="servingsLabel"> Servings: <input type="number" className="servingsInput" id="quantity"/></label>
+                                                <button className="servingsUpdateButton"> Update</button>
+                                                <button className="deleteButton"> Remove </button>
+                                            </div>
+                                        </div>
+                                         
+                                    </td>
+
+
+                               </tr>
+                               </div>
+
+                                
+
+                              
+            
+                            ))}
+                                    
+
+                                    
+                                    
+                                    
+                                    
+
+                         
+
+
                         </div>
 
             

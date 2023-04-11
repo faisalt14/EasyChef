@@ -7,7 +7,7 @@ import IndividualList from "./Tabs/IndividualList";
 {/* Reference for making tabs: https://blog.logrocket.com/how-to-build-tab-component-react/ */}
 
 const ShoppingCart = () => {
-    const [activeTab, setActiveTab] = useState("tab1");
+    const [activeTab, setActiveTab] = useState("tab2");
 
     
 
