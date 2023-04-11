@@ -6,7 +6,7 @@ import { formatTime } from './RecipeDetails';
 const RecipeSteps = ({ steps}) => {
   return (
     <>
-<div className="row d-flex mt-4 pt-3 pb-4" style={{ 
+<div className="row d-flex mt-2 pt-3 pb-4" style={{ 
         width: "80%",
         display: 'flex',
         fontFamily: 'Roboto',

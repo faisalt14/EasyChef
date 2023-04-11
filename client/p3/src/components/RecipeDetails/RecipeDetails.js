@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Star, StarFill, StarHalf, HeartFill, BookmarkFill, AlignCenter } from 'react-bootstrap-icons';
@@ -102,8 +102,8 @@ function RecipeDetails({ recipe }) {
     total_favs: 0,
   };
 
-  const [liked, setLiked] = useState(false);
-  const [favourited, setFavourited] = useState(false);
+  const [totalLikes, setTotalLikes] = useState(total_likes);
+  const [totalFavs, setTotalFavs] = useState(total_favs);
 
   // Split ingredients into two columns
   const half = Math.ceil(ingredients.length / 2);
@@ -119,6 +119,13 @@ function RecipeDetails({ recipe }) {
     setDisplayedIngredients(updatedIngredients);
   };
 
+  const updateTotalLikes = useCallback((total_likes) => {
+    setTotalLikes(total_likes);
+  }, []);
+  
+  const updateTotalFavs = useCallback((total_favs) => {
+    setTotalFavs(total_favs);
+  }, []);
   
   return (
     <div style={{fontFamily: 'Roboto'}}>
@@ -195,7 +202,12 @@ function RecipeDetails({ recipe }) {
       </div>
       <div className="col-xs-12 col-sm-4 col-md-4 mb-3 mt-3 text-center" style={{ maxWidth: '29rem' }}>
         <div className="d-flex justify-content-between">
-        <LikeFav recipeId={id} fav_number={total_favs} like_number={total_likes} />
+        <LikeFav
+        recipeId={id}
+        fav_number={total_favs}
+        like_number={total_likes}     
+        updateTotalLikes={updateTotalLikes}
+        updateTotalFavs={updateTotalFavs} />
           {/* <div className="row justify-content-center" style={{ margin: 'auto' }}>
             <div className="col">
               <HeartFill style={{ fontSize: '25px', color: '#04B4B4', cursor: 'pointer' }} />
@@ -238,7 +250,7 @@ function RecipeDetails({ recipe }) {
     
 </div>
 <div className="row mx-auto" style={{ maxWidth: '40%' }}>
-        <div className="col-6 mt-5 d-flex flex-column align-items-start" style={{padding:0, margin:0}}>
+        <div className="col-6 mt-2 d-flex flex-column align-items-start" style={{padding:0, margin:0}}>
           {displayedIngredients.slice(0, half).map((ingredient, index) => (
             <div key={index} className="d-flex align-items-start mb-2 me-5">
               <i
@@ -256,7 +268,7 @@ function RecipeDetails({ recipe }) {
             </div>
           ))}
         </div>
-        <div className="col-6 mt-5 d-flex flex-column align-items-start" style={{padding:0, margin:0}}>
+        <div className="col-6 mt-2 d-flex flex-column align-items-start" style={{padding:0, margin:0}}>
           {displayedIngredients.slice(half).map((ingredient, index) => (
             <div key={index} className="d-flex align-items-start mb-2">
               <i
@@ -285,9 +297,9 @@ function RecipeDetails({ recipe }) {
 </div>
       <RecipeSteps steps={steps} 
       />
+      <ReviewForm interactions={interactions}/>
 
       </div>
-      {/* <ReviewForm/> */}
     </div>
   );
 }

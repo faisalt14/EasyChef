@@ -13,10 +13,10 @@ function RecipeCard({info}) {
     const [chef, setChef] = useState(info.chef)
     const [img, setImg] = useState(DefaultImage)
     const [rating, setRating] = useState(info.avg_rating)
-    const [difficulty, setDifficulty] = useState(info.difficulty)
-    const [cuisine, setCuisine] = useState(info.cuisine)
-    const [meal, setMeal] = useState(info.meal)
-    const [diet, setDiet] = useState(info.diet)
+    const [difficulty, setDifficulty] = useState(info.difficulty ? info.difficulty : "");
+    const [cuisine, setCuisine] = useState(info.cuisine ? info.cuisine : "");
+    const [meal, setMeal] = useState(info.meal ? info.meal : "");
+    const [diet, setDiet] = useState(info.diet ? info.diet : "");
     const [cookTime, setCookTime] = useState(timeToStr(info.cooking_time))
     const [favs, setFavs] = useState(favShortener(parseInt(info.total_favs)))
     const navigate = useNavigate();
@@ -99,17 +99,13 @@ function RecipeCard({info}) {
             <div className="card-img-tag-wrapper">
                 <Card.Img className="card-img" variant="top" src={img} alt={img.split('/').slice(-1)} />
                 <div className="tags-wrapper">
-                    <h5 className={"badge tag " + difficulty.toLowerCase()}>{difficulty}</h5>
-                    {[cuisine, meal].map((item, index) =>{
-                        if(item !== ''){
-                            return <h5 className="badge tag" key={index}>{item}</h5>
-                        }
-                        return null
-                    })}
-                    {diet.split(',').map((diet_str, index) => {
-                        return <h5 className="badge tag" key={index}>{diet_str}</h5>
-                    })}
-                </div>
+          {difficulty && <h5 className={"badge tag " + difficulty.toLowerCase()}>{difficulty}</h5>}
+          {cuisine && <h5 className="badge tag">{cuisine}</h5>}
+          {meal && <h5 className="badge tag">{meal}</h5>}
+          {diet && diet.split(',').map((diet_str, index) => {
+            return <h5 className="badge tag" key={index}>{diet_str}</h5>
+          })}
+        </div>
             </div>
             <Card.Body>
                 <div className="recipe-info-wrapper">
