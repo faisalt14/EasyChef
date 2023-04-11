@@ -176,6 +176,12 @@
     height: 2.5rem;
 }
 
+.ingredientColSecondRow .deleteButton:hover{
+    background-image: linear-gradient(to left, #E47E20, #f39740); /* Reverse the gradient direction on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Increase the shadow on hover */
+    transform: translateY(-0.3px); /* Add a subtle lift effect on hover */
+
+}
 
 
 
