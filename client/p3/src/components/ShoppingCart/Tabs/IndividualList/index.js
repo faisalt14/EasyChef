@@ -5,7 +5,7 @@ const IndividualList = () => {
     // const {token, setToken} = useContext(ShoppingCartAPIContext); 
 
     // Set token here 
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjkwMzYwLCJpYXQiOjE2ODEyODY3NjAsImp0aSI6ImZjZTY3Y2IwZDE3NjRjZmY4Zjk4MTJkZjVmM2NiMDNiIiwidXNlcl9pZCI6MX0.eLUUTUrVsTnvM9etjWZpje64tBUTzplq9l2HnKPyl-Y")
+    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzI1MjMzLCJpYXQiOjE2ODEzMjE2MzMsImp0aSI6ImI5OTc2ZjJmNmQ0MDRiOTViY2NmMTc2MWJhYjdjZjhmIiwidXNlcl9pZCI6MX0.TidUJ3leUh4kPfosb6IkGYlEWT55JoqI7LPDaG_JYWA")
 
     const [individualData, setIndividualData] = useState([]); 
     const [cardInfo, setCardInfo] = useState([]); 
