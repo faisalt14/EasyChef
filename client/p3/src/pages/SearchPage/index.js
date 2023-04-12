@@ -12,65 +12,62 @@ import RecipeCard from '../../components/RecipeCard'
 function SearchPage(props) {
     const [nextPage, setNextPage] = useState(false)
     const [cards, setCards] = useState([])
+    let acc = 0
     let callingCards = false
 
-    const infiniteScroll = () => {
-        if (window.scrollY >= (window.screen.availHeight - document.body.clientHeight) && (!callingCards)){
+    const infiniteScroll = (event) => {
+        if (event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight){
             if (nextPage){
                 callingCards = true
-                console.log('hello')
-                /*$.ajax({
-                    url: '',
+                $.ajax({
+                    url: nextPage,
                     method: 'Get',
                     success: function(xhr){
                         console.log(xhr)
                         callingCards = false
+                        setCards([...cards, ...xhr.results])
                         setNextPage(xhr.next)
                     },
                     error: function(xhr){
                         console.log(xhr)
                     }
-                })*/
-            }
-            else{
-                //display button?
+                })
             }
         }
     }
 
-    //document.addEventListener('scroll', infiniteScroll)
-
     useEffect(() =>{
-        console.log(props.searchParams)
-        if (props.searchParams['category']){
-            $.ajax({
-                url: 'http://127.0.0.1:8000/recipes/search/',
-                method: 'Get',
-                data: (props.searchParams['category'] ? props.searchParams : {category: 'Recipe'}),
-                success: function(xhr){
-                    console.log(xhr)
-                    setCards(xhr.results)
-                },
-                error: function(xhr){
-                    console.log(xhr)
-                }
-            })
-        }
+        $.ajax({
+            url: 'http://127.0.0.1:8000/recipes/search/',
+            method: 'Get',
+            data: (props.searchParams['category'] ? props.searchParams : {category: 'Recipe'}),
+            success: function(xhr){
+                console.log(xhr)
+                setCards(xhr.results)
+                setNextPage(xhr.next)
+            },
+            error: function(xhr){
+                console.log(xhr)
+            }
+        })
     }, [props.searchParams])
 
     return(
         <>
         <SearchHeader searchParams={props.searchParams} setSearchParams={props.setSearchParams} searchPage={true}/>
-        <div className='search-results-wrapper'>
-            {cards.map((cardInfo, index) => {
-                return <RecipeCard info={cardInfo} key={index}/>
-            })}
+        <div className='search-results-wrapper' id='searchResults' onScroll={infiniteScroll}>
+            <div className='search-results-table'>
+                {cards.map((cardInfo, index) => {
+                    return <RecipeCard info={cardInfo} key={index}/>
+                })}
+            </div>
+            <div className='BTT-wrapper'>
+                <Button className='BTT-button btn-secondary' onClick={() => {document.getElementById('searchResults').scrollTop = 0}}>
+                    You've reached the end, click me to go back to the top!
+                </Button>
+            </div>
         </div>
-        <div className='BTT-wrapper'>
-            <Button className='BTT-button btn-secondary' onClick={() => {window.scrollTo({top: 0, behavior: 'smooth',})}}>
-                You've reached the end, click me to go back to the top!
-            </Button>
-        </div>
+        
         <div className='footer-space'></div>
         </>
     );
