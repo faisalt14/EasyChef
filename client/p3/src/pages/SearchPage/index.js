@@ -12,7 +12,6 @@ import RecipeCard from '../../components/RecipeCard'
 function SearchPage(props) {
     const [nextPage, setNextPage] = useState(false)
     const [cards, setCards] = useState([])
-    let acc = 0
     let callingCards = false
 
     const infiniteScroll = (event) => {
