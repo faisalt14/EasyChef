@@ -1,0 +1,216 @@
+/* Reference for navbar styling https://www.youtube.com/watch?v=P3W7MZ3JkyA*/ 
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #EFEEEE
+}
+
+#navbar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 5rem;
+    background-color: #FFFEFE;
+    color: white;
+}
+
+
+.nav-links{
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    width: 75%;    
+    white-space: nowrap;
+}
+
+/* Old search bar css */
+
+/* .nav-links #navSearchBar{
+    border: none;
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: #bcb7b2;
+    padding: 0.5rem;
+    margin: 0 10px;
+    width: 14rem;
+    cursor: text;
+} */
+
+
+/* New search bar css */
+.nav-links .search-bar-wrapper{
+    display:flex;  
+    justify-content: flex-start;
+    border: 1px solid #d9d4d4;
+    margin-right: 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+
+}
+
+.nav-links .magnifying-glass-icon{
+    color: black;
+    height: 2.6rem;
+    padding-left: 6px;
+    font-size: 1.3rem;
+    background-color: #FFFEFE;
+
+}
+
+.nav-links .search-bar{
+    width:14rem; 
+    height: 2.6rem;
+    padding-left: 6px;
+    margin-right: 10px;
+    border: none;
+    font-size: 1rem;
+}
+
+/* To remove blue highlight around search bar */
+.search-bar:focus{
+    outline-width: 0;
+}
+
+
+.nav-item{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    color: white;
+    /* background-color: #E47E20; */
+    border-radius: 5px;
+    background-image: linear-gradient(to right, #E47E20, #c66c17); /* Change the background color to a gradient */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+
+}
+
+.nav-links .nav-item:hover{
+    /* background-color: #c66c17; */
+    background-image: linear-gradient(to left, #E47E20, #c66c17); /* Reverse the gradient direction on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Increase the shadow on hover */
+    transform: translateY(-2px); /* Add a subtle lift effect on hover */
+}
+
+
+#dropdownButton{
+    border: none;
+    background-color: #E47E20;
+    color: white;
+    font-size: 1.5rem;
+    padding: 5px 10px;
+    margin: 0px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#dropdownButton:hover{
+    background-color: #c66c17;
+
+}
+
+.dropdown{
+    background-color: #E47E20;
+    border: none;
+}
+
+#accountLogo{
+    padding-top: 3px;
+}
+
+
+/* hide hamburger so it is not shown on larger screens */
+#mobile-menu-icon{
+    display: none;
+}
+
+/* css for smaller screens */
+
+@media screen and (max-width: 960px){
+
+    /* remove nav linkes on smaller screens */
+    .nav-links{
+        display: none;
+    }
+
+    .nav-links-mobile {
+        width: 100%;
+        position: absolute;
+        display: block;
+        list-style: none;
+        left: 0;
+        top: 75px;
+        transition: all 0.5s ease-out;
+        
+    }
+
+    /* .nav-links-mobile #navSearchBar{
+        display: none;
+
+    } */
+
+    .nav-links-mobile .search-bar-wrapper{
+        display: none;
+    
+    }
+
+
+
+    .nav-links-mobile .nav-item{
+        color: white;
+        text-align: center;
+        padding: 32px; 
+        margin-left: 0;
+        width: 100%;
+        transition: all 0.5s ease-out;
+        display: block;
+        background-color: #E47E20;
+        border-radius: 0;
+    
+    }
+
+    .nav-links-mobile .nav-item:hover{
+        background-color: #c66c17;
+    
+    }
+
+    #dropdownButton{
+        display: none;
+
+    }
+
+
+
+    #mobile-menu-icon{
+        display: block;
+        position: absolute;
+        font-size: 35px;
+        color: white;
+        background-color: #E47E20;
+        border: none;
+        outline: none;
+        top: 15px; 
+        right: 25px;
+        border-radius: 5px;
+
+    }
+
+    #mobile-menu-icon:hover{
+        background-color: #c66c17;
+    
+    }
+
+    .collapseButton{
+        padding-top: 7px;
+    }
+
+    
+}

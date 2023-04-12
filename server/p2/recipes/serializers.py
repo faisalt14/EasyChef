@@ -16,8 +16,14 @@ class StepMediaSerializer(serializers.ModelSerializer):
         model = StepMediaModel
         fields = ['id', 'step_id', 'media']
         extra_kwargs = {
-            'media': {'required': True}
+            'media': {'required': True},
+            'step_id': {'required': False}
+
         }
+    def create(self, validated_data):
+        print("Validated data:", validated_data)  # Add this line
+        instance = StepMediaModel.objects.create(**validated_data)
+        return instance
 
 class DurationField(serializers.Field):
     def to_representation(self, value):
@@ -43,27 +49,6 @@ class StepSerializer(serializers.ModelSerializer):
             'media': {'required': False, 'allow_null': True},
             'step_num': {'required': False}
         }
-
-    def create(self, validated_data):
-        media_data = validated_data.get('media', '')
-        cook = validated_data.get('cooking_time', '')
-        prep = validated_data.get('prep_time', '')
-
-        if isinstance(cook, str):
-            hours, minutes, seconds = map(int, cook.split(':'))
-            cook = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
-            validated_data['cooking_time'] = cook
-
-        if isinstance(prep, str):
-            hours, minutes, seconds = map(int, prep.split(':'))
-            prep = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
-            validated_data['prep_time'] = prep
-        step = StepModel.objects.create(**validated_data)
-
-        for media in media_data:
-            StepMediaModel.objects.create(step_id=step.id, **media_data)
-
-        return step
 
 class IngredientSerializer(serializers.ModelSerializer):
     recipe_id = serializers.PrimaryKeyRelatedField(queryset=RecipeModel.objects.all(), required=False)
@@ -279,12 +264,10 @@ class RecipesSerializer(serializers.ModelSerializer):
 
         if rep['diet']:
             int_values = [int(x) for x in rep['diet'].split(',') if x.strip()]
-            str_values = [self.diet_choices.get(x) for x in int_values]
+            str_values = [self.diet_choices.get(x) for x in int_values if self.diet_choices.get(x) is not None]
             rep['diet'] = ', '.join(str_values)
 
         return rep
-
-
 
 # class InteractedRecipesSerializer(serializers.ModelSerializer):
 #     class Meta:
