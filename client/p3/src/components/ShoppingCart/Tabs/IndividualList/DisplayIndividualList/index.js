@@ -13,7 +13,7 @@ const DisplayIndividualList = ({cartInfo, recipeDetailsDict}) => {
 
     
     // Set token here 
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzI1MjMzLCJpYXQiOjE2ODEzMjE2MzMsImp0aSI6ImI5OTc2ZjJmNmQ0MDRiOTViY2NmMTc2MWJhYjdjZjhmIiwidXNlcl9pZCI6MX0.TidUJ3leUh4kPfosb6IkGYlEWT55JoqI7LPDaG_JYWA")
+    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzQzNjI4LCJpYXQiOjE2ODEzNDAwMjgsImp0aSI6Ijc3ODc1YTIxNGM5NTRiM2I5MDgwODllNmZlNjcxN2U2IiwidXNlcl9pZCI6MX0.7jcyvfOuyp97MmqU3ZF4WSX-gfx5Fv63wIgbQclbvA4")
 
     const [recipeDetails, setRecipeDetails] = useState(recipeDetailsDict);
     const [updateClicked, setUpdateClicked] = useState(false); 
@@ -224,7 +224,7 @@ const DisplayIndividualList = ({cartInfo, recipeDetailsDict}) => {
                     <div className="tab2HeaderContainer">
                         <div className="tab2Header">
                             <td className="cardHeader"> Recipe </td>
-                            <td className="ingredientsHeader"> Ingregients</td>
+                            <td className="ingredientsHeader"> Ingredients</td>
                         </div>
                     </div>
                 </tr>
@@ -270,7 +270,7 @@ const DisplayIndividualList = ({cartInfo, recipeDetailsDict}) => {
                                                 { /** console.log( "recipe details recipe id", recipeDetails[index].id) */}
 
                                                 {(shoppingCartInfo.filter(obj => obj.recipe_id == recipeDetails[index].id)[0].ingredients).map( (ingredientsDict, i) => (
-                                                    <li className="listItem" key={i} > {ingredientsDict.name}  {ingredientsDict.quantity} {ingredientsDict.unit}</li>
+                                                    <li className="listItem" key={i} > {ingredientsDict.quantity} {ingredientsDict.unit} of {ingredientsDict.name}  </li>
                                                     
                                                 ))}
                                                 

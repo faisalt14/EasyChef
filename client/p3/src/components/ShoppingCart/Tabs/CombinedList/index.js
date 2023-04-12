@@ -7,11 +7,32 @@ const CombinedList = () => {
     // const {token, setToken} = useContext(ShoppingCartAPIContext); 
 
     // Set token here 
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzI1MjMzLCJpYXQiOjE2ODEzMjE2MzMsImp0aSI6ImI5OTc2ZjJmNmQ0MDRiOTViY2NmMTc2MWJhYjdjZjhmIiwidXNlcl9pZCI6MX0.TidUJ3leUh4kPfosb6IkGYlEWT55JoqI7LPDaG_JYWA")
+    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzQzNjI4LCJpYXQiOjE2ODEzNDAwMjgsImp0aSI6Ijc3ODc1YTIxNGM5NTRiM2I5MDgwODllNmZlNjcxN2U2IiwidXNlcl9pZCI6MX0.7jcyvfOuyp97MmqU3ZF4WSX-gfx5Fv63wIgbQclbvA4")
     const [clearCartClicks, setclearCartClicks] = useState(0); 
-
-
     const [value, setValue] = useState(['inital'])
+
+    const getBody = () => {
+        let ingDict = {}
+        let result = []
+        
+        combinedData.forEach((dict, index) => {
+            let toAdd = dict.quantity + ' ' + dict.unit
+            if (ingDict[dict.name]){
+                ingDict[dict.name] += ' and ' + toAdd
+            }
+            else{
+                ingDict[dict.name] = toAdd
+            }
+        })
+
+        for (let [key, value] of Object.entries(ingDict)){
+            result.push(<tr key={key}>
+                <td className="bodyIngredient"> {key} </td>
+                <td className="bodyQuantity"> {value} </td>
+            </tr>)
+        }
+        return result
+    }
 
     const clearCart = () => {
         setclearCartClicks(clearCartClicks + 1)
@@ -123,14 +144,7 @@ const CombinedList = () => {
                             <tbody className="body">
         
                                 <div className="ingredient-quantity-container"> 
-                                    { 
-                                        combinedData.map( (dict, index) => (
-                                            <tr key={index}>
-                                                <td className="bodyIngredient"> {dict.name} </td>
-                                                <td className="bodyQuantity"> {dict.quantity} {dict.unit}</td>
-                                            </tr>
-                                        ))
-                                    }
+                                    {getBody()}
                                 </div>              
                             </tbody>
                         </div>  
