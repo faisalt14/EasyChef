@@ -10,4 +10,5 @@
     padding:10px; display:grid; 
     grid-template-columns: repeat(12, auto); 
     overflow-x: scroll;
+    min-height: 16rem;
 }

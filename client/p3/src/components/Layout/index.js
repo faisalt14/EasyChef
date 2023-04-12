@@ -57,9 +57,9 @@ const Layout = () => {
                 
                     */}
 
-                    <div className="search-bar-wrapper">
-                        <Search className="magnifying-glass-icon" style={{cursor:'pointer'}} />
-                        <input className="search-bar" type="text" id="searchBar" name="search" placeholder="Search for a Recipe..."></input>
+                    <div className="search-bar-wrapper-nav">
+                        <Search className="magnifying-glass-icon-nav" style={{cursor:'pointer'}} />
+                        <input className="search-bar-nav" type="text" id="searchBar" name="search" placeholder="Search for a Recipe..."></input>
                     </div>
                     
 

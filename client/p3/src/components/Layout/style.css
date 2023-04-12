@@ -4,10 +4,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    max-width: 100%;
 }
 
 body{
-    background-color: #EFEEEE
+    background-color: #EFEEEE;
 }
 
 #navbar{
@@ -43,7 +44,7 @@ body{
 
 
 /* New search bar css */
-.nav-links .search-bar-wrapper{
+.nav-links .search-bar-wrapper-nav{
     display:flex;  
     justify-content: flex-start;
     border: 1px solid #d9d4d4;
@@ -53,7 +54,7 @@ body{
 
 }
 
-.nav-links .magnifying-glass-icon{
+.nav-links .magnifying-glass-icon-nav{
     color: black;
     height: 2.6rem;
     padding-left: 6px;
@@ -62,7 +63,7 @@ body{
 
 }
 
-.nav-links .search-bar{
+.nav-links .search-bar-nav{
     width:14rem; 
     height: 2.6rem;
     padding-left: 6px;
@@ -72,7 +73,7 @@ body{
 }
 
 /* To remove blue highlight around search bar */
-.search-bar:focus{
+.search-bar-nav:focus{
     outline-width: 0;
 }
 
@@ -149,6 +150,7 @@ body{
         left: 0;
         top: 75px;
         transition: all 0.5s ease-out;
+        z-index: 2;
         
     }
 
@@ -157,7 +159,7 @@ body{
 
     } */
 
-    .nav-links-mobile .search-bar-wrapper{
+    .nav-links-mobile .search-bar-wrapper-nav{
         display: none;
     
     }
