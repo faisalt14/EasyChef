@@ -1,11 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import RecipeCard from "../../../RecipeCard";
+import "./style.css"
 
 const All = () => {
+
+    const [recipeInfo, setRecipeInfo] = useState([])
+
+    useEffect( () => {
+
+        // console.log(filter)
+
+
+        fetch('http://127.0.0.1:8000/recipes/all-recipes/')
+            .then(response => response.json())
+            .then(json => {
+                setRecipeInfo(json['results'])
+                // console.log(json['results'])
+
+                
+            })  
+            
+
+    
+    }, [])
+
+
     return (
         <>
-            <h1> All recipes page</h1>
+
+        <div className='aRGridContainer'>
+
+            <div className="aRAllCardsContainer"> 
+
+                {recipeInfo.map((dict, index) => (
+                    
+
+                    <div className="aRCardContainer"> 
+                    
+                        < RecipeCard info={recipeInfo[index]}/> 
+                    
+                    </div>
+                        // < RecipeCard info={recipeDetails[index]}/> 
+                    
+                ))}
+            
+            </div>
+
+        </div>
+                
         </>
     )
+    
 }
 
 export default All; 

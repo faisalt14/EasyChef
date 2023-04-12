@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import HomePage from './components/HomePage';
 import reportWebVitals from './reportWebVitals';
+import AllRecipes from './components/AllRecipes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <HomePage />
-  </React.StrictMode>
+  // <React.StrictMode>
+  //   <HomePage />
+  // </React.StrictMode>
+  <AllRecipes/>
 );
 
 // If you want to start measuring performance in your app, pass a function

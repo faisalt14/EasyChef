@@ -7,7 +7,7 @@
     margin: 0;
 }
 
-.aRGridContainer{
+.gridContainer{
 
     /* display: grid;
     grid-template-columns: auto auto auto auto;
@@ -23,7 +23,7 @@
 
 }
 
-.aRGridContainer .aRAllCardsContainer {
+.gridContainer .allCardsContainer {
 
     /* width: 100vw; */
     display: grid;
@@ -35,6 +35,6 @@
 
 }
 
-.aRAllCardsContainer .aRCardContainer {
+.allCardsContainer .cardContainer {
     margin: 1rem;
 }
