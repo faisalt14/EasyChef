@@ -2,7 +2,7 @@
 
 .tab2HeaderContainer{
     width: 100vw;
-    border: solid black 3px;
+    /* border: solid black 3px; */
     display: flex;
     justify-content: center;
     margin-top: 3rem;
@@ -10,20 +10,21 @@
 
 
 .tab2Header {
-    /* background-color: #D9D9D9; */
+    background-color: #D9D9D9;
     float: left;
     font-size: 2em;
     /* margin-top: 3rem; */
     margin: 5px;
-    /* box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px; */
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     width: 80vw;
-    border: solid black 3px;
+    border: solid black 1px;
 }
 
 .tab2Header .cardHeader {
     width: 40vw;
     text-align: center;
     font-weight: 500;
+    border-right: solid black 1px;
 
 }
 
@@ -36,7 +37,7 @@
 
 .tab2BodyContainer{
     width: 100vw;
-    border: solid black 3px;
+    /* border: solid black 3px; */
     display: flex;
     justify-content: center;
     margin-top: 2rem;
@@ -49,7 +50,7 @@
 
 .tab2BodyContainer .card-ingredients-container{
     width: 80vw;
-    border: solid 3px red;
+    /* border: solid 3px red; */
     /* display: flex; */
     /* justify-content: center; */
     /* margin-top: 1rem; */
@@ -69,6 +70,7 @@
 .card-ingredients-container .ingredientsColumn{
     width: 80vw;
     height: 19rem;
+    
 }
 
 .card {
@@ -78,7 +80,7 @@
 .card-ingredients-container .cardContainer{
     width: 40vw;
     border: none;
-    border: solid 3px orange;
+    /* border: solid 3px orange; */
     padding: 1rem;
     display: flex;
     justify-content: center;
@@ -91,25 +93,30 @@
     position: relative;
     top: 0;
     vertical-align: top;
+    
     /* height: 250px; */
     /* background-color: aqua; */
 }
 
 .card-ingredients-container .ingredientsColumnContainer{
     width: 40vw;
-    border: solid 3px green;
+    /* border: solid 3px green; */
     margin-top: 1rem;
     height: 19rem;
     white-space:pre-line;
+    /* border: solid 1px black; */
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     /* margin-top: 1rem; */
+    
 }
 
 .ingredientsColumnContainer .ingredientsBox{
     width: 40vw;
-    background-color: rgb(194, 194, 194);
+    background-color: #D9D9D9;
     height: 14rem;
     padding: 1rem;
     margin-top: 0;
+    /* margin-right: 10px; */
 }
 
 .ingredientsList .listItem {

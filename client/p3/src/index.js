@@ -4,11 +4,18 @@ import './index.css';
 import HomePage from './components/HomePage';
 import reportWebVitals from './reportWebVitals';
 import ShoppingCart from './components/ShoppingCart';
+import ShoppingCartAPIContext, { useShoppingCartAPIContext } from './contexts/ShoppingCartAPIContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // <ShoppingCartAPIContext.Provider value={useShoppingCartAPIContext()}>
+  //   <ShoppingCart />
+  // </ShoppingCartAPIContext.Provider>
 
   <ShoppingCart />
+    
+  
+  
 );
 
 // If you want to start measuring performance in your app, pass a function

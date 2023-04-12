@@ -1,10 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
+import ShoppingCartAPIContext from "../../../../contexts/ShoppingCartAPIContext";
 import "./style.css"
 
 const CombinedList = () => {
     const [combinedData, setCombinedData] = useState([]);
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjg1NDg0LCJpYXQiOjE2ODEyODE4ODQsImp0aSI6ImZlYzZlY2NjNjU5YzRhYjM4NjUwMzk3NTVkOTNhMWM2IiwidXNlcl9pZCI6MX0.Y7-4nxpHq6VqjqrS5yzbNQya8LmFoPGY_26R_s35ayw")
+    // const {token, setToken} = useContext(ShoppingCartAPIContext); 
+
+    // Set token here 
+    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjkwMzYwLCJpYXQiOjE2ODEyODY3NjAsImp0aSI6ImZjZTY3Y2IwZDE3NjRjZmY4Zjk4MTJkZjVmM2NiMDNiIiwidXNlcl9pZCI6MX0.eLUUTUrVsTnvM9etjWZpje64tBUTzplq9l2HnKPyl-Y")
     const [clearCartClicks, setclearCartClicks] = useState(0); 
+
 
     const [value, setValue] = useState(['inital'])
 
