@@ -1,12 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
 import $ from 'jquery'
 import SearchHeader from '../../components/SearchHeader'
 import Button from 'react-bootstrap/Button'
 import RecipeCard from '../../components/RecipeCard'
-//import SearchParamsContext from '../../contexts/SearchParamsContext'
 
 
 function SearchPage(props) {
