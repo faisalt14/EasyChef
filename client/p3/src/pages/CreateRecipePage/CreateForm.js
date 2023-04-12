@@ -572,13 +572,15 @@ useEffect(() => {
         <h2 className='mt-2' style={{fontWeight:"550"}}>
         {name ? `${name} a Recipe` : "Create a Recipe"}
       </h2>
-
         </div>
         <hr />
         <div className="col-12 mb-5" style={{ backgroundColor: '#efeeee' }}>
           <p className="lead fw-normal" style={{ fontSize: '22px', color: '#656767', textAlign: 'center' }}>
             Create your own recipe here! Show off your culinary skills and share your masterpiece with the world.
           </p>
+          {name=="Remix" && (<div style={{ fontSize: '14px', color: '#656767', textAlign: 'center' }}>
+        Please ensure you only use images that you have the rights to or are freely available for use. We encourage originality and respect for intellectual property.
+      </div>)}
         </div>
       </div>
     </div>
