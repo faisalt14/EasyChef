@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CreateForm from '../CreateRecipePage/CreateForm';
 import RemixForm from '../RecipeRemixPage/RemixForm';
+import EditRecipe from '../EditRecipe.js/EditRecipe';
 import { useParams } from 'react-router-dom';
 
 function ParentComponent({ mode }) {
@@ -21,11 +22,14 @@ function ParentComponent({ mode }) {
 
   return (
     <div>
-      {mode === 'remix' ? (
-        <RemixForm recipe={selectedRecipe} />
-      ) : (
-        <CreateForm initialValues={selectedRecipe} />
-      )}
+{mode === 'remix' ? (
+  <RemixForm recipe={selectedRecipe} />
+) : mode === 'edit' ? (
+  <EditRecipe/>
+) : (
+  <CreateForm initialValues={selectedRecipe} />
+)}
+
     </div>
   );
 }

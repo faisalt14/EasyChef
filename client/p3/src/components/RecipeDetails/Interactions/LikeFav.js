@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { HeartFill, BookmarkFill } from 'react-bootstrap-icons';
+import { useNavigate  } from 'react-router-dom';
 
 function LikeFav({ recipeId, fav_number, like_number, totalLikes, totalFavs, updateTotalLikes, updateTotalFavs }) {
   const [liked, setLiked] = useState(false);
@@ -8,9 +9,16 @@ function LikeFav({ recipeId, fav_number, like_number, totalLikes, totalFavs, upd
   const [intExists, setIntExists] = useState(false);
   const [likes, setLikes] = useState(like_number);
   const [favs, setFavs] = useState(fav_number); 
-  // const token = 'Bearer ' + localStorage.getItem('token');
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTc3NDgxLCJpYXQiOjE2ODExNzM4ODEsImp0aSI6IjkyNmE1NTI0NTllZjQ3OWZhMzhlNTdmNDM4OGNjM2Y4IiwidXNlcl9pZCI6Mn0.vHhSXtz9r3CUk95OXpv-oBDibcg9u5puQWK6_K3VqfU";
 
+  const [redirectToLogin, setRedirectToLogin] = useState(false);
+  const navigate = useNavigate();
+
+  const handleUnauthorized = () => {
+    setRedirectToLogin(true);
+  };
+  // const token = 'Bearer ' + localStorage.getItem('token');
+  // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTc3NDgxLCJpYXQiOjE2ODExNzM4ODEsImp0aSI6IjkyNmE1NTI0NTllZjQ3OWZhMzhlNTdmNDM4OGNjM2Y4IiwidXNlcl9pZCI6Mn0.vHhSXtz9r3CUk95OXpv-oBDibcg9u5puQWK6_K3VqfU";
+  const token = "";
   useEffect(() => {
     if (liked) {
       updateTotalLikes(Math.max(like_number + 1, 0));
@@ -35,6 +43,7 @@ function LikeFav({ recipeId, fav_number, like_number, totalLikes, totalFavs, upd
             'Authorization': `Bearer ${token}`
           },
         });
+  
         setLiked(JSON.parse(response.data.like));
         setFavourited(JSON.parse(response.data.favourite));
         setIntExists(true);
@@ -44,6 +53,8 @@ function LikeFav({ recipeId, fav_number, like_number, totalLikes, totalFavs, upd
           setLiked(false);
           setFavourited(false);
           setIntExists(false);
+        } else if (error.response && error.response.status === 401) {
+          // If the user is unauthorized, call the handleUnauthorized function from the parent component
         } else {
           console.log(error);
         }
@@ -51,6 +62,8 @@ function LikeFav({ recipeId, fav_number, like_number, totalLikes, totalFavs, upd
     };
     fetchInteraction();
   }, [recipeId]);
+  
+
 
 const handleInteraction = async (likeValue, favouriteValue) => {
   const method = intExists ? 'patch' : 'post';
@@ -88,15 +101,24 @@ const handleInteraction = async (likeValue, favouriteValue) => {
 
   
 
-  const handleLike = () => {
+const handleLike = () => {
+  if (!token) {
+    navigate('/accounts/login');
+  } else {
     handleInteraction(!liked, favourited);
-  };
+  }
+};
 
-  const handleFavourite = () => {
+const handleFavourite = () => {
+  if (!token) {
+    navigate('/accounts/login');
+  } else {
     handleInteraction(liked, !favourited);
-  };
+  }
+};
 
   return (
+    <>
     <div className="row justify-content-center" style={{ margin: 'auto' }}>
       <div className="col" data-toggle="tooltip" data-placement="top" title="Like me!">
         <HeartFill
@@ -113,6 +135,7 @@ const handleInteraction = async (likeValue, favouriteValue) => {
         <p style={{ fontSize: '20px', marginTop: '1px' }}>{favs}</p>
       </div>
     </div>
+    </>
   );
 }
 

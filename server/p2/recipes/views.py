@@ -429,9 +429,6 @@ class CreateStepView(CreateAPIView):
         cook = request.data['cooking_time']
         prep = request.data['prep_time']
 
-        print(f"Raw cooking_time: {cook}")
-        print(f"Raw prep_time: {prep}")
-
         if isinstance(cook, str):
             hours, minutes, seconds = map(int, cook.split(':'))
             cook = timedelta(hours=int(hours), minutes=int(minutes), seconds=int(seconds))
@@ -554,7 +551,8 @@ class InteractionView(RetrieveUpdateAPIView):
         interaction = self.get_object()
         serializer = self.serializer_class(interaction)
         return Response(serializer.data, status=200)
-    
+   
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         serializer = InteractionSerializer(data=request.data)
         try:

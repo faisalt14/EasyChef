@@ -12,15 +12,19 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import './style.css';
 import UploadImage from '../CreateRecipe/UploadImage';
 import Modal from 'react-bootstrap/Modal';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import Zoom from 'react-medium-image-zoom'
+import './style.css'
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzI2NTM0LCJpYXQiOjE2ODEzMjI5MzQsImp0aSI6ImU1MmMwNDkyYWRmZTRiZWE4MDgwMDVkOWZkYzk1MjJiIiwidXNlcl9pZCI6Mn0.y7Lv0Ag_geYBYWdEX71XCbtzGTh-EhAepUZKEFx1JIo";
 
-
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTc3NDgxLCJpYXQiOjE2ODExNzM4ODEsImp0aSI6IjkyNmE1NTI0NTllZjQ3OWZhMzhlNTdmNDM4OGNjM2Y4IiwidXNlcl9pZCI6Mn0.vHhSXtz9r3CUk95OXpv-oBDibcg9u5puQWK6_K3VqfU";
-
-const ReviewForm = ({ interactions }) => {
+const ReviewForm = ({ interactions, id }) => {
   const [newComment, setNewComment] = useState('');
   const [newRating, setNewRating] = useState(0);
   const [userDetails, setUserDetails] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [images, setImages] = useState([]);
+
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/accounts/profile/', {
@@ -47,12 +51,81 @@ const ReviewForm = ({ interactions }) => {
     setNewRating(value);
   };
 
-  const handleReviewSubmit = (event) => {
+  const handleReviewSubmit = async (event) => {
+
     event.preventDefault();
     console.log(`Submitted review with rating ${newRating} and comment "${newComment}"`);
-    // TODO: Add logic to submit review to backend
-    setNewComment('');
-    setNewRating(0);
+    console.log(id);
+    const decodedToken = jwt_decode(token);
+    const currentUserId = decodedToken.user_id;
+    const existingInteraction = interactions.find(interaction => interaction.user_id === currentUserId);
+
+    let interactionId;
+
+    try {
+      // Upload images
+      const interactionData = {
+        rating: newRating,
+        comment: newComment,
+      };
+      if (existingInteraction) {
+        const patchResponse = await axios.patch(`http://127.0.0.1:8000/recipes/${id}/details/interaction/`, interactionData, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        interactionId = patchResponse.data.id;
+      } else {
+        const postResponse = await axios.post(`http://127.0.0.1:8000/recipes/${id}/details/interaction/`, interactionData, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        interactionId = postResponse.data.id;
+      }
+
+      for (const image of images) {
+        console.log(image)
+        const formData = new FormData();
+        const objectUrl = URL.createObjectURL(image);
+        const filename = image.name;
+        const type = image.type;
+        const convertedFile = await fetch(objectUrl)
+          .then((response) => response.arrayBuffer())
+          .then((buffer) => new File([buffer], filename, { type }));
+
+        formData.append("media", convertedFile);
+        await axios.post(`http://127.0.0.1:8000/recipes/interactions/${interactionId}/add-media/`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+  
+    // Clear the state
+      setNewComment('');
+      setNewRating(0);
+      setImages([]);
+  
+      // TODO: Refresh the interactions list or handle the response as needed
+    } catch (error) {
+      if (error.response) {
+        // The request was made, and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        // The request was made, but no response was received
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an error
+        console.log('Error', error.message);
+      }
+    }
   };
 
   return (
@@ -63,7 +136,9 @@ const ReviewForm = ({ interactions }) => {
             {/* <Modal.Title>Upload photos</Modal.Title> */}
           </Modal.Header>
           <Modal.Body className="d-flex justify-content-center align-items-center">
-            <UploadImage />
+            <UploadImage       
+            selectImages={images}
+            setImages={setImages}/>
           </Modal.Body>
     </Modal>
 
@@ -106,38 +181,66 @@ const ReviewForm = ({ interactions }) => {
                 whiteSpace: 'nowrap',
                 },
                 rows: 4,
-                multiline: true}}
+                multiline: "true"}}
               sx={{ 
                 flex: 1,
                 // minHeight: '200px', 
                 // maxHeight:
                 // overflowX: 'auto' 
               }}              />
-              <IconButton sx={{ color: '#4b4b4b' }}>
-              <AddAPhotoIcon style={{color: '#04B4B4', fontSize:'30px'}} onClick={() => setShowModal(true)} />
-              </IconButton>
+            <IconButton sx={{ color: '#4b4b4b' }} onClick={() => setShowModal(true)}>
+              <AddAPhotoIcon style={{ color: '#04B4B4', fontSize: '30px' }} />
+            </IconButton>
               <Button type="submit" variant="contained" sx={{ backgroundColor: '#04B4B4', color: 'white' }}>
               Post
               </Button>
               </Stack>
               </form>
               </Box>
-<Box sx={{ mt: 2 }}>
+<Box sx={{ mt: 2, alignItems: "center",
+    justifyContent: "flex-start"}}>
   {/* set a condition where either rating is not empty or comment is not empty */}
-    {interactions.map((interaction) => (
+  {/* set a condition where either rating is not empty or comment is not empty */}
+  {interactions.filter((interaction) => interaction.rating !== 0 || interaction.comment.trim() !== '').map((interaction) => (
       <Box
         key={interaction.id}
-        sx={{ borderRadius: 16, padding: 2, backgroundColor: '#f5f5f5', display: 'flex', alignItems: 'center', my: 2 }}
+        sx={{
+          borderRadius: 16,
+          padding: 2,
+          backgroundColor: '#f5f5f5',
+          display: 'flex',
+          alignItems: 'start',
+          my: 2,
+          justifyContent: 'start',
+          width: '80%'
+        }}
       >
-        <Avatar alt="User Avatar" src={interaction.user_avatar || 'https://i.pravatar.cc/40'} sx={{ width: 40, height: 40 }} />
-        <Box sx={{ ml: 2 }}>
+        <Avatar alt="User Avatar" src={interaction.avatar || 'https://i.pravatar.cc/40'} sx={{ width: 40, height: 40 }} />
+        <Box sx={{ ml: 2, flexGrow: 1 }}>
           <Typography variant="h6" gutterBottom>
-            User {interaction.user_id}
+            {interaction.username}
           </Typography>
           <Rating name={`rating-${interaction.id}`} value={interaction.rating} readOnly size="small" />
           <Typography variant="body1" gutterBottom>
             {interaction.comment}
           </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+            {interaction.media &&
+              interaction.media.map((media) => (
+                <Zoom key={media.id} className="step-image">
+                  <img
+                    src={media.media}
+                    alt="Interaction Media"
+                    style={{
+                      width: 'calc(100% / 3 - 1rem)',
+                      objectFit: 'cover',
+                      minHeight: '160px',
+                      minWidth: '160px',
+                    }}
+                  />
+                </Zoom>
+              ))}
+          </Box>
         </Box>
       </Box>
     ))}

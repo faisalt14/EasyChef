@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import CreateForm from '../CreateRecipePage/CreateForm'
+import CreateForm from '../CreateRecipePage/CreateForm';
+import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-function RemixForm() {
+function EditRecipe() {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const { recipe_id } = useParams(); // Get the recipe ID from the URL parameter
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjk5OTMzLCJpYXQiOjE2ODEyOTYzMzMsImp0aSI6ImU4ZGNlOTE2MzY2ZjQ0OWFiMzMxNTgwYzNjY2I2YjQ5IiwidXNlcl9pZCI6Mn0.-DStPJra41-opP2COLzno3gB6MdK8sqpcLhCeKImeuU";
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzQ0Njc5LCJpYXQiOjE2ODEzNDEwNzksImp0aSI6IjEyYjVhZmE4MTY4NzQ1MDFiNDU4ZDg0MzFmMTRlYmEyIiwidXNlcl9pZCI6Mn0.Zl12MHyv3fpclKYWVVowxPgu_0JCcz-RQhsiG84eQng";  
   async function fetchRecipeData() {
     setIsLoading(true);
     try {
@@ -51,10 +52,10 @@ function RemixForm() {
     <div>
       {selectedRecipe && (<>
       {/* <h2>Remix Recipe: {selectedRecipe.name}</h2> */}
-      <CreateForm initialValues={selectedRecipe} name="Remix" method_name="Remix" />
+      <CreateForm initialValues={selectedRecipe} name="Edit" method_name="Edit" recipe_id={recipe_id} />
       </>)}
     </div>
   );
 }
 
-export default RemixForm;
+export default EditRecipe;

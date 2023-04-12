@@ -5,11 +5,26 @@ import './ingredients.css';
 import CloseButton from 'react-bootstrap/CloseButton';
 
 function Ingredients({ ingredient_dic, setIngredient_dic, initialIngredients }) {
-  const [ingredients, setIngredients] = useState(initialIngredients
-    ? initialIngredients.map(
-        ({ quantity, unit, name }) => `${quantity} ${unit} ${name}`
-      )
-    : []);  const [name, setName] = useState('');
+  const transformedInitialIngredients = initialIngredients
+  ? initialIngredients.reduce((acc, { id, quantity, unit, name }) => {
+      acc[id] = [quantity, unit];
+      return acc;
+    }, {})
+  : {};
+
+  // Set the initial ingredient_dic
+  useEffect(() => {
+    setIngredient_dic(transformedInitialIngredients);
+  }, []);
+
+  const [ingredients, setIngredients] = useState(
+    initialIngredients
+      ? initialIngredients.map(
+          ({ quantity, unit, name }) => `${quantity} ${unit} ${name}`
+        )
+      : []
+  );
+  const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [unit, setUnit] = useState('');
   const [options, setOptions] = useState([]);

@@ -3,7 +3,11 @@ from .models import RecipeModel, RecipeMediaModel, StepModel, StepMediaModel, In
 from datetime import timedelta
 from django.utils import timezone
 from rest_framework.validators import UniqueValidator
+from django.shortcuts import get_object_or_404
+from accounts.models import User
 
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 class RecipeMediaSerializer(serializers.ModelSerializer):
     recipe_id = serializers.PrimaryKeyRelatedField(queryset=RecipeModel.objects.all(), required=False)
@@ -93,11 +97,14 @@ class InteractionSerializer(serializers.ModelSerializer):
     favourite = serializers.BooleanField(required=False, default=False)
     rating = serializers.IntegerField(required=False, default=0)
     comment = serializers.CharField(required=False, allow_null=True)
+    first_name = serializers.CharField(source='user_id.first_name', required=False, allow_null=True, read_only=True)
+    last_name = serializers.CharField(source='user_id.last_name', required=False, allow_null=True, read_only=True)
+    username = serializers.CharField(source='user_id.username', required=False, allow_null=True, read_only=True)
+    avatar = serializers.CharField(source='user_id.avatar', required=False, allow_null=True, read_only=True)
 
-    
     class Meta:
         model = InteractionModel
-        fields = ['id', 'recipe_id', 'user_id', 'like', 'favourite', 'rating', 'comment', 'published_time', 'media']
+        fields = ['id', 'recipe_id', 'user_id', 'first_name', 'last_name', 'username', 'avatar', 'like', 'favourite', 'rating', 'comment', 'published_time', 'media']
     
     def create(self, validated_data, user, recipe):
         interaction = InteractionModel.objects.create()
@@ -109,7 +116,18 @@ class InteractionSerializer(serializers.ModelSerializer):
         interaction.rating = validated_data.get('rating', 0)
         interaction.comment = validated_data.get('comment', '')
         interaction.published_time = timezone.now()
-        
+        # media_list = ', '.join(map(str, validated_data.data.get('media', [])))
+        # if media_list:
+        #     media_list = [int(x.strip()) for x in media_list.split(",")]
+
+        # # Associate the media objects with the step
+        # media_objects = []
+        # for media_id in media_list:
+        #     media = get_object_or_404(ReviewMediaModel, id=media_id)
+        #     media.interaction_id = interaction
+        #     media.save()
+        #     media_objects.append(media) 
+
         interaction.save()
         recipe.update_interactions()
         return interaction

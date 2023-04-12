@@ -297,7 +297,7 @@ function RecipeDetails({ recipe }) {
           ))}
         </div>
       </div>
-      <Servings initialServings={servings_num} onServingsChange={handleServingsChange} />
+      <Servings initialServings={servings_num} onServingsChange={handleServingsChange} recipe_id={id}/>
       <div className="mt-5" style={{ padding: "1rem", borderRadius: "5px", width:'80%', marginLeft: 'auto', marginRight: 'auto'}}>
   <h1 className="justify-content-center text-center" style={{ color: "#E47E20", fontWeight: "550", marginBottom: "0.5rem" }}>
   Directions
@@ -308,7 +308,7 @@ function RecipeDetails({ recipe }) {
       <RecipeSteps steps={steps} 
       />
       <div id="reviews">
-      <ReviewForm interactions={interactions}/>
+      <ReviewForm interactions={interactions} id={id}/>
       </div>
       </div>
     </div>

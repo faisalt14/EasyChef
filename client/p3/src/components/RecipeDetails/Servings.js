@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './style.css';
+import axios from 'axios';
 
-function Servings({ initialServings, ingredients, onServingsChange }) {
+function Servings({ initialServings, ingredients, onServingsChange, recipe_id }) {
   const [servingNumber, setServingNumber] = useState(initialServings);
   const [inputValue, setInputValue] = useState(initialServings);
+
+  const token="";
 
   useEffect(() => {
     onServingsChange(servingNumber);
@@ -17,6 +20,22 @@ function Servings({ initialServings, ingredients, onServingsChange }) {
     setServingNumber(initialServings);
     setInputValue(initialServings);
   };
+
+  const handleAddToShoppingList = () => {
+    axios.post(`http://127.0.0.1:8000/accounts/shopping-list/add/${recipe_id}/`, {
+      servings_num: servingNumber,
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(response => {
+      console.log('Added to shopping list:', response);
+    })
+    .catch(error => {
+      console.error('Error adding to shopping list:', error);
+    });
+  }
 
   return (
     <div
@@ -114,6 +133,7 @@ function Servings({ initialServings, ingredients, onServingsChange }) {
           fontWeight: '500',
           fontSize: '17px',
         }}
+        onClick={handleAddToShoppingList}
       >
         Add to Shopping List
       </button>

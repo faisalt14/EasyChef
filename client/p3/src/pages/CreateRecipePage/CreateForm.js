@@ -16,24 +16,37 @@ const baseURL = "http://127.0.0.1:8000/recipes/create-recipe/";
 
 
 // there are all functions outside of the CreateRecipe component that are used in Remix Recipe and Edit Recipe
-const convertResponseToSteps = (response) => {
-  return response.map((step) => {
-    const mediaItems = step.media
-      ? step.media.map((mediaItem) => ({
-          url: mediaItem.media,
-        }))
-      : [];
+function createFileObjects(item) {
+  const { File } = window;
+  if (item.media === undefined) {
+    return [];
+  }
 
+  const filename = item.media.split('/').pop();
+  const isVideo = filename.endsWith('.mp4');
+
+  return new File([], filename, {
+    type: isVideo ? 'video/mp4' : 'image/jpeg',
+    lastModified: Date.now()
+  });
+}
+
+const convertResponseToSteps = (response) => {
+  return Object.entries(response).map(([index, step]) => {
+    const mediaItems = Array.isArray(step.media)
+      ? Object.entries(step.media)
+          .filter(([mediaIndex, mediaItem]) => mediaItem.media !== undefined && mediaItem.media !== [])
+          .map(([mediaIndex, mediaItem]) => createFileObjects(mediaItem))
+      : [];
     return {
       id: step.id,
-      description: step.instructions,
       prepTime: step.prep_time,
       cookTime: step.cooking_time,
-      images: mediaItems,
+      instructions: step.instructions,
+      images: [],
     };
   });
 };
-
 
 const formatTime = (timeString) => {
   if (!timeString) {
@@ -118,14 +131,13 @@ function getCuisineObjectByLabel(label) {
 }
 
 
-function CreateForm({ initialValues }) {
-  const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTUwNjM5LCJpYXQiOjE2ODExNDcwMzksImp0aSI6IjA4MzUxMDk2NDM5NjQxNGE5NmFlZDg4ZDBkMzFiZGNjIiwidXNlcl9pZCI6MX0.YEp86aXF2UAFW6LVgZ2RdVyVg9O3WBWjMTQ6IXWAbCY";
+function CreateForm({ initialValues, method_name, name, recipe_id }) {
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzQ0Njc5LCJpYXQiOjE2ODEzNDEwNzksImp0aSI6IjEyYjVhZmE4MTY4NzQ1MDFiNDU4ZDg0MzFmMTRlYmEyIiwidXNlcl9pZCI6Mn0.Zl12MHyv3fpclKYWVVowxPgu_0JCcz-RQhsiG84eQng";  
   const navigate = useNavigate();
 
   const initialPrepTime = initialValues ? formatTime(initialValues.prep_time) : { hours: "00", minutes: "00" };
   const initialCookTime = initialValues ? formatTime(initialValues.cooking_time) : { hours: "00", minutes: "00" };
   const convertedSteps = initialValues ? convertResponseToSteps(initialValues.steps) : [];
-
   const [post, setPost] = useState(null);
   const [selectedName, setName] = useState(initialValues ? initialValues.name : '');
   const [selectedDifficulty, setSelectedDifficulty] = useState(initialValues ? getDifficultyObjectByLabel(initialValues.difficulty) : '');
@@ -135,13 +147,16 @@ function CreateForm({ initialValues }) {
     initialValues ? dietStringToArray(initialValues.diet) : []
   );
   const [selectSteps, setSelectedSteps] = useState(initialValues ? convertedSteps : []);
-  const [selectImages, setImages] = useState(initialValues ? initialValues.media : []);
+  const [selectImages, setImages] = useState([]);
+
+  // const [selectImages, setImages] = useState(initialValues ? createFileObjects(initialValues.media) : []);
   const [ingredient_dic, setIngredient_dic] = useState(initialValues ? initialValues.ingredients : {});
 
   const [selectedPrepTime, setPrepTime] = useState(initialPrepTime);
   const [selectedCookTime, setCookTime] = useState(initialCookTime);
   const [resetPrepCookTime, setResetPrepCookTime] = useState(false);
   const [selectedServings, setServings] = useState(initialValues ? initialValues.servings_num : 0);
+  // const [initialFiles, setInitialFiles] = useState([]);
 
   const [errorMessageName, setErrorMessageName] = useState("");
   const [errorMessageFilters, setErrorMessageFilters] = useState("");
@@ -157,6 +172,24 @@ function CreateForm({ initialValues }) {
   const [hasAddedIngredients, setHasAddedIngredients] = useState(false);
   const [hasAddedSteps, setHasAddedSteps] = useState(false);
   const [reset, setReset] = useState(false);
+
+  // useEffect(() => {
+  //   if (initialValues) {
+  //     setName(initialValues.name);
+  //     setSelectedDifficulty(getDifficultyObjectByLabel(initialValues.difficulty));
+  //     setSelectedCuisine(getCuisineObjectByLabel(initialValues.cuisine));
+  //     setSelectedMeal(getMealObjectByLabel(initialValues.meal));
+  //     setSelectedDiets(dietStringToArray(initialValues.diets));
+  //     setSelectedSteps(initialValues.steps);
+  //     setImages(initialValues.images);
+  //     setIngredient_dic(initialValues.ingredients);
+  //     setPrepTime(formatTime(initialValues.prep_time));
+  //     setCookTime(formatTime(initialValues.cooking_time));
+  //     setServings(initialValues.servings_num);
+  //   }
+  // }, [initialValues]);
+  
+
 
 useEffect(() => {
   if (selectedCuisine !== "" && selectedDiets.length > 0) {
@@ -261,13 +294,147 @@ useEffect(() => {
       setErrorMessageServing("Servings are required");
       hasErrors = true;
     }
-  
     if (!hasErrors) {
-      createPost();
-    }
+      (async () => {
+        if (name === "Edit") {
+          await updatePost(recipe_id);
+        } else {
+          await createPost();
+        }
+      })();
+    }    
   }
   
+  async function updatePost(recipe_id) {
+    // ... (keep the code for handling media and steps the same as in createPost)
+    let mediaIds = "";
+    if (selectImages.length !== 0) {
+      const mediaPromises = selectImages.map(async (image) => {
+        const objectUrl = URL.createObjectURL(image);
+        const filename = image.name;
+        const type = image.type;
+        const convertedFile = await fetch(objectUrl)
+          .then((response) => response.arrayBuffer())
+          .then((buffer) => new File([buffer], filename, { type }));
+        return axios.post('http://127.0.0.1:8000/recipes/create-recipes/add-media/', { media: convertedFile }, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`,
+          },
+        }).catch(error => {
+          console.log(error.response.data);
+          return { failed: true };
+        });
+      });
   
+      mediaIds = (await Promise.all(mediaPromises)).map((response) => {
+        console.log('Media added successfully:', response.data);
+        toast.success('Media added successfully');
+        return response.data.id;
+    }).join(', ');    
+        }
+  
+    let stepIds = [];
+    if (selectSteps.length !== 0) {
+      const stepMediaIds = [];
+  
+      const sendPostRequests = async () => {
+        for (const step of selectSteps) {
+          let stepMediaIds = [];
+          console.log("step", step.images);
+          console.log("seleected steps", selectSteps);
+        
+          if (step.images.length !== 0) {
+            const stepMediaPromises = step.images.map(async (image) => {        
+              // Create a FormData object
+              const formData = new FormData();
+              formData.append('media', image);
+        
+              return axios.post('http://127.0.0.1:8000/recipes/steps/create/media/', formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                  'Authorization': `Bearer ${token}`,
+                },
+              }).catch(error => {
+                console.log(error.response.data);
+                return { failed: true };
+              });
+            });
+        
+  
+            const mediaResponses = await Promise.all(stepMediaPromises);
+  
+            stepMediaIds = mediaResponses.map((response) => response.data.id);
+          }
+  
+          const stepResponse = await axios.post('http://127.0.0.1:8000/recipes/steps/create/', {
+            ...(stepMediaIds.length > 0 && { media: stepMediaIds }),
+            instructions: step.instructions,
+            prep_time: step.prepTime,
+            cooking_time: step.cookTime,
+          }, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          }).then((response) => {
+            console.log('Step added successfully:', response.data);
+            toast.success('Step added successfully');
+            return response;
+          }).catch(error => {
+            console.log(error.response.data);
+            return { failed: true };
+
+          });
+    
+          stepIds.push(stepResponse.data.id);
+        }
+      };
+  
+      await sendPostRequests();
+    }
+  
+    stepIds = stepIds.join(', ');
+    // console.log("ingredients", ingredient_dic)
+  
+    const formData = new FormData();
+  
+    // Append all fields to formData
+    formData.append('name', selectedName);
+    if (selectedDifficulty.value) {
+      formData.append('difficulty', selectedDifficulty.value);
+    }
+    if (selectedMeal.value) {
+      formData.append('meal', selectedMeal.value);
+    }
+    formData.append('cuisine', selectedCuisine.value);
+    formData.append('diet', selectedDiets.map(diet => diet.value).join(', '));
+    formData.append('cooking_time', selectedCookTime);
+    formData.append('prep_time', selectedPrepTime);
+    formData.append('servings_num', selectedServings);
+    if (mediaIds.length > 0) {
+      formData.append('media', mediaIds);
+    }
+    formData.append('steps', stepIds);
+    formData.append('ingredients', JSON.stringify(ingredient_dic));
+  
+    axios.patch(`http://127.0.0.1:8000/recipes/${recipe_id}/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`,
+      },
+    }).then((response) => {
+      setReset(true);
+      console.log('Recipe updated successfully:', response.data);
+      toast.success('Recipe updated successfully');
+      setPost(response.data);
+      resetForm();
+      navigate(`/recipes/${response.data.id}/details`);
+  
+    }).catch(error => {
+      console.log(error.response.data);
+    });
+  }
+
   
   async function createPost() {
     let mediaIds = "";
@@ -304,6 +471,8 @@ useEffect(() => {
       const sendPostRequests = async () => {
         for (const step of selectSteps) {
           let stepMediaIds = [];
+          console.log("step", step.images);
+          console.log("seleected steps", selectSteps);
         
           if (step.images.length !== 0) {
             const stepMediaPromises = step.images.map(async (image) => {        
@@ -330,7 +499,7 @@ useEffect(() => {
   
           const stepResponse = await axios.post('http://127.0.0.1:8000/recipes/steps/create/', {
             ...(stepMediaIds.length > 0 && { media: stepMediaIds }),
-            instructions: step.description,
+            instructions: step.instructions,
             prep_time: step.prepTime,
             cooking_time: step.cookTime,
           }, {
@@ -355,6 +524,7 @@ useEffect(() => {
     }
   
     stepIds = stepIds.join(', ');
+    console.log("ingredients", ingredient_dic)
 
     const formData = new FormData();
 
@@ -399,7 +569,10 @@ useEffect(() => {
     <div className="container-fluid">
       <div className="row">
         <div className="col-sm-12" style={{ height: '5em', backgroundColor: '#E47E20', color: '#FFFFFF', paddingTop: '0.5rem', textAlign: 'center', boxShadow: 'rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset' }}>
-          <h2 className='mt-2' style={{fontWeight:"550"}}>Create a Recipe</h2>
+        <h2 className='mt-2' style={{fontWeight:"550"}}>
+        {name ? `${name} a Recipe` : "Create a Recipe"}
+      </h2>
+
         </div>
         <hr />
         <div className="col-12 mb-5" style={{ backgroundColor: '#efeeee' }}>
@@ -531,9 +704,12 @@ useEffect(() => {
 
         <div className="col-md-6">
           <div className="row justify-content-center">
-            <UploadImage selectImages={selectImages} setImages={setImages} image_name="Recipe"               
-              reset={reset}
-              setReset={setReset} />
+          <UploadImage selectImages={selectImages} setImages={setImages} image_name="Recipe"
+            reset={reset}
+            setReset={setReset}
+            // initialFiles={initialFiles} // pass the initialFiles state as a prop
+          />
+
           </div>
         </div>
         {(errorMessageIngredients && !hasAddedIngredients) && (
@@ -557,6 +733,7 @@ useEffect(() => {
         selectSteps={selectSteps}
         setSelectedSteps={setSelectedSteps}
         onStepAdded={() => setHasAddedSteps(true)}
+        name={method_name}
          />
 
 {(errorMessageSteps && !hasAddedSteps) && (
