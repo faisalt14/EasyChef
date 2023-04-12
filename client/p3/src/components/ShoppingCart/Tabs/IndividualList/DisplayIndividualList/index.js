@@ -4,26 +4,95 @@ import './style.css'
 import $ from 'jquery';
 import IndividualList from "..";
 import CombinedList from "../../CombinedList";
+import GetRecipeDetails from "../GetRecipeDetails";
 
-const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
+const DisplayIndividualList = ({cartInfo, recipeDetailsDict}) => {
 
 
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjY2NTg0LCJpYXQiOjE2ODEyNjI5ODQsImp0aSI6ImIyYTcwZTk3YTgzOTRmYTQ4NmJjZGE4NWVjZmQwZDkwIiwidXNlcl9pZCI6MX0.5rrcTLUoK7sLvgGpHD_q5Voox_YFaA2EVmC3rvHwzAY")
-
+    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjg0OTU1LCJpYXQiOjE2ODEyODEzNTUsImp0aSI6ImM4NTUwMjg3YzA1ZjQxZTI4ODM5N2ZmZmEwMTY3NWUxIiwidXNlcl9pZCI6MX0.KpEaw906oLDo5geD6LbA4Gj8qnhdkGHVi4QfXLbN5qk")
+    const [recipeDetails, setRecipeDetails] = useState(recipeDetailsDict);
+    const [updateClicked, setUpdateClicked] = useState(false); 
+    const [removeClicked, setRemoveClicked] = useState(false)
     const [updateClicks, setUpdateClicks] = useState(0); 
     const [removeClicks, setRemoveClicks] = useState(0); 
+    const [removeRecipeID, setRemoveRecipeID] = useState(0)
     const [shoppingCartInfo, setShoppingCartInfo] = useState(cartInfo); 
     const [updateInfo, setUpdateInfo] = useState({
         recipe_id : 0, 
         new_serving : 0
 
     })
-    const [currentRecipeId, setCurrentRecipeId] = useState(0)
+    const [shoppingCartSize, setShoppingCartSize] = useState(Object.keys(shoppingCartInfo).length)
+
+    const remove_recipeDetail = (recipeId, recipeDetailsDict) => {
+
+       
 
 
-    const update_states = (recipeId, newServing) => {
+        const item_remove = recipeDetailsDict.filter( obj => obj.id == recipeId)[0]
+        const i =  recipeDetailsDict.indexOf(item_remove);
+
+
+
+        // recipeDetailsDict = recipeDetailsDict.filter( dict => dict !=  item_remove)
+        // setRecipeDetails( recipeDetailsDict)
+
+        // setRecipeDetails((current) =>
+        // current.filter((dict) => dict.id !== recipeId )
+        // );
+
+        // console.log("recipeDetails:", recipeDetails)
+        // console.log('Item to delete:', item_remove)
+        // console.log('Index of item:', i)
+
+        {$(`#${i}`).remove(); }
+
+        // update_cartInfo()
+
+        
+
+
+        
+        
+
+    } 
+
+
+    const update_servings_states = (recipeId, newServing) => {
         setUpdateInfo({recipe_id: recipeId, new_serving: newServing })
+        setUpdateClicked(true)
         setUpdateClicks(updateClicks + 1)
+
+    }
+
+    const update_remove_states = (recipeId)  => {
+        setRemoveRecipeID(recipeId)
+        setRemoveClicked(true)
+        setRemoveClicks(removeClicks + 1)
+
+        // console.log("Recipe to remove:", removeRecipeID)
+        // remove_recipe()
+
+    }
+
+    const remove_recipe = async () => {
+        // console.log("Recipe to remove:", removeRecipeID)
+        const response = await fetch(`http://127.0.0.1:8000/accounts/shopping-list/remove/${removeRecipeID}/`, {
+            method: 'DELETE',
+            headers: { 
+                'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            }
+            
+        })
+
+        
+
+        remove_recipeDetail(removeRecipeID, recipeDetails)
+
+
+        
+        // update_cartInfo()
 
     }
 
@@ -38,7 +107,8 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
                             
                         })
         const data = await response.json();
-        // console.log(data)
+        console.log(data)
+        setUpdateClicked(false)
         update_cartInfo()
         
 
@@ -54,15 +124,11 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
                                 }
                                 })
         const data = await response.json();
-        // console.log(data)
-        setShoppingCartInfo(data)
+        console.log(data)
+        setShoppingCartInfo(data);
 
-                    
+        
     }
-
-
-
-      
 
     useEffect( () => {
         
@@ -73,27 +139,40 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
         // {console.log("shoppingCartInfo :", cartInfo)}
 
 
-        { (updateInfo.recipe_id == 0 && updateInfo.new_serving == 0) ?  
-           (
+        { (updateInfo.recipe_id == 0 && updateInfo.new_serving == 0) || (updateClicked == false && removeClicked == false)  ?  
+           (    
+                //    represents inital load
                []
-                // console.log("both 0")
+                
            ) :
            (
-                // console.log("recipe_id state:", updateInfo.recipe_id),
-                // console.log("new_serving state:", updateInfo.new_serving),
-
-                    
-                update_serving_size()
-                
-                
-           )
+               []
+           )     
         
         }
+
+        // Check if update or remove was clicked 
+
+        { updateClicked == true ? (
+            update_serving_size()
+        ) : 
+            []
+
+        }
+
+        { removeClicked == true ? (
+            remove_recipe()
+        ) : 
+            []
+
+        }
+
+        // console.log(recipeDetails)
         
 
 
 
-    }, [updateClicks])
+    }, [updateClicks, removeClicks])
 
 
 
@@ -114,7 +193,7 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
             
             
 
-            <table>
+            <table id="myTable">
                 <tr>
                     <div className="tab2HeaderContainer">
                         <div className="tab2Header">
@@ -135,7 +214,7 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
                                 
                                 
                                 <div className="rowContainer"> 
-                                <tr key={index} > 
+                                <tr key={index} id={index} > 
 
                                     
                                             
@@ -183,8 +262,13 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
                                             <div className="ingredientColSecondRow">
                                                 <label className="servingsLabel"> Servings: <input type="number" className="servingsInput" name="serving" id={recipeDetails[index].id + "-serving"} defaultValue={shoppingCartInfo.filter(obj => obj.recipe_id == recipeDetails[index].id)[0].servings_num}/> </label>
                                                 <button className="servingsUpdateButton" onClick={ () => 
-                                                    update_states(recipeDetails[index].id, document.getElementById(recipeDetails[index].id + "-serving").value )} > Update</button>
-                                                <button className="deleteButton"> Remove </button>
+                                                    update_servings_states(recipeDetails[index].id, document.getElementById(recipeDetails[index].id + "-serving").value )} > Update</button>
+                                                <button 
+                                                    className="deleteButton" 
+                                                    onClick={ () => update_remove_states(recipeDetails[index].id)}
+                                                > 
+                                                Remove 
+                                                </button>
                                             </div>
                                         </div>
                                          

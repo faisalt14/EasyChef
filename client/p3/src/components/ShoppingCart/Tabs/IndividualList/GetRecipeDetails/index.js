@@ -8,6 +8,7 @@ const GetRecipeDetails = ({cartInfo}) => {
 
     useEffect( () => {
        
+        // console.log("loaded")
 
         cartInfo.map((dict, index) => (
             fetch(`http://127.0.0.1:8000/recipes/${dict.recipe_id}/details/`, {     
@@ -29,14 +30,14 @@ const GetRecipeDetails = ({cartInfo}) => {
 
     }, [])
     
-    // console.log("Cart Data:", cartInfo)
-    // console.log("Recipe Details Array:", recipeDetails)
+    console.log("Cart Data:", cartInfo)
+    console.log("Recipe Details Array:", recipeDetails)
 
 
     return (
         <>
 
-            {Object.keys(cartInfo).length == Object.keys(recipeDetails).length ? <DisplayIndividualList cartInfo={cartInfo} recipeDetails={recipeDetails} /> : []}
+            {Object.keys(cartInfo).length == Object.keys(recipeDetails).length ? <DisplayIndividualList cartInfo={cartInfo} recipeDetailsDict={recipeDetails} /> : []}
 
         </>
     )
