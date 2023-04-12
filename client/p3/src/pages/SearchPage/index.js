@@ -13,7 +13,7 @@ function SearchPage(props) {
     let callingCards = false
 
     const infiniteScroll = (event) => {
-        if (event.target.scrollHeight - event.target.scrollTop === event.target.clientHeight){
+        if (event.target.scrollHeight - event.target.scrollTop < (event.target.clientHeight + 10)){
             if (nextPage){
                 callingCards = true
                 $.ajax({
@@ -55,7 +55,7 @@ function SearchPage(props) {
         <div className='search-results-wrapper' id='searchResults' onScroll={infiniteScroll}>
             <div className='search-results-table'>
                 {cards.map((cardInfo, index) => {
-                    return <RecipeCard info={cardInfo} key={index}/>
+                    return <div className="card-wrapper-search" key={index}> <RecipeCard info={cardInfo} /> </div>
                 })}
             </div>
             <div className='BTT-wrapper'>
