@@ -9,7 +9,7 @@ import GetRecipeDetails from "../GetRecipeDetails";
 const DisplayIndividualList = ({cartInfo, recipeDetailsDict}) => {
 
 
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjg0OTU1LCJpYXQiOjE2ODEyODEzNTUsImp0aSI6ImM4NTUwMjg3YzA1ZjQxZTI4ODM5N2ZmZmEwMTY3NWUxIiwidXNlcl9pZCI6MX0.KpEaw906oLDo5geD6LbA4Gj8qnhdkGHVi4QfXLbN5qk")
+    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjg1NDg0LCJpYXQiOjE2ODEyODE4ODQsImp0aSI6ImZlYzZlY2NjNjU5YzRhYjM4NjUwMzk3NTVkOTNhMWM2IiwidXNlcl9pZCI6MX0.Y7-4nxpHq6VqjqrS5yzbNQya8LmFoPGY_26R_s35ayw")
     const [recipeDetails, setRecipeDetails] = useState(recipeDetailsDict);
     const [updateClicked, setUpdateClicked] = useState(false); 
     const [removeClicked, setRemoveClicked] = useState(false)
@@ -22,7 +22,22 @@ const DisplayIndividualList = ({cartInfo, recipeDetailsDict}) => {
         new_serving : 0
 
     })
-    const [shoppingCartSize, setShoppingCartSize] = useState(Object.keys(shoppingCartInfo).length)
+   
+    const clearCart = () => {
+        // setclearCartClicks(clearCartClicks + 1)
+
+        setRecipeDetails([])
+
+        fetch(" http://127.0.0.1:8000/accounts/shopping-list/clear/", {
+            method: 'DELETE',
+            headers: { 
+                'Content-Type': 'application/json',
+               'Authorization': `Bearer ${token}`,
+              }
+            
+        })
+       
+    }
 
     const remove_recipeDetail = (recipeId, recipeDetailsDict) => {
 
@@ -188,7 +203,13 @@ const DisplayIndividualList = ({cartInfo, recipeDetailsDict}) => {
             {console.log(recipeDetails[0].id)}
             */}
 
-            { Object.keys(shoppingCartInfo).length == 0 ? ([]) : 
+            { Object.keys(shoppingCartInfo).length == 0 ? 
+                (
+
+                    []
+
+
+            ) : 
             
             
             
@@ -302,7 +323,13 @@ const DisplayIndividualList = ({cartInfo, recipeDetailsDict}) => {
             
             </table>
 
+
+
             }
+
+            <div className="clearButtonContainer">
+            <button id="clearButton" onClick={() => clearCart()}> Empty Shopping Cart</button>
+            </div> 
 
         
         </>
