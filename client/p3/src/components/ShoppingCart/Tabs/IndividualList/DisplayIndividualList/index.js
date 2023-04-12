@@ -10,7 +10,8 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
 
     const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjY2NTg0LCJpYXQiOjE2ODEyNjI5ODQsImp0aSI6ImIyYTcwZTk3YTgzOTRmYTQ4NmJjZGE4NWVjZmQwZDkwIiwidXNlcl9pZCI6MX0.5rrcTLUoK7sLvgGpHD_q5Voox_YFaA2EVmC3rvHwzAY")
 
-    const [buttonClicks, setButtonClicks] = useState(0); 
+    const [updateClicks, setUpdateClicks] = useState(0); 
+    const [removeClicks, setRemoveClicks] = useState(0); 
     const [shoppingCartInfo, setShoppingCartInfo] = useState(cartInfo); 
     const [updateInfo, setUpdateInfo] = useState({
         recipe_id : 0, 
@@ -22,7 +23,7 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
 
     const update_states = (recipeId, newServing) => {
         setUpdateInfo({recipe_id: recipeId, new_serving: newServing })
-        setButtonClicks(buttonClicks + 1)
+        setUpdateClicks(updateClicks + 1)
 
     }
 
@@ -92,7 +93,7 @@ const DisplayIndividualList = ({cartInfo, recipeDetails}) => {
 
 
 
-    }, [buttonClicks])
+    }, [updateClicks])
 
 
 
