@@ -15,7 +15,7 @@ function HomeRecipeCarousel(props) {
 
     const handleClick = (meal) => {
         if (meal === 3){
-            navigate('/popular/')
+            navigate('/recipes')
         }
         else{
            props.setSearchParams({

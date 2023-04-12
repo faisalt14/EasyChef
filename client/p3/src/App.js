@@ -6,11 +6,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Register from './components/Register';
 import Login from './components/LogIn';
 import LoggedInContext, { useLoggedInContext } from './contexts/LoggedInContext';
-import SearchParamsContext, { useSearchParamsContext } from './contexts/SearchParamsContext';
 import Logout from './components/Logout';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage'
-import { Search } from 'react-bootstrap-icons';
 
 
 function App() {
