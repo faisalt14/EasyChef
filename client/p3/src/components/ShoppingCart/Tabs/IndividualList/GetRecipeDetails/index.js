@@ -15,8 +15,13 @@ const GetRecipeDetails = ({cartInfo}) => {
                 .then(response => response.json())
                 .then(json => {
                     /** Reference for concat: https://javascript.plainenglish.io/how-to-add-to-an-array-in-react-state-3d08ddb2e1dc */
-                    {Object.keys(json).length > 0 ? setRecipeDetails(recipeDetails => recipeDetails.concat(json))  : [] }
+                    {Object.keys(json).length > 0 ? setRecipeDetails(recipeDetails => recipeDetails.concat(json)) : [] }
                     // setRecipeDetails(recipeDetails.concat(json));  
+
+
+                    
+
+                    {/**  */}
     
                 })
             

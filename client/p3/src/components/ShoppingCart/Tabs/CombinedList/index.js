@@ -3,7 +3,7 @@ import "./style.css"
 
 const CombinedList = () => {
     const [combinedData, setCombinedData] = useState([]);
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjQyNDk0LCJpYXQiOjE2ODEyMzg4OTQsImp0aSI6IjU3NTZkYWY1ZmI4OTRhOTdhZjI1ZjFhZTcyNWYyMDYyIiwidXNlcl9pZCI6MX0.73HrqqiCbc4ASiWMIbhzJruZC9Njkx0GzqBa_OHqRT4")
+    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjY2NTg0LCJpYXQiOjE2ODEyNjI5ODQsImp0aSI6ImIyYTcwZTk3YTgzOTRmYTQ4NmJjZGE4NWVjZmQwZDkwIiwidXNlcl9pZCI6MX0.5rrcTLUoK7sLvgGpHD_q5Voox_YFaA2EVmC3rvHwzAY")
     const [clearCartClicks, setclearCartClicks] = useState(0); 
 
     const [value, setValue] = useState(['inital'])
