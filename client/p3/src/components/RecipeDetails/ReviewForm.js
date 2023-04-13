@@ -16,7 +16,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import Zoom from 'react-medium-image-zoom'
 import './style.css'
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzI2NTM0LCJpYXQiOjE2ODEzMjI5MzQsImp0aSI6ImU1MmMwNDkyYWRmZTRiZWE4MDgwMDVkOWZkYzk1MjJiIiwidXNlcl9pZCI6Mn0.y7Lv0Ag_geYBYWdEX71XCbtzGTh-EhAepUZKEFx1JIo";
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzUxNDc4LCJpYXQiOjE2ODEzNDc4NzgsImp0aSI6IjAwOWUxZjUwOWVkZjQ2NzNiNzRhZDBmN2QxMDIwMzIwIiwidXNlcl9pZCI6Mn0.0tOEMArOndcW0OS-_jgoUPHv_pQBHK7fUcWRbwrQP9w";
 
 const ReviewForm = ({ interactions, id }) => {
   const [newComment, setNewComment] = useState('');
@@ -24,6 +24,7 @@ const ReviewForm = ({ interactions, id }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [images, setImages] = useState([]);
+  const [postCount, setPostCount] = useState(0);
 
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const ReviewForm = ({ interactions, id }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [postCount]);
 
   const handleCommentChange = (event) => {
     setNewComment(event.target.value);
@@ -109,6 +110,8 @@ const ReviewForm = ({ interactions, id }) => {
       setNewComment('');
       setNewRating(0);
       setImages([]);
+      window.location.reload();
+
   
       // TODO: Refresh the interactions list or handle the response as needed
     } catch (error) {

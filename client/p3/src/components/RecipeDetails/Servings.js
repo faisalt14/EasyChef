@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './style.css';
 import axios from 'axios';
+// import ProfileModal from './ProfileModal';
 
 function Servings({ initialServings, ingredients, onServingsChange, recipe_id }) {
   const [servingNumber, setServingNumber] = useState(initialServings);
   const [inputValue, setInputValue] = useState(initialServings);
 
   const token="";
+  // const token = localStorage.getItem('token');
+
 
   useEffect(() => {
     onServingsChange(servingNumber);
@@ -22,6 +25,11 @@ function Servings({ initialServings, ingredients, onServingsChange, recipe_id })
   };
 
   const handleAddToShoppingList = () => {
+    if (!token) {
+      // setShowProfileModal(true);
+      return;
+    }
+
     axios.post(`http://127.0.0.1:8000/accounts/shopping-list/add/${recipe_id}/`, {
       servings_num: servingNumber,
     }, {
@@ -33,7 +41,11 @@ function Servings({ initialServings, ingredients, onServingsChange, recipe_id })
       console.log('Added to shopping list:', response);
     })
     .catch(error => {
-      console.error('Error adding to shopping list:', error);
+      if (error.response && error.response.status === 404) {
+        alert('Already added to shopping cart!');
+      } else {
+        console.error('Error adding to shopping list:', error);
+      }
     });
   }
 
@@ -137,6 +149,9 @@ function Servings({ initialServings, ingredients, onServingsChange, recipe_id })
       >
         Add to Shopping List
       </button>
+      {/* {showProfileModal && (
+        <ProfileModal onClose={handleProfileModalClose} />
+      )} */}
     </div>
   );
 }

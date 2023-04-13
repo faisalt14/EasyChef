@@ -11,14 +11,71 @@ function MyRecipes() {
   const [recipes, setRecipes] = useState([]);
   const [recipes2, setRecipes2] = useState([]);
   const [recipes3, setRecipes3] = useState([]);
+  const [nextPage, setNextPage] = useState(false)
+  const [cards, setCards] = useState([])
+  let callingCards = false
 
   const [activeTab, setActiveTab] = useState('1');
 
   const toggle = tab => {
     if(activeTab !== tab) setActiveTab(tab);
   }
+
+  const infiniteScrollPublished = async (event) => {
+    if (!callingCards && nextPage && event.target.scrollHeight - event.target.scrollTop < (event.target.clientHeight + 10)) {
+      callingCards = true;
+      try {
+        const response = await axios.get(nextPage, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCards([...cards, ...response.data.results]);
+        setNextPage(response.data.next);
+      } catch (error) {
+        console.error(error);
+      }
+      callingCards = false;
+    }
+  };
   
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzQ0Njc5LCJpYXQiOjE2ODEzNDEwNzksImp0aSI6IjEyYjVhZmE4MTY4NzQ1MDFiNDU4ZDg0MzFmMTRlYmEyIiwidXNlcl9pZCI6Mn0.Zl12MHyv3fpclKYWVVowxPgu_0JCcz-RQhsiG84eQng";  
+  const infiniteScrollFavourited = async (event) => {
+    if (!callingCards && nextPage && event.target.scrollHeight - event.target.scrollTop < (event.target.clientHeight + 10)) {
+      callingCards = true;
+      try {
+        const response = await axios.get(nextPage, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setRecipes2([...recipes2, ...response.data.results]);
+        setNextPage(response.data.next);
+      } catch (error) {
+        console.error(error);
+      }
+      callingCards = false;
+    }
+  };
+  
+  const infiniteScrollRecent = async (event) => {
+    if (!callingCards && nextPage && event.target.scrollHeight - event.target.scrollTop < (event.target.clientHeight + 10)) {
+      callingCards = true;
+      try {
+        const response = await axios.get(nextPage, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setRecipes3([...recipes3, ...response.data.results]);
+        setNextPage(response.data.next);
+      } catch (error) {
+        console.error(error);
+      }
+      callingCards = false;
+    }
+  };
+    
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzQ4NjEyLCJpYXQiOjE2ODEzNDUwMTIsImp0aSI6IjNkNzE4NDk3NGI5OTRmZjc5ZjE5NDk1NTgxZDc5YjQxIiwidXNlcl9pZCI6Mn0.NwNa-NYcOxLMbQBsMYZ9Iaq5p9ZpjWkGepVT-xRW-mE";  
 
   useEffect(() => {
     async function fetchData() {
@@ -113,6 +170,7 @@ function MyRecipes() {
       </div>
       <TabContent activeTab={activeTab}>
         <TabPane tabId="1">
+        <div className="scrollable-content" onScroll={infiniteScrollPublished}>
           <div className="ms-3 row">
             {recipes.map((recipe) => (
               <div key={recipe.id} className="col-lg-3 col-md-6 mb-4">
@@ -120,8 +178,10 @@ function MyRecipes() {
               </div>
             ))}
           </div>
-        </TabPane>
+        </div>
+      </TabPane>
         <TabPane tabId="2">
+        <div className="scrollable-content" onScroll={infiniteScrollFavourited}>
           <div className="ms-3 row">
             {recipes2.map((recipe) => (
               <div key={recipe.id} className="col-lg-3 col-md-6 mb-4">
@@ -129,14 +189,17 @@ function MyRecipes() {
               </div>
             ))}
           </div>
+          </div>
         </TabPane>
         <TabPane tabId="3">
+        <div className="scrollable-content" onScroll={infiniteScrollRecent}>
           <div className="ms-3 row">
             {recipes3.map((recipe) => (
               <div key={recipe.id} className="col-lg-3 col-md-6 mb-4">
                 <RecentRecipes info={recipe}/>
               </div>
             ))}
+          </div>
           </div>
         </TabPane>
       </TabContent>
