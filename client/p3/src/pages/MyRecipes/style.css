@@ -1,0 +1,160 @@
+html,
+body {
+  background-color: #EFEEEE;
+}
+
+.recipe-card-wrapper{
+  width: 15rem; 
+  height: 16rem; 
+  cursor:pointer; 
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.card-img-tag-wrapper{
+  height:10rem;
+  position: relative;
+  padding-bottom: 0px;
+}
+
+.card-img{
+  height:10rem;
+  object-fit: cover; 
+  position: relative;
+}
+
+.tags-wrapper{
+  position: absolute; 
+  bottom: 0; 
+  display: flex; 
+  width: 100%; 
+  align-items: flex-end;
+  overflow-x: scroll;
+}
+.tags-wrapper::-webkit-scrollbar{
+  display: none;
+}
+
+.tag{
+  background-color: #E47E20; 
+  color: white; 
+  display: flex; 
+  font-weight: 650; 
+  font-size: 0.70rem; 
+  margin-right: 2px; 
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+.easy{
+  background-color: #0DE7E7; 
+  color: black; 
+}
+
+.medium{
+  background-color: #04B4B4; 
+  color: white; 
+}
+
+.hard{
+  background-color: #027373; 
+  color: white; 
+}
+
+.rating-stars{
+  margin-right:2px;
+}
+
+.recipe-info-wrapper{
+  color:#E47E20;
+  display:flex; 
+  font-size:small; 
+  line-height:0px;
+}
+
+.rating-wrapper{
+  flex:0.4;
+}
+
+.cook-time-fav-wrapper{
+  flex:0.6; 
+  text-align: right;
+}
+
+.card-title{
+  font-size:'larger';
+  margin-bottom: 0px;
+  line-height:normal;
+}
+
+.text-no-overflow{
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.cutoff{
+  text-overflow:clip; 
+}
+
+.grey{
+  color:grey;
+}
+
+.card-buttons-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.card-button {
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: #E47E20;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.card-button:hover {
+  background-color: #E47E20;
+}
+
+.navbar-wrapper {
+  height: 5em;
+  background-color: #EFEEEE;
+  ;
+  color: #FFFFFF;
+  padding-top: 0.5rem;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-title {
+  margin: 0;
+  font-weight: 550;
+}
+
+.navbar-tabs {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-tabs .nav-link {
+  color: black;
+  font-weight: 500;
+  font-size: 20px;
+  border-color: transparent;
+}
+
+.navbar-tabs .nav-link.active {
+  background-color: #FFFFFF;
+  color: #E47E20;
+}
+

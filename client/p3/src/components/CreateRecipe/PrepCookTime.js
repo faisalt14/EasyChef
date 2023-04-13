@@ -4,10 +4,11 @@ import React, { useState, useEffect } from 'react';
 function PrepCookTime({selectedPrepTime, selectedCookTime, setPrepTime, setCookTime, 
   reset, // Add resetForm prop
   name}) {
-  const [prepHours, setPrepHours] = useState("");
-  const [prepMins, setPrepMins] = useState("");
-  const [cookHours, setCookHours] = useState("");
-  const [cookMins, setCookMins] = useState("");
+    const [prepHours, setPrepHours] = useState(selectedPrepTime.hours);
+    const [prepMins, setPrepMins] = useState(selectedPrepTime.minutes);
+    const [cookHours, setCookHours] = useState(selectedCookTime.hours);
+    const [cookMins, setCookMins] = useState(selectedCookTime.minutes);
+    
 
 
   useEffect(() => {
