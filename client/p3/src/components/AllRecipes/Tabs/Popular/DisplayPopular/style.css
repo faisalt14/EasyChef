@@ -17,7 +17,7 @@
 
     margin-top: 3rem;
     width: 100vw;
-    border: black solid 3px;
+    /* border: black solid 3px; */
     /* height: 20rem; */
 
 
@@ -30,7 +30,7 @@
     grid-template-columns: auto auto auto auto auto;
     padding: 1rem;
     justify-content: center;
-    border: orange solid 3px;
+    /* border: orange solid 3px; */
 
 
 }

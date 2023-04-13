@@ -7,7 +7,7 @@ const DisplayPopular = ({popularData}) => {
     
 
     // const [popular, setPopular] = useState(popularData)
-    // console.log("popular data recieved:", popular)
+    console.log("popular data recieved:", popularData)
 
     useEffect( () => {
        
