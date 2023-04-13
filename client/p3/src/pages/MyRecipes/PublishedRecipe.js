@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 
 function PublishedRecipe({info}) {
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzQ0Njc5LCJpYXQiOjE2ODEzNDEwNzksImp0aSI6IjEyYjVhZmE4MTY4NzQ1MDFiNDU4ZDg0MzFmMTRlYmEyIiwidXNlcl9pZCI6Mn0.Zl12MHyv3fpclKYWVVowxPgu_0JCcz-RQhsiG84eQng";  
+    const token = localStorage.getItem('token');  
     const [id, setId] = useState(info.id)
     const [name, setName] = useState(info.name)
     const [chef, setChef] = useState(info.chef)

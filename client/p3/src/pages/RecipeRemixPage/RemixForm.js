@@ -9,7 +9,7 @@ function RemixForm() {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMjk5OTMzLCJpYXQiOjE2ODEyOTYzMzMsImp0aSI6ImU4ZGNlOTE2MzY2ZjQ0OWFiMzMxNTgwYzNjY2I2YjQ5IiwidXNlcl9pZCI6Mn0.-DStPJra41-opP2COLzno3gB6MdK8sqpcLhCeKImeuU";
+  const token = localStorage.getItem('token');
   async function fetchRecipeData() {
     setIsLoading(true);
     try {

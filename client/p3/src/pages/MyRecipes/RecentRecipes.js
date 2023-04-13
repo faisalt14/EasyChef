@@ -11,7 +11,7 @@ import jwt_decode from 'jwt-decode';
 
 
 function RecentRecipes({info}) {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzM1ODk4LCJpYXQiOjE2ODEzMzIyOTgsImp0aSI6IjMwYjJmODJlM2E3MDQzOWQ4ZDM1ZTYyOWMyMGJmMjFjIiwidXNlcl9pZCI6Mn0.F2S-bhDsLF3NSBnvdvh7TFv3rSJSgqsJe3qNA3Jwvg0";  
+  const token = localStorage.getItem('token');  
   const decodedToken = jwt_decode(token);
   const currentUserId = decodedToken.user_id;
 

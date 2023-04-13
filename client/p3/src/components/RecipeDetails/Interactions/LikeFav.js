@@ -18,7 +18,7 @@ function LikeFav({ recipeId, fav_number, like_number, totalLikes, totalFavs, upd
   };
   // const token = 'Bearer ' + localStorage.getItem('token');
   // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTc3NDgxLCJpYXQiOjE2ODExNzM4ODEsImp0aSI6IjkyNmE1NTI0NTllZjQ3OWZhMzhlNTdmNDM4OGNjM2Y4IiwidXNlcl9pZCI6Mn0.vHhSXtz9r3CUk95OXpv-oBDibcg9u5puQWK6_K3VqfU";
-  const token = "";
+  const token = localStorage.getItem('token');
   useEffect(() => {
     if (liked) {
       updateTotalLikes(Math.max(like_number + 1, 0));

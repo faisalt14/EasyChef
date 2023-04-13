@@ -16,7 +16,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import Zoom from 'react-medium-image-zoom'
 import './style.css'
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzUxNDc4LCJpYXQiOjE2ODEzNDc4NzgsImp0aSI6IjAwOWUxZjUwOWVkZjQ2NzNiNzRhZDBmN2QxMDIwMzIwIiwidXNlcl9pZCI6Mn0.0tOEMArOndcW0OS-_jgoUPHv_pQBHK7fUcWRbwrQP9w";
+const token = localStorage.getItem('token');
 
 const ReviewForm = ({ interactions, id }) => {
   const [newComment, setNewComment] = useState('');

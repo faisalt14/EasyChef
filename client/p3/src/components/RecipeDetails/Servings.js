@@ -7,7 +7,7 @@ function Servings({ initialServings, ingredients, onServingsChange, recipe_id })
   const [servingNumber, setServingNumber] = useState(initialServings);
   const [inputValue, setInputValue] = useState(initialServings);
 
-  const token="";
+  const token=localStorage.getItem('token');
   // const token = localStorage.getItem('token');
 
 

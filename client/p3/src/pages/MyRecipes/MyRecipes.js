@@ -75,7 +75,7 @@ function MyRecipes() {
     }
   };
     
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzQ4NjEyLCJpYXQiOjE2ODEzNDUwMTIsImp0aSI6IjNkNzE4NDk3NGI5OTRmZjc5ZjE5NDk1NTgxZDc5YjQxIiwidXNlcl9pZCI6Mn0.NwNa-NYcOxLMbQBsMYZ9Iaq5p9ZpjWkGepVT-xRW-mE";  
+  const token = localStorage.getItem('token');  
 
   useEffect(() => {
     async function fetchData() {

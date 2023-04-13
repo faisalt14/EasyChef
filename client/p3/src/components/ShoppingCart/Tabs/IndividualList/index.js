@@ -5,7 +5,7 @@ const IndividualList = () => {
     // const {token, setToken} = useContext(ShoppingCartAPIContext); 
 
     // Set token here 
-    const [token, setToken] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzQzNjI4LCJpYXQiOjE2ODEzNDAwMjgsImp0aSI6Ijc3ODc1YTIxNGM5NTRiM2I5MDgwODllNmZlNjcxN2U2IiwidXNlcl9pZCI6MX0.7jcyvfOuyp97MmqU3ZF4WSX-gfx5Fv63wIgbQclbvA4")
+    const token = localStorage.getItem('token')
 
     const [individualData, setIndividualData] = useState([]); 
     const [cardInfo, setCardInfo] = useState([]); 
