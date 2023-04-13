@@ -3,17 +3,19 @@ from rest_framework import serializers
 from accounts.models import User, ShoppingRecipeModel
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
+from django.core.exceptions import ValidationError
 
 from recipes.models import RecipeModel
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
-
+    
     class Meta:
         model = User
         fields = ['username', 'password', 'email', 'first_name', 'last_name', 'phone_num', 'avatar']
         extra_kwargs = {
-            'password': {'write_only': True}
+            'username': {'required': True},
+            'password': {'write_only': True, 'required': True},
         }
 
     def create(self, validated_data):
@@ -38,11 +40,17 @@ class UserLoginSerializer(serializers.Serializer):
 
 
 class UserEditSerializer(serializers.ModelSerializer):
+    password2 = serializers.CharField(allow_null=True, allow_blank=True)
+    
+    def validate_password(self, data):
+        if self.initial_data.get('password') != self.initial_data.get('password2'):
+            raise ValidationError('Passwords do not match')
+
     class Meta:
         model = User
-        fields = ['password', 'email', 'first_name', 'last_name', 'phone_num', 'avatar']
+        fields = ['password', 'email', 'first_name', 'last_name', 'phone_num', 'avatar', 'password2']
         extra_kwargs = {
-            'password': {'required': False}
+            'password': {'required': False},
         }
 
 

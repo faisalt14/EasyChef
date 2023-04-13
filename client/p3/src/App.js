@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-
+import ProfileModal from './components/AccountComponents/ProfileModal'
 import ShoppingCart from './components/ShoppingCart';
 import CreateForm from './pages/CreateRecipePage/CreateForm';
 import Layout from './components/Layout';

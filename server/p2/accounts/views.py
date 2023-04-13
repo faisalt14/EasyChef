@@ -25,25 +25,20 @@ from django.db.models import Q
 class SignUpView(CreateAPIView):
     def post(self, request):
         serializer = UserDetailSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid() and (request.data.get('password') == request.data.get('password2')):
             if request.data.get('email'):
                 try:
                     validate_email(request.data.get('email'))
                 except ValidationError:
                     return Response({'message': 'enter a valid email'}, status=400)
             if request.data.get('password') != request.data.get('password2'):
-                return Response({'message': 'passwords do not match'}, status=400)
+                return Response({'password2': 'passwords do not match'}, status=400)
             return Response(UserDetailSerializer(serializer.create(request.data)).data, status=200)
 
-        if User.objects.filter(username=request.data.get('username')).exists():
-            return Response({'message': 'username is already taken'}, status=400)
-        errors = ""
-
-        if not request.data.get('password2'):
-            errors = errors + ' [password2 - This Field Is Required.]'
-        for error in serializer.errors:
-            errors = errors + ' [' + error + ' - ' + serializer.errors[error][0].title() + ']'
-        return Response({'message': 'Errors in request:' + errors}, status=400)
+        errors = serializer.errors
+        if request.data.get('password') != request.data.get('password2'):
+            errors.update({'password2': 'Passwords do not match.'})
+        return Response(errors, status=400)
 
 
 class LoginView(APIView):
@@ -76,39 +71,32 @@ class EditProfileView(APIView):
 
         serializer = UserEditSerializer(data=request.data)
         if serializer.is_valid():
-
             if request.data.get('email'):
                 try:
                     validate_email(request.data.get('email'))
                     request.user.email = request.data.get('email')
                 except ValidationError:
                     return Response({'message': 'enter a valid email'}, status=400)
+            elif request.data.get('email') == '':
+                request.user.email = ''
+
             if request.data.get('password') != request.data.get('password2'):
                 return Response({'message': 'passwords do not match'}, status=400)
             elif request.data.get('password'):
                 request.user.set_password(request.data.get('password'))
-
-            if request.data.get('first_name'):
-                request.user.first_name = request.data.get('first_name')
-            if request.data.get('last_name'):
-                request.user.last_name = request.data.get('last_name')
-            if request.data.get('phone_num'):
-                request.user.phone_num = request.data.get('phone_num')
+            request.user.first_name = request.data.get('first_name')
+            request.user.last_name = request.data.get('last_name')
+            request.user.phone_num = request.data.get('phone_num')
             try:
                 request.user.avatar = request.FILES['avatar']
             except:
-                print('no avatar change')
+                pass
 
             request.user.save()
             update_session_auth_hash(request, request.user)
             return Response(UserDetailSerializer(request.user).data, status=200)
-        Email_Error = ''
-        try:
-            if serializer.errors['email']:
-                Email_Error = ' ' + serializer.errors['email'][0].title()
-        except:
-            pass
-        return Response({'message': 'serializer is invalid!' + Email_Error}, status=400)
+            
+        return Response(serializer.errors, status=400)
 
 class ProfileDetailsView(RetrieveAPIView):
     serializer_class = UserDetailSerializer

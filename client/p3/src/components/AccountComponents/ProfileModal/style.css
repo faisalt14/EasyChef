@@ -1,0 +1,57 @@
+.modal-header{
+    background-color: #04B4B4;
+    color:#FFFFFF;
+}
+
+.login-img{
+    background-image: url('../../../Easy Chef Logo.png');
+    background-repeat:no-repeat;
+    background-position: center;
+    overflow:hidden;
+    background-size:50%;
+    margin:auto;
+    margin-bottom: 2rem;
+    padding: 0;
+    height:200px;
+}
+.login-button{
+    width: 10rem; 
+    margin: auto; 
+    margin-top: 1rem;
+    background-color: #04B4B4;
+    border: 1px;
+}
+
+.row{
+    margin-bottom:2rem;
+}
+
+.single-col{
+    width:30%;
+    margin: auto;
+}
+
+.footer-button{
+    background-color: #04B4B4;
+    border: 1px;
+}
+
+.body-wrapper{
+    margin-bottom: 1rem;
+    padding: 2rem;
+}
+
+.center-wrapper{
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-pic{
+    border-radius:50%;
+    width:200px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.user-info{
+    font-weight: 350;
+}
