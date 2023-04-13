@@ -4,8 +4,26 @@ import Select from 'react-select';
 import './ingredients.css';
 import CloseButton from 'react-bootstrap/CloseButton';
 
-function Ingredients({ ingredient_dic, setIngredient_dic }) {
-  const [ingredients, setIngredients] = useState([]);
+function Ingredients({ ingredient_dic, setIngredient_dic, initialIngredients }) {
+  const transformedInitialIngredients = initialIngredients
+  ? initialIngredients.reduce((acc, { id, quantity, unit, name }) => {
+      acc[id] = [quantity, unit];
+      return acc;
+    }, {})
+  : {};
+
+  // Set the initial ingredient_dic
+  useEffect(() => {
+    setIngredient_dic(transformedInitialIngredients);
+  }, []);
+
+  const [ingredients, setIngredients] = useState(
+    initialIngredients
+      ? initialIngredients.map(
+          ({ quantity, unit, name }) => `${quantity} ${unit} ${name}`
+        )
+      : []
+  );
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [unit, setUnit] = useState('');
@@ -15,6 +33,9 @@ function Ingredients({ ingredient_dic, setIngredient_dic }) {
 
   const units_object = [
     { value: "cups", label: 'cups' },
+    { value: "small", label: 'small' },
+    { value: "medium", label: 'medium' },
+    { value: "large", label: 'large' },
     { value: "kg", label: 'kg'},
     { value: "g", label: 'g' },
     { value: "tbs", label: 'tbs' },

@@ -7,8 +7,9 @@ import 'react-medium-image-zoom/dist/styles.css'
 import { v4 as uuidv4 } from 'uuid';
 import './AddStep.css'
 
-function AddStep({ selectSteps, setSelectedSteps }) {
-  const [steps, setSteps] = useState([]);
+function AddStep({ selectSteps, setSelectedSteps, name }) {
+	const [steps, setSteps] = useState(selectSteps ? selectSteps: []);
+  // console.log("steps hereee", steps);
   const [desc, setDesc] = useState('');
   const [images, setImages] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
@@ -27,9 +28,11 @@ function AddStep({ selectSteps, setSelectedSteps }) {
 
   };
 
+  const [initialFiles, setInitialFiles] = useState([]);
+
   const handleEditStep = (stepIndex) => {
     const stepToEdit = steps[stepIndex];
-    setDesc(stepToEdit.description);
+    setDesc(stepToEdit.instructions);
     setPrepTime(stepToEdit.prepTime);
     setCookTime(stepToEdit.cookTime);
     setImages(stepToEdit.images);
@@ -82,7 +85,7 @@ function AddStep({ selectSteps, setSelectedSteps }) {
 
     const newStep = {
       id: isEditing ? steps[editIndex].id : uuidv4(),
-      description: desc,
+      instructions: desc,
       prepTime: selectedPrepTime,
       cookTime: selectedCookTime,
       images: images,
@@ -126,7 +129,7 @@ function AddStep({ selectSteps, setSelectedSteps }) {
      Cook it up with some easy-to-follow recipe steps!
 </p>
 </div>
-    {steps.map((step, index) => (
+      {Object.entries(steps).map(([stepIndex, step], index) => (
         <>
           <div
             className="container-fluid mb-3 ms-4 mt-4"
@@ -174,7 +177,7 @@ function AddStep({ selectSteps, setSelectedSteps }) {
   }}
 >
   <div style={{ minWidth: '400px', whiteSpace:'pre-wrap', wordBreak: 'break-word' }}>
-    <p style={{ fontSize: '17px' }}>{step.description}</p>
+    <p style={{ fontSize: '17px' }}>{step.instructions}</p>
   </div>
 </div>
 
@@ -233,13 +236,15 @@ function AddStep({ selectSteps, setSelectedSteps }) {
 
   </div>
   <div className="col-md-12 col-sm-12 col-lg-6 col-12">
-
-  {step.images && step.images.length > 0 && (
+  {(name === "remix" && step.media || step.images) &&
+  (name === "remix" && step.media || step.images).length > 0 && (
     <div
     className="d-flex flex-wrap"
     style={{ justifyContent: 'start', alignItems: 'center', minHeight:'170px', marginTop:'-15px'}}
   >
-    {step.images.map((image, index) => (
+    {(name === "remix" && step.media || step.images).map((image, index) => (
+      <>
+      {console.log("image", URL.createObjectURL(image))}
       <div
         key={index}
         className="mb-3 me-3 col-lg-4 col-md-12 col-sm-12 col-12 px-0 custom-col" // Updated Bootstrap classes
@@ -249,15 +254,22 @@ function AddStep({ selectSteps, setSelectedSteps }) {
           minWidth: 0,
         }}
       >
+          {/* {console.log(`stepIndex: ${stepIndex}, image: ${image}, index: ${index}`)} */}
         <Zoom>
-          <img
-            src={URL.createObjectURL(image)}
-            alt="step"
-            className="img-fluid"
-            style={{ width: '100%', objectFit: 'cover', minHeight:'160px', minWidth:'160px'}}
-          />
+						{image.url ? (
+            <img className="step-image" src={image.url} alt="Step"             
+             style={{ width: '100%', objectFit: 'cover', minHeight:'160px', minWidth:'160px'}}	 />
+          ) : (
+            <img
+              className="step-image"
+              src={URL.createObjectURL(image)}
+              alt="Step"
+              style={{ width: '100%', objectFit: 'cover', minHeight:'160px', minWidth:'160px'}}	
+            />
+          )}
         </Zoom>
       </div>
+      </>
     ))}
   </div>)
     }
