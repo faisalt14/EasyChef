@@ -4,9 +4,14 @@ import './style.css'
 import DefaultImage from '../../Easy Chef Logo.png'
 import Card from 'react-bootstrap/Card'
 import { StarFill, StarHalf, Star, Stopwatch, Bookmark } from 'react-bootstrap-icons'
+import { useNavigate } from 'react-router'
 
 function RecipeCard({info}) {
     const img = info.media ? 'http://127.0.0.1:8000' + info.media : DefaultImage
+    const navigate = useNavigate();
+    const handleCardClick = () => {
+        navigate(`/recipes/${info.id}/details`, { state: { scrollToTop: true } });
+      };
 
     function timeToStr(time){
         let cleanedTime = time.split(':')
@@ -52,7 +57,7 @@ function RecipeCard({info}) {
     }
 
     return(
-        <Card className='recipe-card-wrapper'>
+        <Card className='recipe-card-wrapper' onClick={handleCardClick}>
             <div className="card-img-tag-wrapper">
                 <Card.Img className="card-img" variant="top" src={img} alt={img.split('/').slice(-1)} />
                 <div className="tags-wrapper">
