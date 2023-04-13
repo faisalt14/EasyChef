@@ -14,6 +14,7 @@ const All = () => {
         fetch('http://127.0.0.1:8000/recipes/all-recipes/')
             .then(response => response.json())
             .then(json => {
+                console.log(json)
                 setRecipeInfo(json['results'])
                 // console.log(json['results'])
 

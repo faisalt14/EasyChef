@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import RecipeCard from "../../../../RecipeCard";
 import "./style.css"
 
-const DisplayPopular = ({recipeDetails, popularData}) => {
-
-    console.log("recipe details recieved:", recipeDetails)
+const DisplayPopular = ({popularData}) => {
     console.log("popular data recieved:", popularData)
     
 
@@ -28,7 +26,7 @@ const DisplayPopular = ({recipeDetails, popularData}) => {
 
                     <div className="cardContainer"> 
                     
-                        < RecipeCard info={recipeDetails.filter(obj => obj.id == popularData[index].id)[0]}/> 
+                        < RecipeCard info={dict}/> 
                     
                     </div>
                         // < RecipeCard info={recipeDetails[index]}/> 
