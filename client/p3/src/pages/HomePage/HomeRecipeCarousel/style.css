@@ -8,6 +8,10 @@
 .recipe-carousel-cards{
     background-color:#F2F2F2; 
     padding:10px; display:grid; 
-    grid-template-columns: repeat(12, auto); 
+    grid-template-columns: repeat(6, auto); 
     overflow-x: scroll;
+    min-height: 16rem;
+}
+.recipe-carousel-cards::-webkit-scrollbar{
+    display: none;
 }

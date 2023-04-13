@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
-import $ from 'jquery'
 import CookingTime from '../Filters/CookingTime'
 import Cuisine from '../Filters/Cuisine'
 import Diet from '../Filters/Diet'
 import Meal from '../Filters/Meal'
 import SearchCategory from '../Filters/SearchCategory'
 import { Search } from 'react-bootstrap-icons'
+import { useNavigate } from 'react-router-dom'
 
 function SearchHeader(props) {
     const [query, setQuery] = useState('')
@@ -16,34 +16,33 @@ function SearchHeader(props) {
     const [selectedCuisine, setSelectedCuisine] = useState(null)
     const [selectedMeal, setSelectedMeal] = useState(null)
     const [selectedDiets, setSelectedDiets] = useState([])
+    let navigate = useNavigate()
 
     const handleKeyPress = (event) =>{
-        setQuery(document.getElementById("searchBar") ? document.getElementById("searchBar").value : '')
+        setQuery(event.target.value)
         if (event.key === 'Enter'){
-            searchAjax()
+            searchRedirect()
         }
     }
 
-    const searchAjax = () => {
+    const searchRedirect = () => {
         let categoryDict = {0: 'Recipe', 1: 'User', 2: 'Ingredients'}
-        $.ajax({
-            url: 'http://127.0.0.1:8000/recipes/search/',
-            method: 'Get',
-            data: {
-                query: query,
-                category: (selectedCategory ? categoryDict[selectedCategory.value] : categoryDict[0]),
-                cooking_time: (selectedCookingTime ? selectedCookingTime.value : 0),
-                cuisine: (selectedCuisine ? selectedCuisine.value : 14),
-                meal: (selectedMeal ? selectedMeal.value : 6),
-                diet: (selectedDiets.toString() ? selectedDiets.toString() : 6),
-            },
-            success: function(xhr){
-                console.log(xhr)
-            },
-            error: function(xhr){
-                console.log(xhr)
-            }
+        let dietsField = ''
+        for (let [key, value] of Object.entries(selectedDiets)){
+            dietsField = dietsField + value.value + ','
+        }
+        dietsField = dietsField.slice(0, -1)
+        props.setSearchParams({
+            query: query,
+            category: (selectedCategory ? categoryDict[selectedCategory.value] : categoryDict[0]),
+            cooking_time: (selectedCookingTime ? selectedCookingTime.value : 0),
+            cuisine: (selectedCuisine ? selectedCuisine.value : 14),
+            meal: (selectedMeal ? selectedMeal.value : 6),
+            diet: (dietsField ? dietsField : 6)
         })
+        if (!props.searchPage){
+            navigate('/search/')
+        }
     }
 
     return(
@@ -53,7 +52,7 @@ function SearchHeader(props) {
                 Search for Recipes
             </h1>
             <div className="search-bar-wrapper">
-                <Search className="magnifying-glass-icon" style={{cursor:'pointer'}} onClick={searchAjax} />
+                <Search className="magnifying-glass-icon" style={{cursor:'pointer'}} onClick={searchRedirect} />
                 <input className="search-bar" type="text" id="searchBar" name="search" onKeyUp={handleKeyPress} placeholder="Search for a Recipe..."></input>
             </div>
             

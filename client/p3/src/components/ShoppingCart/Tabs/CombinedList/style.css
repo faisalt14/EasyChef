@@ -1,0 +1,157 @@
+/* * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+} */
+
+/* Box shadows from: https://getcssscan.com/css-box-shadow-examples */
+
+.headerContainer{
+    width: 100vw;
+    /* border: solid pink 3px; */
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+.header {
+    background-color: #D9D9D9;
+    float: left;
+    font-size: 2em;
+    /* margin-top: 3rem; */
+    margin: 5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.header .ingredientHeader {
+    border: solid black 1px;
+    width: 40vw;
+    text-align: center;
+    font-weight: 500;
+}
+
+.header .quantityHeader {
+    border: solid black 1px;
+    width: 40vw;
+    text-align: center;
+    font-weight: 500;
+}
+
+.empty-body-container {
+    width: 100vw;
+    /* border: solid 3px red; */
+    margin-top: 2rem;
+    padding: 4px;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+}
+
+.empty-ingredient-quantity-container {
+    background-color: #D9D9D9;
+    border: solid black 1px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+}
+
+.empty-ingredient-quantity-container .emptyBodyIngredient {
+    width: 40vw;
+    background-color: #D9D9D9;
+    text-align: center;
+    font-weight: 600;
+    padding: 0.25rem;
+    margin-top: 5px;
+    border-right: solid black 1px;
+}
+
+.empty-ingredient-quantity-container .emptyBodyQuantity {
+    
+    width: 40vw;
+    background-color: #D9D9D9;
+    text-align: center;
+    font-weight: 600;
+    padding: 0.25rem;
+    margin-top: 5px;
+
+
+}
+
+.bodyContainer {
+    display: flex;
+    justify-content: center;
+    /* border: solid 3px black; */
+    margin-top: 2rem;
+    width: 100vw;
+    padding: 4px;
+}
+
+.ingredient-quantity-container{
+    width: 80vw;
+    background-color: #D9D9D9;
+    /* height: 2em; */
+}
+
+.bodyContainer .bodyIngredient {
+    width: 40vw;
+    background-color: #D9D9D9;
+    text-align: center;
+    font-weight: 600;
+    padding: 0.25rem;
+    border-right: solid black 1px;
+   
+}
+
+.bodyContainer .bodyQuantity {
+    
+    width: 40vw;
+    background-color: #D9D9D9;
+    text-align: center;
+    font-weight: 600;
+    padding: 0.25rem;
+
+}
+
+.bodyContainer .ingredient-quantity-container {
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    border: solid black 1px;
+
+}
+
+.clearButtonContainer {
+    /* position: fixed;
+    bottom: 1rem; */
+    margin-top: 2rem;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    /* border: solid 3px black; */
+    height: 50px;
+
+    
+
+}
+
+.clearButtonContainer #clearButton{
+    width: 80vw;
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    background-color: #E47E20; 
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin: 5px;
+    border-radius: 3px;
+    border: none;
+    height: 2rem;
+}
+
+.clearButtonContainer #clearButton:hover {
+    background-image: linear-gradient(to left, #E47E20, #f39740); /* Reverse the gradient direction on hover */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Increase the shadow on hover */
+    transform: translateY(-1px); /* Add a subtle lift effect on hover */
+
+}
+
+
+
+

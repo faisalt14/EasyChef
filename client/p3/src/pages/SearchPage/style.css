@@ -1,0 +1,38 @@
+.search-results-wrapper{    
+    background-color:#D9D9D9; 
+    padding:10px; 
+    width: 90%;
+    max-width: 90%;
+    margin: auto;
+    padding: 20px;
+    max-height: 40rem;
+    overflow-x:scroll;
+}
+
+.search-results-table{
+    display:flex; 
+    row-gap: 5rem;
+    flex-wrap:wrap;
+    margin-bottom: 4rem;
+    min-height: 16rem;
+    justify-content:center;
+}
+
+.card-wrapper-search{
+    min-width: 20%;
+}
+
+.BTT-wrapper{
+    text-align:center;
+    margin: 2rem;
+}
+
+.BTT-button{
+    margin: auto;
+    background-color: #04B4B4;
+    border: 1px;
+}
+
+.footer-space{
+    height:1rem;
+}
