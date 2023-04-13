@@ -132,7 +132,7 @@ function getCuisineObjectByLabel(label) {
 
 
 function CreateForm({ initialValues, method_name, name, recipe_id }) {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMzQ0Njc5LCJpYXQiOjE2ODEzNDEwNzksImp0aSI6IjEyYjVhZmE4MTY4NzQ1MDFiNDU4ZDg0MzFmMTRlYmEyIiwidXNlcl9pZCI6Mn0.Zl12MHyv3fpclKYWVVowxPgu_0JCcz-RQhsiG84eQng";  
+  const token = localStorage.getItem('token');  
   const navigate = useNavigate();
 
   const initialPrepTime = initialValues ? formatTime(initialValues.prep_time) : { hours: "00", minutes: "00" };
