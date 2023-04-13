@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './style.css'
 import $ from 'jquery'
 import HomeRecipeCarousel from './HomeRecipeCarousel'
-import SearchHeader from '../SearchHeader'
+import SearchHeader from '../../components/SearchHeader'
 
 function HomePage(props) {
     const [popular, setPopular] = useState([])
@@ -16,7 +16,6 @@ function HomePage(props) {
             url: 'http://127.0.0.1:8000/recipes/',
             method: 'Get',
             success: function(xhr){
-                console.log(xhr)
                 setPopular(xhr.Popular)
                 setBreakfast(xhr.Breakfasts)
                 setLunch(xhr.Lunches)
@@ -30,16 +29,15 @@ function HomePage(props) {
 
     return(
         <>
-        <div>Navbar goes here</div>
-        <SearchHeader />
+        <SearchHeader searchParams={props.searchParams} setSearchParams={props.setSearchParams} />
         <div className='container-fluid carousel-table'>
             <div className='row'>
-                <div className='col recipe-col'> <HomeRecipeCarousel category='0' cardInfo={breakfast} key='Breakfast_Carousel' /> </div>
-                <div className='col recipe-col'> <HomeRecipeCarousel category='1' cardInfo={lunch} key='Lunch_Carousel' /> </div>
-                <div className='col recipe-col'> <HomeRecipeCarousel category='2' cardInfo={dinner} key='Dinner_Carousel' /> </div>
+                <div className='col recipe-col'> <HomeRecipeCarousel category='0' cardInfo={breakfast} key='Breakfast_Carousel' searchParams={props.searchParams} setSearchParams={props.setSearchParams} /> </div>
+                <div className='col recipe-col'> <HomeRecipeCarousel category='1' cardInfo={lunch} key='Lunch_Carousel' searchParams={props.searchParams} setSearchParams={props.setSearchParams} /> </div>
+                <div className='col recipe-col'> <HomeRecipeCarousel category='2' cardInfo={dinner} key='Dinner_Carousel' searchParams={props.searchParams} setSearchParams={props.setSearchParams} /> </div>
             </div>
             <div className='row'>
-                <div className='col recipe-col'> <HomeRecipeCarousel category='3' cardInfo={popular} key='Popular_Carousel' /> </div>
+                <div className='col recipe-col'> <HomeRecipeCarousel category='3' cardInfo={popular} key='Popular_Carousel' searchParams={props.searchParams} setSearchParams={props.setSearchParams} /> </div>
             </div>
         </div>
         </>

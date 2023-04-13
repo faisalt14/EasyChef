@@ -4,20 +4,9 @@ import './style.css'
 import DefaultImage from '../../Easy Chef Logo.png'
 import Card from 'react-bootstrap/Card'
 import { StarFill, StarHalf, Star, Stopwatch, Bookmark } from 'react-bootstrap-icons'
-import $ from 'jquery'
 
 function RecipeCard({info}) {
-    const [id, setId] = useState(info.id)
-    const [name, setName] = useState(info.name)
-    const [chef, setChef] = useState(info.chef)
-    const [img, setImg] = useState(DefaultImage)
-    const [rating, setRating] = useState(info.avg_rating)
-    const [difficulty, setDifficulty] = useState(info.difficulty)
-    const [cuisine, setCuisine] = useState(info.cuisine)
-    const [meal, setMeal] = useState(info.meal)
-    const [diet, setDiet] = useState(info.diet)
-    const [cookTime, setCookTime] = useState(timeToStr(info.cooking_time))
-    const [favs, setFavs] = useState(favShortener(parseInt(info.total_favs)))
+    const img = info.media ? 'http://127.0.0.1:8000' + info.media : DefaultImage
 
     function timeToStr(time){
         let cleanedTime = time.split(':')
@@ -62,45 +51,19 @@ function RecipeCard({info}) {
         return result
     }
 
-    useEffect(() =>{
-        $.ajax({
-            url: 'http://127.0.0.1:8000/recipes/' + id + '/details/',
-            method: 'Get',
-            success: function(xhr){
-                //console.log(xhr)
-                setId(xhr.id)
-                setName(xhr.name)
-                setChef(xhr.chef)
-                setDifficulty(xhr.difficulty)
-                setMeal(xhr.meal)
-                setDiet(xhr.diet)
-                setCuisine(xhr.cuisine)
-                if (xhr.media[0]){
-                    setImg(xhr.media[0].media)
-                }
-                setRating(xhr.avg_rating)
-                setCookTime(timeToStr(xhr.cooking_time))
-                setFavs(favShortener(parseInt(xhr.total_favs)))
-            },
-            error: function(xhr){
-                console.log(xhr)
-            }
-        })
-    }, [info, id])
-
     return(
         <Card className='recipe-card-wrapper'>
             <div className="card-img-tag-wrapper">
                 <Card.Img className="card-img" variant="top" src={img} alt={img.split('/').slice(-1)} />
                 <div className="tags-wrapper">
-                    <h5 className={"badge tag " + difficulty.toLowerCase()}>{difficulty}</h5>
-                    {[cuisine, meal].map((item, index) =>{
+                    <h5 className={"badge tag " + info.difficulty.toLowerCase()}>{info.difficulty}</h5>
+                    {[info.cuisine, info.meal].map((item, index) =>{
                         if(item !== ''){
                             return <h5 className="badge tag" key={index}>{item}</h5>
                         }
                         return null
                     })}
-                    {diet.split(',').map((diet_str, index) => {
+                    {info.diet.split(',').map((diet_str, index) => {
                         return <h5 className="badge tag" key={index}>{diet_str}</h5>
                     })}
                 </div>
@@ -108,16 +71,16 @@ function RecipeCard({info}) {
             <Card.Body>
                 <div className="recipe-info-wrapper">
                     <div className="rating-wrapper">
-                        {ratingStars(rating)}
+                        {ratingStars(info.avg_rating)}
                     </div>
                     <div className="cook-time-fav-wrapper text-no-overflow cutoff">
-                        <b className="grey">{cookTime}</b> <Stopwatch />
+                        <b className="grey">{timeToStr(info.cooking_time)}</b> <Stopwatch />
                         &nbsp;&nbsp;&nbsp;
-                        <b className="grey">{favs}</b> <Bookmark />
+                        <b className="grey">{favShortener(parseInt(info.total_favs))}</b> <Bookmark />
                     </div>
                 </div>
-                <h4 className="card-title text-no-overflow"><b>{name}</b></h4>
-                <i className="text-no-overflow">{chef}</i>
+                <h4 className="card-title text-no-overflow"><b>{info.name}</b></h4>
+                <i className="text-no-overflow">{info.chef}</i>
             </Card.Body>
         </Card>
     );
