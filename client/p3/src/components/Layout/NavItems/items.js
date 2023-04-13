@@ -2,13 +2,13 @@ export const navItems = [
     {
         id: 1,
         title: "All Recipes", 
-        path: '/',
+        path: '/recipes',
         Cname: "nav-item"
     }, 
     {
         id: 2,
         title: "My Recipes", 
-        path: '/',
+        path: '/recipes/my-recipes',
         Cname: "nav-item"
 
     }, 
@@ -21,7 +21,7 @@ export const navItems = [
     {
         id: 4,
         title: "My Shopping List", 
-        path: '/',
+        path: '/shopping-cart',
         Cname: "nav-item"
     }
 ]

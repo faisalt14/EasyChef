@@ -15,6 +15,7 @@ import LoggedInContext, { useLoggedInContext } from './contexts/LoggedInContext'
 import Logout from './components/Logout';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage'
+import AllRecipes from './components/AllRecipes'
 
 function App() {
   const [searchParams, setSearchParams] = useState({})
@@ -22,7 +23,7 @@ function App() {
   
   const navbar = (
         <LoggedInContext.Provider value={useLoggedInContext()}>
-          <Layout />
+          <Layout searchParams={searchParams} setSearchParams={setSearchParams}/>
         </LoggedInContext.Provider>
       
     )
@@ -33,16 +34,15 @@ function App() {
       <Route path="/" element={navbar}> 
         <Route index element = {<HomePage searchParams={searchParams} setSearchParams={setSearchParams}/>} />
         <Route path="register" element={ <Register/>} />
-        <Route path="login" element={ <Login/>} />
-        <Route path="logout" element={ < Logout />} />
         <Route path="create" element={ < CreateForm />} />
         <Route path="search" element={ <SearchPage searchParams={searchParams} setSearchParams={setSearchParams}/>} />
-        <Route path="shoppingCart" element={ < ShoppingCart />} />
+        <Route path="/shopping-cart" element={ < ShoppingCart />} />
         <Route path="/recipes/:recipe_id/details" element={<RecipeDetailView />} />
         <Route path="/recipes/create-recipe" element={<ParentComponent mode="create" />} />
         <Route path="/recipes/:recipe_id/remix-recipe" element={<ParentComponent mode="remix" />} />
         <Route path="/recipes/:recipe_id/edit-recipe" element={<ParentComponent mode="edit" />} />
         <Route path="/recipes/my-recipes" element={<MyRecipes />} />
+        <Route path="/recipes" element={<AllRecipes />} />
       </Route>
     </Routes>
   </BrowserRouter>  );

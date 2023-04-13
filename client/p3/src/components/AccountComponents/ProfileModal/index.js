@@ -6,6 +6,7 @@ import DetailsModal from './DetailsModal'
 import LoginModal from './LoginModal'
 import jwtDecode from 'jwt-decode'
 import $ from 'jquery'
+import { Link } from 'react-router-dom'
 
 function ProfileModal() {
     const [modalShow, setModalShow] = useState(false);
@@ -53,8 +54,22 @@ function ProfileModal() {
 
     return(
         <>
-        <button type='button' onClick={toggle}>{buttonName}</button>
-        <button type='button' onClick={logout}>Log Out</button>
+        <li >
+            <Link
+                className='submenu-item'
+                onClick={toggle}
+                >
+                {buttonName}
+            </Link>
+        </li>
+        <li >
+            <Link
+                className='submenu-item'
+                onClick={logout}
+                >
+                Log Out
+            </Link>
+        </li>
         <Modal 
             show={modalShow}
             onHide={toggle}

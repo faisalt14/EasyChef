@@ -13,19 +13,6 @@ const LoggedInDropdown = () => {
         <>
             <ul className={ dropdown ? "submenu-clicked" : "submenu"} onClick={() => setDropdown(!dropdown)}>
                 <ProfileModal />
-                {signedInDropDown.map( item => {
-                    return (
-                        <li key={item.id}>
-                            <Link
-                                to={item.path} 
-                                className={item.Cname}
-                                onClick={() => setDropdown(false)}
-                             >
-                                {item.title}
-                            </Link>
-                        </li>
-                    )
-                })}
             </ul>
         </>
     )

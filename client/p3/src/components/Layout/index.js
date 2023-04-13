@@ -95,7 +95,7 @@ const Layout = () => {
 
                     { /* {(dropdown && loggedIn) ? (< LoggedInDropdown />) : (< NotLoggedInDropdown/>)} */}
 
-                    { loggedIn ? (dropdown && <LoggedInDropdown/>) :  (dropdown && <NotLoggedInDropdown />)}
+                    { (dropdown && <LoggedInDropdown/>)}
                     
 
                 </ul>
