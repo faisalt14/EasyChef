@@ -41,7 +41,6 @@ function ProfileModal() {
             method: 'get',
             headers: {"Authorization": "Bearer " + localStorage.getItem('token')},
             success: function(xhr){
-                console.log(xhr)
                 localStorage.removeItem('token')
                 setIsLoggedIn(false)
                 setButtonName('Log In')

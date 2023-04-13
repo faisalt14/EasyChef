@@ -24,10 +24,6 @@ function DetailsModal(props) {
                 <div className="center-wrapper">
                     <h2>{username}</h2>
                     <img className="profile-pic" src={pfpPreview ? pfpPreview : pfp} alt={defaultPFP}></img>
-                    <label htmlFor='pfp-upload' className="edit-pfp-icon">
-                        <PencilSquare />
-                    </label>
-                    <input type='file' id='pfp-upload' accept="image/" onChange={() => editPfp()} hidden></input>
                 </div>
                 <div className="container-fluid">
                     <div className="row">
@@ -144,8 +140,6 @@ function DetailsModal(props) {
                 setEditMode(false)
             },
             error: function(xhr){
-                console.log(xhr)
-                console.log(pfpPreview)
                 for (let key in errors){
                     setErrors(prev => ({...prev, [key]: xhr.responseJSON[key]}))
                 }
