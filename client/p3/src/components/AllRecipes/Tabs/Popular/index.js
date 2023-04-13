@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import RecipeDetails from "./RecipeDetails";
+import DisplayPopular from './DisplayPopular'
 import "./style.css"
 
 
@@ -63,7 +63,7 @@ const Popular = () => {
           </div>
         </div>
 
-        {Object.keys(popularData).length > 0 ? < RecipeDetails popularData={popularData} /> : []}
+        {Object.keys(popularData).length > 0 ? < DisplayPopular popularData={popularData} /> : []}
         </>
     )
 }
